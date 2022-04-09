@@ -1,50 +1,42 @@
 #Translating BasicPacketInfo.java from the CICFlowMeter package
+Import IdGenerator
 
 class BasicPacketInfo:
     #this class provides the basic info needed to generate flows from given packets
     #declaring variables
-    id = 0L
-    src = []
-    dst = []
-    srcPort = 0
-    dstPort = 0
-    protocol = 0
-    timeStamp = 0
+    
     payloadBytes = 0
-    flowId = ""
-    flagFIN = false
-    flagPSH = false
-    flagURG = false
-    flagECE = false
-    flagSYN = false
-    flagACK = false
-    flagCWR = false
-    flagRST = false
+    flagFIN = False
+    flagPSH = False
+    flagURG = False
+    flagECE = False
+    flagSYN = False
+    flagACK = False
+    flagCWR = False
+    flagRST = False
     TCPWindow = 0
-    headerBytes = 0L
+    headerBytes = 0
     payloadPacket = 0
 
     #constructors
-    def BasicPacketInfo(self, src, dst, srcPort, dstPort,protocol, timeStamp, generator):
-        super(self)     ####look into super() function
-        self.id = generator.nextId() ##how can i do this in python
-        self.src = src
-        self.dst = dst
-        self.srcPort = srcPort
-        self.dstPort = dstPort
-        self.protocol = protocol
-        self.timeStamp = timeStamp
-        generateFlowId()
 
-    def BasicPacketInfo(self, generator):
-        super(self)
-        self.id = generator.nextId() ##???
+    def __init__(self, id=0 ,src=[], dst=[], srcPort=0, dstPort=0, protocol=0, timeStamp=0, flowId=''):
+      idgen = IdGenerator()
+      self.id = idgen.nextId()
+      self.src = src
+      self.dst = dst
+      self.srcPort = srcPort
+      self.dstPort = dstPort
+      self.protocol = protocol
+      self.timeStamp = timeStamp
+      self.flowId = self.generateFlowId()
+
 
     def generateFlowId(self):
         forward = True
-        for i in len(src):
-            if (((Byte)(this.src[i])).intValue() != ((Byte)(self.dst[i])).intValue()):
-                if (((Byte)(this.src[i])).intValue() > ((Byte)(this.dst[i])).intValue()):
+        for i in len(self.src):
+            if ((bytes(self.src[i])).intValue() != (bytes(self.dst[i])).intValue()):
+                if ((bytes(self.src[i])).intValue() > (bytes(self.dst[i])).intValue()):
                    forward = False
                    i=len(self.src)
         if (forward):
@@ -67,66 +59,67 @@ class BasicPacketInfo:
        return self.flowId
 
 #setters and getters
+
     def dumpInfo(self):
-        return null
+        return None
 
     def getPayloadPacket(self):
         self.payloadPacket = self.payloadPacket + 1
         return self.payloadPacket
 
     def getSourceIP(self):
-        return FormatUtils.ip(self.src)
+        return self.src #FormatUtils.ip(self.src) was deleted-  find the substitute in python  #issue
 
     def getDestinationIP(self):
-        return FormatUtils.ip(self.dst)
+        return self.dst #FormatUtils.ip(self.src) was deleted-  find the substitute in python  #issue
 
     def getId(self):
-        return id
+        return self.id
 
     def setId(self, id):
         self.id = id
 
-    def getSrc(self):
-        return copyOf(src, len(src))
+    '''def getSrc(self):
+        return copyOf(self.src, len(self.src)) '''
 
     def setSrc(self, src):
         self.src = src
 
-    def getDst(self):
-        return copyOf(dst, len(dst))
+    '''def getDst(self):
+        return copyOf(self.dst, len(self.flagCWRdst)) '''
 
     def setDst(self, dst):
         self.dst = dst
 
     def getSrcPort(self):
-        return srcPort
+        return self.srcPort
 
     def setSrcPort(self, srcPort):
         self.srcPort = srcPort
 
     def getDstPort(self):
-        return dstPort
+        return self.dstPort
 
     def setDstPort(self, dstPort):
         self.dstPort = dstPort
 
     def getProtocol(self):
-        return protocol
+        return self.protocol
 
     def setProtocol(self, protocol):
         self.protocol = protocol
 
     def getTimeStamp(self):
-        return timeStamp
+        return self.timeStamp
 
     def setTimeStamp(self, timeStamp):
         self.timeStamp = timeStamp
 
     def getFlowId(self):
-        if (self.flowId != null):
+        if (self.flowId != None):
             return self.flowId
         else:
-            return generateFlowId()
+            return self.generateFlowId()
 
     def setFlowId(self, flowId):
         self.flowId = flowId
@@ -135,67 +128,67 @@ class BasicPacketInfo:
         return (sourceIP == self.src)
 
     def getPayloadBytes(self):
-        return payloadBytes
+        return self.payloadBytes
 
     def setPayloadBytes(self, payloadBytes):
         self.payloadBytes = payloadBytes
 
     def getHeaderBytes(self):
-        return headerBytes
+        return self.headerBytes
 
     def setHeaderBytes(self, headerBytes):
         self.headerBytes = headerBytes
 
     def hasFlagFIN(self):
-        return flagFIN
+        return self.flagFIN
 
     def setFlagFIN(self, flagFIN):
         self.flagFIN = flagFIN
 
     def hasFlagPSH(self):
-        return flagPSH
+        return self.flagPSH
 
     def setFlagPSH(self, flagPSH):
         self.flagPSH = flagPSH
 
     def hasFlagURG(self):
-        return flagURG
+        return self.flagURG
 
     def setFlagURG(self, flagURG):
         self.flagURG = flagURG
 
     def hasFlagECE(self):
-        return flagECE
+        return self.flagECE
 
     def setFlagECE(self, flagECE):
         self.flagECE = flagECE
 
     def hasFlagSYN(self):
-        return flagSYN
+        return self.flagSYN
 
     def setFlagSYN(self, flagSYN):
         self.flagSYN = flagSYN
 
     def hasFlagACK(self):
-        return flagACK
+        return self.flagACK
 
     def setFlagACK(self, flagACK):
         self.flagACK = flagACK
 
     def hasFlagCWR(self):
-        return flagCWR
+        return self.flagCWR
 
     def setFlagCWR(self, flagCWR):
         self.flagCWR = flagCWR;
 
     def hasFlagRST(self):
-        return flagRST
+        return self.flagRST
 
-    def setFlagRST(slef, flagRST):
+    def setFlagRST(self, flagRST):
         self.flagRST = flagRST
 
     def getTCPWindow(self):
-        return TCPWindow
+        return self.TCPWindow
 
     def setTCPWindow(self, TCPWindow):
         self.TCPWindow = TCPWindow
@@ -203,10 +196,10 @@ class BasicPacketInfo:
 
 
     ## auxilary methods
-    def copy_of(lst, length):
+    '''def copy_of(lst, length):
         out = lst.copy()  # This is a shallow copy.
         # For deepcopy use `copy.deepcopy(lst)`
         out[length:] = [0 for _ in range(length - len(lst))]
-        return out
+        return out'''
 
 

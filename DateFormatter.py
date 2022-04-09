@@ -1,23 +1,22 @@
 #Translating DateFormatter.java from CICFlowMeter package
+
+import time
 from datetime import datetime, timezone
-from dateformat import DateFormat
-from tzlocal import get_localzone
+
+from datetime import date
 
 class DateFormatter:
-    def parseDateFromLong(self, time, format):
-        try:
-            if (format == null):
-                format = "dd/MM/yyyy hh:mm:ss"
-            simpleFormatter = DateFormat(format)
-            tempDate = datetime.datetime.fromtimestamp(time)
-            return tempDate.strftime(simpleFormatter)
-        except:
-            print("An exception occurred")##what is exception ex in .java ?
-            return "dd/MM/yyyy hh:mm:ss"
+    def __init__(self,time,format= "%m/%d/%Y, %H:%M:%S"):
+        self.time=time
+        self.format=format
 
-    def converMilliseconds2String(self, time, format):
-        if (format == null):
-            format = "dd/MM/yyyy hh:mm:ss"
-        formatter = DateFormat(format)
-        ldt = datetime.now(timezone.utc)
-        return format(ldt.astimezone(get_localzone()).isoformat(format))
+    def parseDateFromLong(self):
+
+                return self.time.strftime("%m/%d/%Y, %H:%M:%S")
+
+
+    def converMilliseconds2String(self):
+
+        date_s = datetime.now().isoformat(sep=' ', timespec='milliseconds')
+
+        return  date_s.replace('-','/')
