@@ -1,12 +1,14 @@
 class Packet():
     
-    def __init__(self, src_ip, src_port, dst_ip, dst_port, protocol, flags):
+    def __init__(self, src_ip, src_port, dst_ip, dst_port, protocol, flags, timestamp, forward=True):
         self.src_ip = src_ip
         self.src_port = src_port
         self.dst_ip = dst_ip
         self.dst_port = dst_port
         self.protocol = protocol
         self.flags = flags
+        self.forward = forward
+        self.timestamp = timestamp
         
     def get_src_ip(self):
         return self.src_ip
@@ -30,25 +32,30 @@ class Packet():
         return 'F' in flags
     
     def has_flagPSH(self):
-        return 'P' in flags
+        return 'P' in self.flags
 
     def has_flagURG(self):
-        return 'U' in flags
+        return 'U' in self.flags
     
     def has_flagECE(self):
-        return 'E' in flags
+        return 'E' in self.flags
     
     def has_flagSYN(self):
-        return 'S' in flags
+        return 'S' in self.flags
     
     def has_flagACK(self):
-        return 'A' in flags
+        return 'A' in self.flags
 
     def has_flagCWR(self):
-        return 'C' in flags
+        return 'C' in self.flags
     
     def has_flagRST(self):
-        return 'R' in flags
+        return 'R' in self.flags
     
+    def is_forward(self):
+        return self.forward
+    
+    def get_timestamp(self):
+        return self.timestamp
         
     
