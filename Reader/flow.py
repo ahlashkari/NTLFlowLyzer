@@ -46,9 +46,9 @@ class Flow(object):
         #return self.backwardpackets
         
     def get_forwardpackets(self):
-        return [p for p in self.packets if p.is_forward = True]
+        return [p for p in self.packets if p.is_forward() == True]
     
     def get_backwardpackets(self):
-        return [p for p in self.packets if p.is_forward = False]
+        return [p for p in self.packets if p.is_forward() == False]
         
     

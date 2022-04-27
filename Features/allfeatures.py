@@ -20,7 +20,7 @@ def flag_counts(flow, flag_name):
         if packet.has_flagFIN:
             flag_counts['FIN']+=1
         elif packet.has_flagPSH:
-            flag_counts['FIN']+=1
+            flag_counts['PSH']+=1
         elif packet.has_flagURG:
             flag_counts['URG']+=1
         elif packet.has_flagECE:
@@ -75,8 +75,8 @@ def fwdflow_IAT_statistics(flow):
     times = IAT(flow.get_forwardpackets())
     return statistics(times)
 
-def flow_IAT_statistics(flow):
-    times = IAT(flow.get_forwardpackets())
+def bwdflow_IAT_statistics(flow):
+    times = IAT(flow.get_backwardpackets())
     return statistics(times)
     
         

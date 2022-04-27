@@ -21,15 +21,12 @@ class Packet():
 
     def get_dst_port(self):
         return self.dst_port
-
-    def get_packets(self):
-        return self.packets
     
     def get_protocol(self):
         return self.protocol
     
-    def has_flagFIN(self): #There should be a better wayy
-        return 'F' in flags
+    def has_flagFIN(self): 
+        return 'F' in self.flags
     
     def has_flagPSH(self):
         return 'P' in self.flags

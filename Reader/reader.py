@@ -1,5 +1,4 @@
 import scapy
-from .packet import Packet
 from scapy.all import *
 
 class flow_capturer:
@@ -12,9 +11,7 @@ class flow_capturer:
         packets = rdpcap(pcap_file)
         for pkt in packets: ## Do we check other protocols?
             if TCP in pkt:
-                packet = Packet(pkt[IP].src, pkt[IP].dst,
-                                pkt[TCP].sport, pkt[TCP].dport,
-                                pkt[IP].proto, str(pkt[TCP].flags), pkt.time)
+                packet = Packet(pkt[IP].src, pkt[TCP].sport, pkt[IP].dst ,pkt[TCP].dport, pkt[IP].proto, str(pkt[TCP].flags), pkt.time)
             
                 self.__add_packet_to_flow(packet)
         return self.finished_flows.extend(current_flows)
@@ -32,12 +29,12 @@ class flow_capturer:
 
     def __search_for_flow(self, packet) -> object:
         for flow in self.current_flows:
-            if (flow.get_src_ip() == packet.get_src_ip or flow.get_src_ip() == packet.get_dst_ip) and \
-               (flow.get_dst_ip() == packet.get_src_ip or flow.get_dst_ip() == packet.get_dst_ip) and \
-               (flow.get_src_port() == packet.get_src_port or flow.get_src_port() == packet.get_dst_port) and \
-               (flow.get_dst_port() == packet.get_src_port or flow.get_dst_port() == packet.get_dst_port):
+            if (flow.get_src_ip() == packet.get_src_ip() or flow.get_src_ip() == packet.get_dst_ip()) and \
+               (flow.get_dst_ip() == packet.get_src_ip() or flow.get_dst_ip() == packet.get_dst_ip()) and \
+               (flow.get_src_port() == packet.get_src_port() or flow.get_src_port() == packet.get_dst_port()) and \
+               (flow.get_dst_port() == packet.get_src_port() or flow.get_dst_port() == packet.get_dst_port()):
                 
-                if flow.get_src_ip() == packet.get_dst_ip:
+                if flow.get_src_ip() == packet.get_dst_ip():
                     packet.forward=False
                     
                    return flow
