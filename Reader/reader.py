@@ -11,10 +11,10 @@ class flow_capturer:
         packets = rdpcap(pcap_file)
         for pkt in packets: ## Do we check other protocols?
             if TCP in pkt:
-                packet = Packet(pkt[IP].src, pkt[TCP].sport, pkt[IP].dst ,pkt[TCP].dport, pkt[IP].proto, str(pkt[TCP].flags), pkt.time)
+                packet = Packet(pkt[IP].src, pkt[TCP].sport, pkt[IP].dst ,pkt[TCP].dport, pkt[IP].proto, str(pkt[TCP].flags), pkt.time, bytes(packet[TCP].payload)
             
                 self.__add_packet_to_flow(packet)
-        return self.finished_flows.extend(current_flows)
+        return self.finished_flows.extend(self.current_flows)
     
      def __add_packet_to_flow(self, packet):
         flow = self.__search_for_flow(packet)
@@ -23,8 +23,8 @@ class flow_capturer:
         else:
             flow.add_packet(packet)
             if packet.has_flagFIN() == True: ##add the other constraints
-                finished_flows.append(flow)
-                current_flows.remove(flow)
+                self.finished_flows.append(flow)
+                self.current_flows.remove(flow)
 
 
     def __search_for_flow(self, packet) -> object:
