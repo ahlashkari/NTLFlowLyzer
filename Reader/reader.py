@@ -1,5 +1,7 @@
 import scapy
 from scapy.all import *
+from flow import Flow
+from packet import Packet
 
 class flow_capturer:
     
@@ -37,7 +39,7 @@ class flow_capturer:
                 if flow.get_src_ip() == packet.get_dst_ip():
                     packet.forward=False
                     
-                   return flow
+                return flow
 
         return None
 
