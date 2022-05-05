@@ -1,5 +1,3 @@
-import scapy
-from scapy.all import *
 from flow import Flow
 from packet import Packet
 
@@ -8,17 +6,21 @@ class flow_capturer:
     def __init__(self):
         self.finished_flows = []
         self.current_flows = []
+        self.all_flows = []
         
     def capture(self, pcap_file):
         packets = rdpcap(pcap_file)
         for pkt in packets: ## Do we check other protocols?
             if TCP in pkt:
-                packet = Packet(pkt[IP].src, pkt[TCP].sport, pkt[IP].dst ,pkt[TCP].dport, pkt[IP].proto, str(pkt[TCP].flags), pkt.time, bytes(packet[TCP].payload)
+                packet = Packet(src_ip=pkt[IP].src, src_port=pkt[TCP].sport, dst_ip=pkt[IP].dst,
+                                dst_port=pkt[TCP].dport, protocol=pkt[IP].proto,
+                                flags=str(pkt[TCP].flags), timestamp=pkt.time)
             
                 self.__add_packet_to_flow(packet)
-        return self.finished_flows.extend(self.current_flows)
+        self.all_flows = self.finished_flows + self.current_flows
+        return self.all_flows
     
-     def __add_packet_to_flow(self, packet):
+    def __add_packet_to_flow(self, packet):
         flow = self.__search_for_flow(packet)
         if flow == None:
             self.__create_new_flow(packet)
@@ -47,5 +49,3 @@ class flow_capturer:
         new_flow = Flow(packet)
         new_flow.add_packet(packet)
         self.current_flows.append(new_flow)
-
-    
