@@ -1,6 +1,6 @@
 class Packet():
     
-    def __init__(self, src_ip="", src_port=0, dst_ip="", dst_port=0, protocol=0, flags="", timestamp=0, forward=True):
+    def __init__(self, src_ip=" ", src_port=0, dst_ip=" ", dst_port=0, protocol=0, flags="", timestamp=0, forward=True , length=0):
         self.src_ip = src_ip
         self.src_port = src_port
         self.dst_ip = dst_ip
@@ -9,6 +9,7 @@ class Packet():
         self.flags = flags
         self.timestamp = timestamp
         self.forward = forward
+        self.length = length
         
     def get_src_ip(self):
         return self.src_ip
@@ -54,3 +55,6 @@ class Packet():
     
     def get_timestamp(self):
         return self.timestamp
+    
+    def get_length(self):
+        return self.length

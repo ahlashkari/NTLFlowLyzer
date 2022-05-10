@@ -9,9 +9,7 @@ class Flow(object):
         self.first_packet = first_packet
         self.flow_start_time = first_packet.get_timestamp()
         self.packets = []
-        self.flow_id = str(self.src_ip) + "-" + str(self.dst_ip) + "-" + str(self.src_port) + "-" + str(self.dst_port) + "-" + str(self.protocol)
-        #self.forwardpackets = []  ##building the forward/backward from the reader##
-        #self.backwardpackets = []
+        self.flow_id = str(self.src_ip) + "-" + str(self.src_port) + "-" + str(self.dst_ip) + "-" + str(self.dst_port) + "-" + str(self.protocol)
 
     def add_packet(self, packet) -> None:
         self.packets.append(packet)
