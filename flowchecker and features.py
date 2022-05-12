@@ -376,6 +376,11 @@ def flow_packets_IAT_min(packets):
         return np.min(times)
     except ValueError:
         pass
+
+def flow_packets_IAT_sum(packets):
+    times = IAT(packets)
+    return sum(times)
+
 ##forward packets IAT ##
 def flow_fwdpackets_IAT_mean(flow):
     fwdPackets= flow.get_forwardpackets()
@@ -411,6 +416,11 @@ def flow_fwdpackets_IAT_min(flow):
         return np.min(times)
     except ValueError:
         return None
+
+def flow_fwdpackets_IAT_sum(flow):
+    fwdPackets = flow.get_forwardpackets()
+    times = IAT(fwdPackets)
+    return  sum(times)
 
 ##backward packets IAT##
 def flow_bwdpackets_IAT_mean(flow):
@@ -451,6 +461,12 @@ def flow_bwdpackets_IAT_min(flow):
         return np.min(times)
     except ValueError:
         return None
+
+
+def flow_bwdpackets_IAT_sum(flow):
+    bwdPackets = flow.get_backwardpackets()
+    times = IAT(bwdPackets)
+    return  sum(times)
 
 #################################
 
@@ -528,14 +544,18 @@ class csv_writer:
             flows_dict[cnt]['Flow packet IAT std'] = flow_packets_IAT_std(packets)#should be improved
             flows_dict[cnt]['Flow packet IAT max'] = flow_packets_IAT_max(packets)
             flows_dict[cnt]['Flow packet IAT min'] = flow_packets_IAT_min(packets)
+            flows_dict[cnt]['Flow backward packet IAT sum'] = flow_packets_IAT_sum(packets)
             flows_dict[cnt]['Flow forward packet IAT mean'] = flow_fwdpackets_IAT_mean(flow)
             flows_dict[cnt]['Flow forward packet IAT std'] = flow_fwdpackets_IAT_std(flow)
             flows_dict[cnt]['Flow forward packet IAT max'] = flow_fwdpackets_IAT_max(flow)
             flows_dict[cnt]['Flow forward packet IAT min'] = flow_fwdpackets_IAT_min(flow)
+            flows_dict[cnt]['Flow forward packet IAT sum'] = flow_fwdpackets_IAT_sum(flow)
             flows_dict[cnt]['Flow backward packet IAT mean'] = flow_bwdpackets_IAT_mean(flow)
             flows_dict[cnt]['Flow backward packet IAT std'] = flow_bwdpackets_IAT_std(flow)
             flows_dict[cnt]['Flow backward packet IAT max'] = flow_bwdpackets_IAT_max(flow)
             flows_dict[cnt]['Flow backward packet IAT min'] = flow_bwdpackets_IAT_min(flow)
+            flows_dict[cnt]['Flow backward packet IAT sum'] = flow_bwdpackets_IAT_sum(flow)
+
 
 
 
