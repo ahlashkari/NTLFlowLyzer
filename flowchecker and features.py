@@ -557,10 +557,6 @@ class csv_writer:
             flows_dict[cnt]['Flow backward packet IAT sum'] = flow_bwdpackets_IAT_sum(flow)
 
 
-
-
-
-
             #packet length ##bflow
             flows_dict[cnt]['Bflow Packet Lenght Max'] = flow_packets_length_max(bpackets)
             flows_dict[cnt]['Bflow Packet Lenght Min'] = flow_packets_length_min(bpackets)
