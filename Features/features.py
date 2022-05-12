@@ -118,3 +118,12 @@ def flow_packets_length_std(packets):
         return np.std(packets_len)
     return 0
 #################################
+
+def IAT(packets):
+    times = [p.get_timestamp() for p in packets]
+    for i in range(len(times)-1):
+        times[i] = times[i+1] - times[i]
+    times.pop()
+    return times
+
+
