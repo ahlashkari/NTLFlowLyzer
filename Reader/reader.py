@@ -1,5 +1,5 @@
-from flow import Flow
-from packet import Packet
+from Reader.flow import Flow
+from Reader.packet import Packet
 
 class flow_capturer:
     
