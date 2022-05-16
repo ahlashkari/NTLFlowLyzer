@@ -1,57 +1,48 @@
-class Flow(object):
-    
-    def __init__(self, first_packet):
-        self.src_ip = first_packet.get_src_ip()
-        self.dst_ip = first_packet.get_dst_ip()
-        self.src_port = first_packet.get_src_port()
-        self.dst_port = first_packet.get_dst_port()
-        self.protocol = first_packet.get_protocol()
-        self.first_packet = first_packet
-        self.flow_start_time = first_packet.get_timestamp()
-        self.packets = []
-        self.flow_id = str(self.src_ip) + "-" + str(self.dst_ip) + "-" + str(self.src_port) + "-" + str(self.dst_port) + "-" + str(self.protocol)
-        #self.forwardpackets = []  ##building the forward/backward from the reader##
-        #self.backwardpackets = []
+class flow_capturer:
 
-    def add_packet(self, packet) -> None:
-        self.packets.append(packet)
+    def __init__(self):
+        self.finished_flows = []
+        self.current_flows = []
+        self.all_flows = []
 
-    def get_src_ip(self):
-        return self.src_ip
+    def capture(self, pcap_file):
+        packets = rdpcap(pcap_file)
+        for pkt in packets:  ## Do we check other protocols?
+            if TCP in pkt:
+                packet = Packet(src_ip=pkt[IP].src, src_port=pkt[TCP].sport, dst_ip=pkt[IP].dst,
+                                dst_port=pkt[TCP].dport, protocol=pkt[IP].proto,
+                                flags=str(pkt[TCP].flags), timestamp=pkt.time, length=len(pkt))
 
-    def get_dst_ip(self):
-        return self.dst_ip
+                self.__add_packet_to_flow(packet)
+        self.all_flows = self.finished_flows + self.current_flows
+        return self.all_flows
 
-    def get_src_port(self):
-        return self.src_port
+    def __add_packet_to_flow(self, packet):
+        flow = self.__search_for_flow(packet)
+        if flow == None:
+            self.__create_new_flow(packet)
+        else:
+            flow.add_packet(packet)
+            if packet.has_flagFIN() == True:  ##add the other constraints
+                self.finished_flows.append(flow)
+                self.current_flows.remove(flow)
 
-    def get_dst_port(self):
-        return self.dst_port
-    
-    def get_protocol(self):
-        return self.protocol
+    def __search_for_flow(self, packet) -> object:
+        for flow in self.current_flows:
+            if (flow.get_src_ip() == packet.get_src_ip() or flow.get_src_ip() == packet.get_dst_ip()) and (
+                    flow.get_dst_ip() == packet.get_src_ip() or flow.get_dst_ip() == packet.get_dst_ip()) and (
+                    flow.get_src_port() == packet.get_src_port() or flow.get_src_port() == packet.get_dst_port()) and (
+                    flow.get_dst_port() == packet.get_src_port() or flow.get_dst_port() == packet.get_dst_port()):
 
-    def get_packets(self):
-        return self.packets
-    
-    def get_flow_start_time(self):
-        return self.flow_start_time
-    
-    def get_flow_last_seen(self):
-        return self.packets[-1].get_timestamp()
-    
-    #def get_forwardpackets(self):
-        #return self.forwardpackets
-    
-    #def get_backwardpackets(self):
-        #return self.backwardpackets
-        
-    def get_forwardpackets(self):
-        return [p for p in self.packets if p.is_forward() == True]
-    
-    def get_backwardpackets(self):
-        return [p for p in self.packets if p.is_forward() == False]
-    
-    def get_flow_id(self):
-        return self.flow_id
-        
+                if flow.get_src_ip() == packet.get_dst_ip():
+                    packet.forward = False
+
+                return flow
+
+        return None
+
+    def __create_new_flow(self, packet) -> None:
+        new_flow = Flow(packet)
+        new_flow.add_packet(packet)
+        self.current_flows.append(new_flow)
+
