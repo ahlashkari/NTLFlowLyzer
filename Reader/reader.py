@@ -16,6 +16,7 @@ class flow_capturer:
                 packet = Packet(src_ip=pkt[IP].src, src_port=pkt[TCP].sport, dst_ip=pkt[IP].dst,
                                 dst_port=pkt[TCP].dport, protocol=pkt[IP].proto,
                                 flags=str(pkt[TCP].flags), timestamp=pkt.time, length=len(pkt))
+                packet.payloadBytes = byte(pkt.getfieldval(payload))
 
                 self.__add_packet_to_flow(packet)
         self.all_flows = self.finished_flows + self.current_flows
