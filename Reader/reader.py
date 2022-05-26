@@ -1,6 +1,3 @@
-from flow import Flow
-from packet import Packet
-
 
 class flow_capturer:
 

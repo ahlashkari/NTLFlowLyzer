@@ -1,3 +1,6 @@
+from scapy.utils import rdpcap
+
+
 class flow_capturer:
 
     def __init__(self):

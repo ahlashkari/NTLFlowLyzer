@@ -3,7 +3,11 @@ import pandas as pd
 from Features.features import fin_flag_counts, psh_flag_counts, urg_flag_counts, ece_flag_counts, syn_flag_counts, \
     ack_flag_counts, cwr_flag_counts, rst_flag_counts, flow_duration, packet_count, flow_packets_per_second, \
     bflow_packets_per_second, fflow_packets_per_second, flow_packets_length_max, flow_packets_length_min, \
-    flow_packets_length_mean, flow_packets_length_sum, flow_packets_length_std
+    flow_packets_length_mean, flow_packets_length_sum, flow_packets_length_std, flow_packets_IAT_mean, \
+    flow_packets_IAT_std, flow_packets_IAT_max, flow_packets_IAT_min, flow_packets_IAT_sum, flow_fwdpackets_IAT_mean, \
+    flow_fwdpackets_IAT_std, flow_fwdpackets_IAT_max, flow_fwdpackets_IAT_min, flow_fwdpackets_IAT_sum, \
+    flow_bwdpackets_IAT_mean, flow_bwdpackets_IAT_std, flow_bwdpackets_IAT_max, flow_bwdpackets_IAT_min, \
+    flow_bwdpackets_IAT_sum
 
 
 class csv_writer:

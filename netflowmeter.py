@@ -1,8 +1,6 @@
-from Reader.reader import flow_capturer
-from Reader.packet import Packet
-from Reader.flow import Flow
-from Writer.csw import csv_writer
-from Reader.reader import flow_capturer
+from Reader import flow_capturer
+from Writer import csv_writer
+
 
 class Netflowmeter:
     def __init__(self):
