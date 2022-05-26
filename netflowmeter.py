@@ -1,5 +1,6 @@
-from Reader import flow_capturer
-from Writer import csv_writer
+import  Reader
+from Reader.reader import flow_capturer
+from Writer.csv import csv_writer
 
 
 class Netflowmeter:
@@ -8,6 +9,6 @@ class Netflowmeter:
     
     def run(self, input_file):
         capturer = flow_capturer()
-        flows =capturer.capture(input_file)
+        flows = capturer(input_file)
         csvw = csv_writer()
         csvw. create_csv(flows)
