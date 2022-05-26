@@ -130,14 +130,13 @@ class Flow(object):
 
 
 class flow_capturer:
-    #TODO: config file should be added for max_flow_duration and activity
-    
+
     def __init__(self,max_flow_duration,activity_timeout):
         self.finished_flows = []
         self.current_flows = []
         self.all_flows = []
-        self.max_flow_duration = max_flow_duration  ####????
-        self.activity_timeout = activity_timeout    ####????
+        self.max_flow_duration = max_flow_duration
+        self.activity_timeout = activity_timeout
         
     def capture(self, pcap_file):
         packets = rdpcap(pcap_file)
@@ -483,7 +482,7 @@ class csv_writer:
             cnt+=1
             
         df = pd.DataFrame.from_dict(flows_dict, orient='index')
-        df.to_csv('TrafficFlow.csv')
+        df.to_csv('test.csv')
         print('File has been created')
         
 
