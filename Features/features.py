@@ -285,7 +285,99 @@ def flow_bwdpackets_IAT_sum(flow):
     times = IAT(bwdPackets)
     return sum(times)
 
+
+##segment size statistic forward
+def flow_fwd_ave_seg_size(packets):
+    fwdPackets = flow.get_forwardpackets()
+    fwdstats = [packets.get_payloadBytes() for packet in packets]
+    if (len(fwdPackets) != 0):
+        return (sum(fwdstats) / len(fwdPackets))
+    return 0
+
+def flow_bwd_ave_seg_size(packets):
+    bwdPackets = flow.get_backwardpackets()
+    bwdstats = [packets.get_payloadBytes() for packet in packets]
+    if (len(bwdPackets) != 0):
+        return (sum(bwdstats) / len(bwdPackets))
+    return 0
+def get_fwd_packet_length_max(packets):
+    fwdPackets = flow.get_forwardpackets()
+    fwdstats = [packets.get_payloadBytes() for packet in packets]
+    if (len(fwdPackets) != 0):
+        return max(fwdstats)
+    else:
+        return 0
+def get_fwd_packet_length_min(packets):
+    fwdPackets = flow.get_forwardpackets()
+    fwdstats = [packets.get_payloadBytes() for packet in packets]
+    if (len(fwdPackets) != 0):
+        return min(fwdstats)
+    else:
+        return 0
+def get_fwd_packet_length_std(packets):
+    fwdPackets = flow.get_forwardpackets()
+    fwdstats = [packets.get_payloadBytes() for packet in packets]
+    if (len(fwdPackets) != 0):
+        return std(fwdstats)
+    else:
+        return 0
+def get_bwd_packet_length_max(packets):
+    bwdPackets = flow.get_backwardpackets()
+    bwdstats = [packets.get_payloadBytes() for packet in packets]
+    if (len(bwdPackets) != 0):
+        return max(bwdstats)
+    else:
+        return 0
+def get_bwd_packet_length_min(packets):
+    bwdPackets = flow.get_backwardpackets()
+    bwdstats = [packets.get_payloadBytes() for packet in packets]
+    if (len(bwdPackets) != 0):
+        return min(bwdstats)
+    else:
+        return 0
+def get_bwd_packet_length_std(packets):
+    bwdPackets = flow.get_forwardpackets()
+    bwdstats = [packets.get_payloadBytes() for packet in packets]
+    if (len(bwdPackets) != 0):
+        return std(bwdstats)
+    else:
+        return 0
+
+##idle time features
+def update_active_idle(self, threshold):
+    current_time = get_flow_last_seen()
+    if ((current_time - self.end_active_time) > threshold):
+        if((self.end_active_time - self.start_active_time) > 0):
+            self.flow_active.append(self.end_active_time - self.start_active_time)
+        self.flow_idle.append(current_time - self.end_active_time)
+        self.end_active_time = current_time
+        self.start_active_time = current_time
+    else:
+        self.end_active_time = current_time
+
+def get_down_up_ratio(self):
+    if (self.forwardpackets.size() > 0 ):
+        return self.backwardpackets.size() / self.forwardpackets.size()
+    return 0
+def get_idle_min(self):
+    if(len(self.flow_idle) > 0):
+        return min(self.flow_idle)
+    else:
+        return 0
+def get_idle_max(self):
+    if(len(self.flow_idle) > 0):
+        return max(self.flow_idle)
+    else:
+        return 0
+def get_idle_std(self):
+    if(len(self.flow_idle) > 0):
+        return std(self.flow_idle)
+    else:
+        return 0
+
+def get_idle_mean(self):
+    if(len(self.flow_idle) > 0):
+        return sum(self.flow_idle) / len(self.flow_idle)
+    else:
+        return 0
 #################################
-
-
-
