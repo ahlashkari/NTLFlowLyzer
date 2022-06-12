@@ -344,40 +344,40 @@ def get_bwd_packet_length_std(packets):
         return 0
 
 ##idle time features
-def update_active_idle(self, threshold):
+def update_active_idle(flow, threshold):
     current_time = get_flow_last_seen()
-    if ((current_time - self.end_active_time) > threshold):
-        if((self.end_active_time - self.start_active_time) > 0):
-            self.flow_active.append(self.end_active_time - self.start_active_time)
-        self.flow_idle.append(current_time - self.end_active_time)
-        self.end_active_time = current_time
-        self.start_active_time = current_time
+    if ((current_time - flow.end_active_time) > threshold):
+        if((flow.end_active_time - flow.start_active_time) > 0):
+            flow.flow_active.append(flow.end_active_time - flow.start_active_time)
+        flow.flow_idle.append(current_time - flow.end_active_time)
+        flow.end_active_time = current_time
+        flow.start_active_time = current_time
     else:
-        self.end_active_time = current_time
+        flow.end_active_time = current_time
 
-def get_down_up_ratio(self):
-    if (self.forwardpackets.size() > 0 ):
-        return self.backwardpackets.size() / self.forwardpackets.size()
+def get_down_up_ratio(flow):
+    if (flow.forwardpackets.size() > 0 ):
+        return flow.backwardpackets.size() / flow.forwardpackets.size()
     return 0
-def get_idle_min(self):
-    if(len(self.flow_idle) > 0):
-        return min(self.flow_idle)
+def get_idle_min(flow):
+    if(len(flow.flow_idle) > 0):
+        return min(flow.flow_idle)
     else:
         return 0
-def get_idle_max(self):
-    if(len(self.flow_idle) > 0):
-        return max(self.flow_idle)
+def get_idle_max(flow):
+    if(len(flow.flow_idle) > 0):
+        return max(flow.flow_idle)
     else:
         return 0
-def get_idle_std(self):
-    if(len(self.flow_idle) > 0):
-        return std(self.flow_idle)
+def get_idle_std(flow):
+    if(len(flow.flow_idle) > 0):
+        return std(flow.flow_idle)
     else:
         return 0
 
-def get_idle_mean(self):
-    if(len(self.flow_idle) > 0):
-        return sum(self.flow_idle) / len(self.flow_idle)
+def get_idle_mean(flow):
+    if(len(flow.flow_idle) > 0):
+        return sum(flow.flow_idle) / len(flow.flow_idle)
     else:
         return 0
 #################################
