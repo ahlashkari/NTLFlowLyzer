@@ -7,7 +7,8 @@ from Features.features import fin_flag_counts, psh_flag_counts, urg_flag_counts,
     flow_packets_IAT_std, flow_packets_IAT_max, flow_packets_IAT_min, flow_packets_IAT_sum, flow_fwdpackets_IAT_mean, \
     flow_fwdpackets_IAT_std, flow_fwdpackets_IAT_max, flow_fwdpackets_IAT_min, flow_fwdpackets_IAT_sum, \
     flow_bwdpackets_IAT_mean, flow_bwdpackets_IAT_std, flow_bwdpackets_IAT_max, flow_bwdpackets_IAT_min, \
-    flow_bwdpackets_IAT_sum
+    flow_bwdpackets_IAT_sum, Get_down_up_ratio, Get_idle_min, Get_idle_max, Get_idle_std, get_idle_mean
+
 
 
 class csv_writer:
@@ -104,6 +105,13 @@ class csv_writer:
             flows_dict[cnt]['Fflow Packet Lenght Mean'] = flow_packets_length_mean(fpackets)
             flows_dict[cnt]['Fflow Packet Lenght Sum'] = flow_packets_length_sum(fpackets)
             flows_dict[cnt]['Fflow Packet Lenght Std'] = flow_packets_length_std(fpackets)
+            
+            # idle features
+            flows_dict[cnt]['Down-Up Ratio'] = Get_down_up_ratio(flow)
+            flows_dict[cnt]['Idle Min'] = Get_idle_min(flow)
+            flows_dict[cnt]['Idle Max'] = Get_idle_max(flow)
+            flows_dict[cnt]['Idle Std'] = Get_idle_std(flow)
+            flows_dict[cnt]['Idle Mean'] = Get_idle_mean(flow)
 
             # flows_dict[cnt][''] =
             # flows_dict[cnt][''] =
