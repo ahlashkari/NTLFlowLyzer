@@ -2,7 +2,7 @@ import numpy as np
 
 
 #### FLAG FUNCTIONS ####
-def fin_flag_counts(packets):
+def getFinFlagCounts(packets):
     counts = 0
     for packet in packets:
         if packet.has_flagFIN():
@@ -10,7 +10,7 @@ def fin_flag_counts(packets):
     return counts
 
 
-def psh_flag_counts(packets):
+def getPshFlagCounts(packets):
     counts = 0
     for packet in packets:
         if packet.has_flagPSH():
@@ -18,7 +18,7 @@ def psh_flag_counts(packets):
     return counts
 
 
-def urg_flag_counts(packets):
+def getUrgFlagCounts(packets):
     counts = 0
     for packet in packets:
         if packet.has_flagURG():
@@ -26,7 +26,7 @@ def urg_flag_counts(packets):
     return counts
 
 
-def ece_flag_counts(packets):
+def getEceFlagCounts(packets):
     counts = 0
     for packet in packets:
         if packet.has_flagECE():
@@ -34,7 +34,7 @@ def ece_flag_counts(packets):
     return counts
 
 
-def syn_flag_counts(packets):
+def getSynFlagCounts(packets):
     counts = 0
     for packet in packets:
         if packet.has_flagSYN():
@@ -42,7 +42,7 @@ def syn_flag_counts(packets):
     return counts
 
 
-def ack_flag_counts(packets):
+def getAckFlagCounts(packets):
     counts = 0
     for packet in packets:
         if packet.has_flagACK():
@@ -50,7 +50,7 @@ def ack_flag_counts(packets):
     return counts
 
 
-def cwr_flag_counts(packets):
+def getCwrFlagCounts(packets):
     counts = 0
     for packet in packets:
         if packet.has_flagCWR():
@@ -58,7 +58,7 @@ def cwr_flag_counts(packets):
     return counts
 
 
-def rst_flag_counts(packets):
+def getRstFlagCounts(packets):
     counts = 0
     for packet in packets:
         if packet.has_flagRST():
@@ -68,31 +68,31 @@ def rst_flag_counts(packets):
 
 ###############################
 
-def flow_duration(flow):
+def getFlowDuration(flow):
     return flow.get_flow_last_seen() - flow.get_flow_start_time()
 
 
 ###############################
 #### PACKET COUNT ####
-def packet_count(packets):
+def getPacketCount(packets):
     return len(packets)
 
 
-def flow_packets_per_second(flow):
+def getPktsPerSecond(flow):
     try:
         return len(flow.get_packets()) / float(flow_duration(flow))
     except ZeroDivisionError:
         return 0
 
 
-def bflow_packets_per_second(flow):
+def getbPktsPerSecond(flow):
     try:
         return len(flow.get_backwardpackets()) / float(flow_duration(flow))
     except ZeroDivisionError:
         return 0
 
 
-def fflow_packets_per_second(flow):
+def getfPktsPerSecond(flow):
     try:
         return len(flow.get_forwardpackets()) / float(flow_duration(flow))
     except ZeroDivisionError:
@@ -102,35 +102,35 @@ def fflow_packets_per_second(flow):
 ###############################
 
 #### PACKET LENGTH ####
-def flow_packets_length_max(packets):
+def getPacketLengthMax(packets):
     packets_len = [packet.get_length() for packet in packets]
     if packets_len:
         return max(packets_len)
     return 0
 
 
-def flow_packets_length_min(packets):
+def getPacketLengthMin(packets):
     packets_len = [packet.get_length() for packet in packets]
     if packets_len:
         return min(packets_len)
     return 0
 
 
-def flow_packets_length_mean(packets):
+def getPacketLengthMean(packets):
     packets_len = [packet.get_length() for packet in packets]
     if packets_len:
         return np.mean(packets_len)
     return 0
 
 
-def flow_packets_length_sum(packets):
+def getPacketLengthSum(packets):
     packets_len = [packet.get_length() for packet in packets]
     if packets_len:
         return sum(packets_len)
     return 0
 
 
-def flow_packets_length_std(packets):
+def getPacketLengthStd(packets):
     packets_len = [packet.get_length() for packet in packets]
     if packets_len:
         return np.std(packets_len)
@@ -151,7 +151,7 @@ def IAT(packets):  # the code should be improved
     return times
 
 
-def flow_packets_IAT_mean(packets):
+def getTotalIATmean(packets):
     times = IAT(packets)
     if len(times) == 0:
         return 0
@@ -159,7 +159,7 @@ def flow_packets_IAT_mean(packets):
         return np.mean(times)
 
 
-def flow_packets_IAT_std(packets):  # should be developed for NaN value
+def getTotalIATStd(packets):  # should be developed for NaN value
     times = IAT(packets)
     try:
         return np.std(times)
@@ -171,7 +171,7 @@ def flow_packets_IAT_std(packets):  # should be developed for NaN value
         return 0
 
 
-def flow_packets_IAT_max(packets):
+def getTotalIATMax(packets):
     times = IAT(packets)
     try:
         return np.max(times)
@@ -179,7 +179,7 @@ def flow_packets_IAT_max(packets):
         pass
 
 
-def flow_packets_IAT_min(packets):
+def getTotalIATMin(packets):
     times = IAT(packets)
     try:
         return np.min(times)
@@ -187,13 +187,13 @@ def flow_packets_IAT_min(packets):
         pass
 
 
-def flow_packets_IAT_sum(packets):
+def getTotalIATSum(packets):
     times = IAT(packets)
     return sum(times)
 
 
 ##forward packets IAT ##
-def flow_fwdpackets_IAT_mean(flow):
+def getFwdIATMean(flow):
     fwdPackets = flow.get_forwardpackets()
     times = IAT(fwdPackets)
     if len(times) == 0:
@@ -202,7 +202,7 @@ def flow_fwdpackets_IAT_mean(flow):
         return np.mean(times)
 
 
-def flow_fwdpackets_IAT_std(flow):
+def getFwdIATStd(flow):
     fwdPackets = flow.get_forwardpackets()
     times = IAT(fwdPackets)
     try:
@@ -215,7 +215,7 @@ def flow_fwdpackets_IAT_std(flow):
         return None
 
 
-def flow_fwdpackets_IAT_max(flow):
+def getFwdIATMax(flow):
     fwdPackets = flow.get_forwardpackets()
     times = IAT(fwdPackets)
     try:
@@ -224,7 +224,7 @@ def flow_fwdpackets_IAT_max(flow):
         return None
 
 
-def flow_fwdpackets_IAT_min(flow):
+def getFwdIATMin(flow):
     fwdPackets = flow.get_forwardpackets()
     times = IAT(fwdPackets)
     try:
@@ -233,14 +233,14 @@ def flow_fwdpackets_IAT_min(flow):
         return None
 
 
-def flow_fwdpackets_IAT_sum(flow):
+def getFwdIATSum(flow):
     fwdPackets = flow.get_forwardpackets()
     times = IAT(fwdPackets)
     return sum(times)
 
 
 ##backward packets IAT##
-def flow_bwdpackets_IAT_mean(flow):
+def getBwdIATMean(flow):
     bwdPackets = flow.get_backwardpackets()
     times = IAT(bwdPackets)
     if len(times) == 0:
@@ -249,7 +249,7 @@ def flow_bwdpackets_IAT_mean(flow):
         return np.mean(times)
 
 
-def flow_bwdpackets_IAT_std(flow):
+def getBwdIATStd(flow):
     bwdPackets = flow.get_backwardpackets()
     times = IAT(bwdPackets)
     try:
@@ -262,7 +262,7 @@ def flow_bwdpackets_IAT_std(flow):
         return None
 
 
-def flow_bwdpackets_IAT_max(flow):
+def getBwdIATMax(flow):
     bwdPackets = flow.get_backwardpackets()
     times = IAT(bwdPackets)
     try:
@@ -271,7 +271,7 @@ def flow_bwdpackets_IAT_max(flow):
         return None
 
 
-def flow_bwdpackets_IAT_min(flow):
+def getBwdIATMin(flow):
     bwdPackets = flow.get_backwardpackets()
     times = IAT(bwdPackets)
     try:
@@ -280,62 +280,62 @@ def flow_bwdpackets_IAT_min(flow):
         return None
 
 
-def flow_bwdpackets_IAT_sum(flow):
+def getOwdIATSum(flow):
     bwdPackets = flow.get_backwardpackets()
     times = IAT(bwdPackets)
     return sum(times)
 
 
 ##segment size statistic forward
-def flow_fwd_ave_seg_size(packets):
+def getFwdAvgSegmentSize(packets):
     fwdPackets = flow.get_forwardpackets()
     fwdstats = [packets.get_payloadBytes() for packet in packets]
     if (len(fwdPackets) != 0):
         return (sum(fwdstats) / len(fwdPackets))
     return 0
 
-def flow_bwd_ave_seg_size(packets):
+def getBwdAvgSegmentSize(packets):
     bwdPackets = flow.get_backwardpackets()
     bwdstats = [packets.get_payloadBytes() for packet in packets]
     if (len(bwdPackets) != 0):
         return (sum(bwdstats) / len(bwdPackets))
     return 0
-def get_fwd_packet_length_max(packets):
+def getFwdPpacketLengthMax(packets):
     fwdPackets = flow.get_forwardpackets()
     fwdstats = [packets.get_payloadBytes() for packet in packets]
     if (len(fwdPackets) != 0):
         return max(fwdstats)
     else:
         return 0
-def get_fwd_packet_length_min(packets):
+def getBwdPacketLengthMin(packets):
     fwdPackets = flow.get_forwardpackets()
     fwdstats = [packets.get_payloadBytes() for packet in packets]
     if (len(fwdPackets) != 0):
         return min(fwdstats)
     else:
         return 0
-def get_fwd_packet_length_std(packets):
+def getFwdPacketLengthStd(packets):
     fwdPackets = flow.get_forwardpackets()
     fwdstats = [packets.get_payloadBytes() for packet in packets]
     if (len(fwdPackets) != 0):
         return std(fwdstats)
     else:
         return 0
-def get_bwd_packet_length_max(packets):
+def getBwdPacketLengthMax(packets):
     bwdPackets = flow.get_backwardpackets()
     bwdstats = [packets.get_payloadBytes() for packet in packets]
     if (len(bwdPackets) != 0):
         return max(bwdstats)
     else:
         return 0
-def get_bwd_packet_length_min(packets):
+def getBwdPacketLengthMin(packets):
     bwdPackets = flow.get_backwardpackets()
     bwdstats = [packets.get_payloadBytes() for packet in packets]
     if (len(bwdPackets) != 0):
         return min(bwdstats)
     else:
         return 0
-def get_bwd_packet_length_std(packets):
+def getBwdPacketLengthStd(packets):
     bwdPackets = flow.get_forwardpackets()
     bwdstats = [packets.get_payloadBytes() for packet in packets]
     if (len(bwdPackets) != 0):
@@ -344,7 +344,7 @@ def get_bwd_packet_length_std(packets):
         return 0
 
 ##idle time features
-def update_active_idle(flow, threshold):
+def updateActiveIdle(flow, threshold):
     current_time = get_flow_last_seen()
     if ((current_time - flow.end_active_time) > threshold):
         if((flow.end_active_time - flow.start_active_time) > 0):
@@ -355,29 +355,58 @@ def update_active_idle(flow, threshold):
     else:
         flow.end_active_time = current_time
 
-def get_down_up_ratio(flow):
+def getDownUpRatio(flow):
     if (flow.forwardpackets.size() > 0 ):
         return flow.backwardpackets.size() / flow.forwardpackets.size()
     return 0
-def get_idle_min(flow):
+def getIdleMin(flow):
     if(len(flow.flow_idle) > 0):
         return min(flow.flow_idle)
     else:
         return 0
-def get_idle_max(flow):
+def getIdleMax(flow):
     if(len(flow.flow_idle) > 0):
         return max(flow.flow_idle)
     else:
         return 0
-def get_idle_std(flow):
+def getIdleStd(flow):
     if(len(flow.flow_idle) > 0):
         return std(flow.flow_idle)
     else:
         return 0
 
-def get_idle_mean(flow):
+def getIdleMean(flow):
     if(len(flow.flow_idle) > 0):
         return sum(flow.flow_idle) / len(flow.flow_idle)
     else:
         return 0
+    
+##header features
+def getBwdHeaderLength(self, packet):
+    for i in self.backwardpackets:
+        if(i == packet):
+            return len(packet.show())
+        else:
+            return 0
+
+def getFwdHeaderLength(self, packet):
+    for i in self.forwardpackets:
+        if (i == packet):
+            return len(packet.show())
+        else:
+            return 0
+        
+def getBwdHeaderByte(self, packet):
+    for i in self.backwardpackets:
+        if(i == packet):
+            return byte(packet.show())
+        else:
+            return 0
+
+def getFwdHeaderByte(self, packet):
+    for i in self.forwardpackets:
+        if (i == packet):
+            return byte(packet.show())
+        else:
+            return 0
 #################################
