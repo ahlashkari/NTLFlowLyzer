@@ -1,8 +1,8 @@
 from .feature import Feature
-### subflow ###
-# def subflow_fpackets(flow):
-class subflow_fpackets(Feature):
-    name = "Subflow Fwd Packets"
+
+
+class SubflowFwdPackets(Feature):
+    name = "subflow_fwd_packets"
     def extract(self, flow: object) -> dict:
         if flow.get_subflow_count() <= 0:
             return 0
@@ -10,9 +10,8 @@ class subflow_fpackets(Feature):
             return len(flow.get_forwardpackets()) / flow.get_subflow_count()
 
 
-# def subflow_bpackets(flow):
-class subflow_bpackets(Feature):
-    name = "Subflow Bwd Bytes"
+class SubflowBwdPackets(Feature):
+    name = "subflow_bwd_packets"
     def extract(self, flow: object) -> dict:
         if flow.get_subflow_count() <= 0:
             return 0
@@ -20,9 +19,8 @@ class subflow_bpackets(Feature):
 
 
 
-# def subflow_fbytes(flow):
-class subflow_fbytes(Feature):
-    name = "Subflow Fwd Packets"
+class SubflowFwdBytes(Feature):
+    name = "subflow_fwd_bytes"
     def extract(self, flow: object) -> dict:
         if flow.get_subflow_count() <= 0:
             return 0
@@ -30,9 +28,8 @@ class subflow_fbytes(Feature):
             return fwd_flow_bytes(flow) / flow.get_subflow_count()
 
 
-# def subflow_bbytes(flow):
-class subflow_bbytes(Feature):
-    name = "Subflow Bwd Packets"
+class SubflowBwdBytes(Feature):
+    name = "subflow_bwd_bytes"
     def extract(self, flow: object) -> dict:
         if flow.get_subflow_count() <= 0:
             return 0

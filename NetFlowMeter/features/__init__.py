@@ -10,3 +10,11 @@ from .packets_time import Duration, ActiveMin, ActiveMax, ActiveMean, ActiveStd,
                           IdleMean, IdleStd
 from .packets_rate import BytesRate, FwdBytesRate, BwdBytesRate, PacketsRate, BwdPacketsRate, \
                           FwdPacketsRate
+from .bulk_related import AvgFwdBytesPerBulk, AvgFwdPacketsPerBulk, AvgFwdBulkRate, AvgBwdBytesPerBulk, \
+                          AvgBwdPacketsPerBulk, AvgBwdBulkRate, FwdBulkStateCount, FwdBulkSizeTotal, \
+                          FwdBulkPacketCount, FwdBulkDuration, BwdBulkStateCount, BwdBulkSizeTotal, \
+                          BwdBulkPacketCount, BwdBulkDuration
+from .flag_related import FINFlagCounts, PSHFlagCounts, URGFlagCounts, ECEFlagCounts, SYNFlagCounts, \
+                          ACKFlagCounts, CWRFlagCounts, RSTFlagCounts
+from .IAT_related import IAT, PacketsIATMean, PacketsIATStd, PacketsIATMax, PacketsIATMin, PacketsIATSum
+from .subflow_related import SubflowFwdPackets, SubflowBwdPackets, SubflowFwdBytes, SubflowBwdBytes

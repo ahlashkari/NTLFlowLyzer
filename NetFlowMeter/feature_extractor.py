@@ -9,10 +9,7 @@ class FeatureExtractor(object):
         self.__flows = flows
         self.floating_point_unit = floating_point_unit
         self.__features = [
-                Duration(),
-                PacketsNumbers(),
-                ReceivingPacketsNumbers(),
-                SendingPacketsNumbers(),
+
             ]
 
 
@@ -147,16 +144,6 @@ class Features:  #TODO: should create a Features class
             flow_data['Flow backward packet IAT min'] = flow_packets_IAT_min(bpackets)
             flow_data['Flow backward packet IAT sum'] = flow_packets_IAT_sum(bpackets)
 
-            # idle,active
-            flow_data['Active Min'] = active_min(flow)
-            flow_data['Active Min'] = active_max(flow)
-            flow_data['Active Min'] = active_mean(flow)
-            flow_data['Active Min'] = active_std(flow)
-            flow_data['Idle Min'] = idle_min(flow)
-            flow_data['Idle Max'] = idle_max(flow)
-            flow_data['Idle Mean'] = idle_mean(flow)
-            flow_data['Idle std'] = idle_std(flow)
-
             # payload
             flow_data['Flow Bytes'] = flow_bytes(flow)
             flow_data['Flow Bytes per Second'] = flow_bytes_per_second(flow)
@@ -166,31 +153,6 @@ class Features:  #TODO: should create a Features class
             flow_data['Bwd Flow Bytes per Second'] = bwd_flow_bytes_per_second(flow)
 
 
-            #Bulk
-            flow_data['Forward bulk state count']=flow.fBulkStateCount()
-            flow_data['forward bulk total size']=flow.fBulkSizeTotal()
-            flow_data['forward bulk per packet'] = flow.fBulkPacketCount()
-            flow_data['forward bulk Duration'] = flow.fBulkDuration()
-            flow_data['forward average bytes per bulk']=fAvgBytesPerBulk(flow)
-            flow_data['forward average packet per bulk rate']=fAvgPacketsPerBulk(flow)
-            flow_data['forward average bulks rate']=fAvgBulkRate(flow)
-
-            flow_data['Backward bulk state count'] = flow.bBulkStateCount()
-            flow_data['Backward bulk total size'] = flow.bBulkSizeTotal()
-            flow_data['Backward bulk per packet'] = flow.bBulkPacketCount()
-            flow_data['Backward bulk Duration'] = flow.bBulkDuration()
-            flow_data['Backward average bytes per bulk'] = bAvgBytesPerBulk(flow)
-            flow_data['Backward average packet per bulk rate'] = bAvgPacketsBulkRate(flow)
-            flow_data['Backward average bulks rate'] =bAvgBulkRate(flow)
-            # goes to the next flow
-            flows_data_list.append(flow_data.copy())
-        return flows_data_list
 
 
-
-all_features=Features()
 flows_dict=all_features.all_features('test.pcap',120000,5000)
-
-csvw.write("NetFlowMeter.csv",flows_dict)
-
-

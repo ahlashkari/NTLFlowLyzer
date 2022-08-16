@@ -1,37 +1,28 @@
 import numpy as np
 
 from .feature import Feature
+from . import utils
 
 
-
-# def IAT(packets):
 class IAT(Feature):
-    def extract(self, packets: object) -> dict:
-        times = [packet.get_timestamp() for packet in packets]
-        if len(times) > 1:
-            for i in range(len(times) - 1):
-                times[i] = times[i + 1] - times[i]
-            times.pop()
-        return times
+    name = "IAT"
+    def extract(self, flow: object) -> dict:
+        return utils.calculate_IAT(flow)
 
 
-
-# def flow_packets_IAT_mean(packets):
-class flow_packets_IAT_mean(Feature):
-    name = "Packet IAT mean"
-    def extract(self, packets: object) -> dict:
-        times = IAT(packets)
+class PacketsIATMean(Feature):
+    name = "packets_IAT_mean"
+    def extract(self, flow: object) -> dict:
+        times = utils.calculate_IAT(flow)
         if times:
             return np.mean(times)
-        else:
-            return 0
+        return 0
 
 
-# def flow_packets_IAT_std(packets):  # should be developed for NaN value
-class flow_packets_IAT_std(Feature):
-    name = "Packet IAT Std"
-    def extract(self, packets: object) -> dict:
-        times = IAT(packets)
+class PacketsIATStd(Feature):
+    name = "packet_IAT_Std"
+    def extract(self, flow: object) -> dict:
+        times = utils.calculate_IAT(flow)
         try:
             return np.std(times)
         except RuntimeWarning:
@@ -42,32 +33,28 @@ class flow_packets_IAT_std(Feature):
             return 0
 
 
-# def flow_packets_IAT_max(packets):
-class flow_packets_IAT_max(Feature):
-    name = "Packet IAT max"
-    def extract(self, packets: object) -> dict:
-        times = IAT(packets)
+class PacketsIATMax(Feature):
+    name = "packet_IAT_max"
+    def extract(self, flow: object) -> dict:
+        times = utils.calculate_IAT(flow)
         if times:
             return max(times)
-        else:
-            return 0
+        return 0
 
-# def flow_packets_IAT_min(packets):
-class flow_packets_IAT_min(Feature):
-    name = "Packet IAT min"
-    def extract(self, packets: object) -> dict:
-        times = IAT(packets)
+
+class PacketsIATMin(Feature):
+    name = "packet_IAT_min"
+    def extract(self, flow: object) -> dict:
+        times = utils.calculate_IAT(flow)
         if times:
             return min(times)
-        else:
-            return 0
+        return 0
 
-# def flow_packets_IAT_sum(packets):
-class flow_packets_IAT_sum(Feature):
-    name = "Packet IAT Total"
-    def extract(self, packets: object) -> dict:
-        times = IAT(packets)
+
+class PacketsIATSum(Feature):
+    name = "packet_IAT_Total"
+    def extract(self, flow: object) -> dict:
+        times = utils.calculate_IAT(flow)
         if times:
             return sum(times)
-        else:
-            return 0
+        return 0

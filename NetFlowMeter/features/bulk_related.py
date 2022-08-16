@@ -1,110 +1,97 @@
 from .feature import Feature
 
 
-# Client average bytes per bulk
-class fAvgBytesPerBulk(Feature):
-# def fAvgBytesPerBulk(flow):
-    name = "Fwd Bytes/Bulk Avg"
+class AvgFwdBytesPerBulk(Feature):
+    name = "avg_fwd_bytes_per_bulk"
     def extract(self, flow: object) -> float:
         if flow.fBulkStateCount() != 0:
             return (flow.fBulkSizeTotal() / flow.fBulkStateCount())
         return 0
 
-# Client average packet per bulk
-class fAvgPacketsPerBulk(Feature):
-# def fAvgPacketsPerBulk(flow):
-    name='Fwd Packet/Bulk Avg'
+
+class AvgFwdPacketsPerBulk(Feature):
+    name='avg_fwd_packets_per_bulk'
     def extract(self, flow: object) -> dict:
         if flow.fBulkStateCount() != 0:
             return flow.fBulkPacketCount() / flow.fBulkStateCount()
         return 0
 
-# Client average bulk rate
-class fAvgBulkRate(Feature):
-    # def fAvgBulkRate(flow):
-    name = "Fwd Bulk Rate Avg"
+
+class AvgFwdBulkRate(Feature):
+    name = "avg_fwd_bulk_rate"
     def extract(self, flow: object) -> dict:
         if flow.fBulkDuration() != 0:
             return flow.fBulkSizeTotal() / flow.fBulkDuration()
         return 0
 
 
-
-# Client average bytes per bulk
-class bAvgBytesPerBulk(Feature):
-    name = "Bwd Bytes/Bulk Avg"
-# def bAvgBytesPerBulk(flow):
+class AvgBwdBytesPerBulk(Feature):
+    name = "avg_bwd_bytes_per_bulk"
     def extract(self, flow: object) -> dict:
         if flow.bbulkStateCount != 0:
             return (flow.bBulkSizeTotal() / flow.bBulkStateCount())
         return 0
 
-# Client average packet per bulk
-class bAvgPacketsBulkRate(Feature):
-# def bAvgPacketsBulkRate(flow):
-    name = "Bwd Packet/Bulk Avg"
+
+class AvgBwdPacketsPerBulk(Feature):
+    name = "avg_bwd_packets_bulk_rate"
     def extract(self, flow: object) -> dict:
         if flow.bBulkStateCount() != 0:
             return flow.bBulkPacketCount() / flow.bBulkStateCount()
         return 0
 
-# Client average bulk rate
-class bAvgBulkRate(Feature):
-    name = "Bwd Bulk Rate Avg"
-# def bAvgBulkRate(flow):
+
+class AvgBwdBulkRate(Feature):
+    name = "avg_bwd_bulk_rate"
     def extract(self, flow: object) -> dict:
         if flow.bBulkDuration() != 0:
             return flow.bBulkSizeTotal() / flow.bBulkDuration()
         return 0
 
 
-
-###################################features which are in the class flow################################
-
-# def fBulkStateCount(self):
-class fBulkStateCount(Feature):
-    name = "Fwd bulk state count"
+class FwdBulkStateCount(Feature):
+    name = "fwd_bulk_state_count"
     def extract(self, flow: object) -> dict:
-        return self.fbulkStateCount
+        return self.fbulkStateCount()
 
-# def fBulkSizeTotal(self):
-class fBulkSizeTotal(Feature):
-    name = "Fwd bulk total size"
-    def extract(self, flow: object) -> dict:
-        return self.fbulkSizeTotal
 
-# def fBulkPacketCount(self):
-class fBulkPacketCount(Feature):
-    name = "Fwd bulk per packet"
+class FwdBulkSizeTotal(Feature):
+    name = "fwd_bulk_total_size"
     def extract(self, flow: object) -> dict:
-        return self.fbulkPacketCount
+        return self.fbulkSizeTotal()
 
-#def fBulkDuration(self):
-class fBulkDuration(Feature):
-    name = "Fwd bulk Duration"
-    def extract(self, flow: object) -> dict:
-        return self.fbulkDuration
 
-# def bBulkStateCount(self):
-class bBulkStateCount(Feature):
-    name = "Bwd bulk state count"
+class FwdBulkPacketCount(Feature):
+    name = "fwd_bulk_per_packet"
     def extract(self, flow: object) -> dict:
-        return self.bbulkStateCount
+        return self.fbulkPacketCount()
 
-# def bBulkSizeTotal(self):
-class bBulkSizeTotal(Feature):
-    name = "Bwd bulk total size"
-    def extract(self, flow: object) -> dict:
-        return self.bbulkSizeTotal
 
-# def bBulkPacketCount(self):
-class bBulkPacketCount(Feature):
-    name = "Bwd bulk per packet"
+class FwdBulkDuration(Feature):
+    name = "fwd_bulk_duration"
     def extract(self, flow: object) -> dict:
-         return self.bbulkPacketCount
+        return self.fbulkDuration()
 
-# def bBulkDuration(self):
-class bBulkDuration(Feature):
-    name ="Bwd bulk Duration"
+
+class BwdBulkStateCount(Feature):
+    name = "bwd_bulk_state_count"
     def extract(self, flow: object) -> dict:
-         return self.bbulkDuration
+        return self.bbulkStateCount()
+
+
+class BwdBulkSizeTotal(Feature):
+    name = "bwd_bulk_total_size"
+    def extract(self, flow: object) -> dict:
+        return self.bbulkSizeTotal()
+
+
+class BwdBulkPacketCount(Feature):
+    name = "bwd_bulk_per_packet"
+    def extract(self, flow: object) -> dict:
+         return self.bbulkPacketCount()
+
+
+class BwdBulkDuration(Feature):
+    name ="bwd_bulk_duration"
+    def extract(self, flow: object) -> dict:
+         return self.bbulkDuration()
