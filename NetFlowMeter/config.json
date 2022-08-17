@@ -5,21 +5,5 @@
     "max_flow_duration": 120000,
     "activity_timeout": 5000,
     "floating_point_unit": ".64f",
-    "features_ignore_list": [
-        "dns_whois_domain_name",
-        "dns_domain_email",
-        "dns_domain_registrar",
-        "dns_domain_creation_date",
-        "dns_domain_expiration_date",
-        "dns_domain_age",
-        "dns_domain_country",
-        "dns_domain_dnssec",
-        "dns_domain_dnssec",
-        "dns_domain_address",
-        "dns_domain_city",
-        "dns_domain_state",
-        "dns_domain_zipcode",
-        "dns_domain_name_servers",
-        "dns_domain_updated_date"
-    ]
+    "features_ignore_list": []
 }

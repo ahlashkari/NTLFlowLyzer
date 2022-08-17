@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 
+import numpy as np
 import statistics
 from scipy import stats
 from .feature import Feature
+from . import utils
 
 
 class Duration(Feature):
     name = "duration"
     def extract(self, flow: object) -> float:
-        return format(flow.get_flow_last_seen() - flow.get_flow_start_time(), self.floating_point_unit)
+        return utils.calculate_flow_duration(flow)
 
 
 class ActiveMin(Feature):

@@ -84,7 +84,6 @@ class Flow(object):
         sum_payloads=0
         for packet in self.packets:
             sum_payloads+= packet.get_payloadbytes()
-        # print("total payload is",sum_payloads)
         return sum_payloads
 
     def update_subflow(self, packet_time):
@@ -173,28 +172,28 @@ class Flow(object):
                         self.bbulkDuration += packet.get_timestamp() - self.blastBulkTS
                 self.blastBulkTS = packet.get_timestamp()
 
-    def fBulkStateCount(self):
+    def get_fBulkStateCount(self):
         return self.fbulkStateCount
 
-    def fBulkSizeTotal(self):
+    def get_fBulkSizeTotal(self):
         return self.fbulkSizeTotal
 
-    def fBulkPacketCount(self):
+    def get_fBulkPacketCount(self):
         return self.fbulkPacketCount
 
-    def fBulkDuration(self):
+    def get_fBulkDuration(self):
         return self.fbulkDuration
 
-    def bBulkStateCount(self):
+    def get_bBulkStateCount(self):
         return self.bbulkStateCount
 
-    def bBulkSizeTotal(self):
+    def get_bBulkSizeTotal(self):
         return self.bbulkSizeTotal
 
-    def bBulkPacketCount(self):
+    def get_bBulkPacketCount(self):
         return self.bbulkPacketCount
 
-    def bBulkDuration(self):
+    def get_bBulkDuration(self):
         return self.bbulkDuration
 
     def update_active_idle_time(self, current_time, active_thr=100):

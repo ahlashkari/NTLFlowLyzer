@@ -20,7 +20,7 @@ setup(
         packages=[
             "NetFlowMeter",
             "NetFlowMeter.features",
-            "NetFlowMeter.app_flow_capturer",
+            "NetFlowMeter.net_flow_capturer",
             "NetFlowMeter.writers",
         ],
         package_dir={

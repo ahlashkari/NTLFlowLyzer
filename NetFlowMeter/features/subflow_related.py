@@ -1,4 +1,5 @@
 from .feature import Feature
+from . import utils
 
 
 class SubflowFwdPackets(Feature):
@@ -25,7 +26,7 @@ class SubflowFwdBytes(Feature):
         if flow.get_subflow_count() <= 0:
             return 0
         else:
-            return fwd_flow_bytes(flow) / flow.get_subflow_count()
+            return utils.calculate_fwd_flow_payload_bytes(flow) / flow.get_subflow_count()
 
 
 class SubflowBwdBytes(Feature):
@@ -33,5 +34,5 @@ class SubflowBwdBytes(Feature):
     def extract(self, flow: object) -> dict:
         if flow.get_subflow_count() <= 0:
             return 0
-        return bwd_flow_bytes(flow) / flow.get_subflow_count()
+        return utils.calculate_fwd_flow_payload_bytes(flow) / flow.get_subflow_count()
 

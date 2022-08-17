@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
+import numpy as np
 import statistics
 from scipy import stats
 from .feature import Feature
 from . import utils
 
 
-class PayloadBytes(Feature):
-    name = "payload_bytes"
+class TotalPayloadBytes(Feature):
+    name = "total_payload_bytes"
     def extract(self, flow: object) -> int:
         return utils.calculate_flow_payload_bytes(flow)
 
@@ -24,29 +25,8 @@ class BwdTotalPayloadBytes(Feature):
         return utils.calculate_bwd_flow_payload_bytes(flow)
 
 
-class TotalBytes(Feature):
-    name = "total_bytes"
-    def extract(self, flow: object) -> int:
-        packets_len = [packet.get_length() for packet in flow.get_packets()]
-        return sum(packets_len)
-
-
-class FwdTotalBytes(Feature):
-    name = "fwd_total_bytes"
-    def extract(self, flow: object) -> int:
-        packets_len = [packet.get_length() for packet in flow.get_forwardpackets()]
-        return sum(packets_len)
-
-
-class BwdTotalBytes(Feature):
-    name = "bwd_total_bytes"
-    def extract(self, flow: object) -> int:
-        packets_len = [packet.get_length() for packet in flow.get_backwardpackets()]
-        return sum(packets_len)
-
-
-class PacketsLenMax(Feature):
-    name = "packets_len_max"
+class PayloadBytesMax(Feature):
+    name = "payload_bytes_max"
     def extract(self, flow: object) -> int:
         packets_len = [packet.get_length() for packet in flow.get_packets()]
         if packets_len:
@@ -54,8 +34,8 @@ class PacketsLenMax(Feature):
         return 0
 
 
-class PacketsLenMin(Feature):
-    name = "packets_len_min"
+class PayloadBytesMin(Feature):
+    name = "payload_bytes_min"
     def extract(self, flow: object) -> int:
         packets_len = [packet.get_length() for packet in flow.get_packets()]
         if packets_len:
@@ -63,8 +43,8 @@ class PacketsLenMin(Feature):
         return 0
 
 
-class PacketsLenMean(Feature):
-    name = "packets_len_mean"
+class PayloadBytesMean(Feature):
+    name = "payload_bytes_mean"
     def extract(self, flow: object) -> float:
         packets_len = [packet.get_length() for packet in flow.get_packets()]
         if packets_len:
@@ -72,8 +52,80 @@ class PacketsLenMean(Feature):
         return 0
 
 
-class PacketsLenStd(Feature):
-    name = "packets_len_std"
+class PayloadBytesStd(Feature):
+    name = "payload_bytes_std"
+    def extract(self, flow: object) -> float:
+        packets_len = [packet.get_length() for packet in flow.get_packets()]
+        if packets_len:
+            return np.std(packets_len)
+        return 0
+
+
+class FwdPayloadBytesMax(Feature):
+    name = "fwd_payload_bytes_max"
+    def extract(self, flow: object) -> int:
+        packets_len = [packet.get_length() for packet in flow.get_packets()]
+        if packets_len:
+            return max(packets_len)
+        return 0
+
+
+class FwdPayloadBytesMin(Feature):
+    name = "fwd_payload_bytes_min"
+    def extract(self, flow: object) -> int:
+        packets_len = [packet.get_length() for packet in flow.get_packets()]
+        if packets_len:
+            return min(packets_len)
+        return 0
+
+
+class FwdPayloadBytesMean(Feature):
+    name = "fwd_payload_bytes_mean"
+    def extract(self, flow: object) -> float:
+        packets_len = [packet.get_length() for packet in flow.get_packets()]
+        if packets_len:
+            return np.mean(packets_len)
+        return 0
+
+
+class FwdPayloadBytesStd(Feature):
+    name = "fwd_payload_bytes_std"
+    def extract(self, flow: object) -> float:
+        packets_len = [packet.get_length() for packet in flow.get_packets()]
+        if packets_len:
+            return np.std(packets_len)
+        return 0
+
+
+class BwdPayloadBytesMax(Feature):
+    name = "bwd_payload_bytes_max"
+    def extract(self, flow: object) -> int:
+        packets_len = [packet.get_length() for packet in flow.get_packets()]
+        if packets_len:
+            return max(packets_len)
+        return 0
+
+
+class BwdPayloadBytesMin(Feature):
+    name = "bwd_payload_bytes_min"
+    def extract(self, flow: object) -> int:
+        packets_len = [packet.get_length() for packet in flow.get_packets()]
+        if packets_len:
+            return min(packets_len)
+        return 0
+
+
+class BwdPayloadBytesMean(Feature):
+    name = "bwd_payload_bytes_mean"
+    def extract(self, flow: object) -> float:
+        packets_len = [packet.get_length() for packet in flow.get_packets()]
+        if packets_len:
+            return np.mean(packets_len)
+        return 0
+
+
+class BwdPayloadBytesStd(Feature):
+    name = "bwd_payload_bytes_std"
     def extract(self, flow: object) -> float:
         packets_len = [packet.get_length() for packet in flow.get_packets()]
         if packets_len:

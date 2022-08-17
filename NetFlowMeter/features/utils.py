@@ -16,11 +16,14 @@ def calculate_bwd_flow_payload_bytes(flow):
     return sum(total_bytes)
 
 
-def calculate_IAT(flow):
-    times = [packet.get_timestamp() for packet in flow.packets()]
+def calculate_IAT(packets):
+    times = [packet.get_timestamp() for packet in packets]
     if len(times) > 1:
         for i in range(len(times) - 1):
             times[i] = times[i + 1] - times[i]
         times.pop()
     return times
 
+
+def calculate_flow_duration(flow):
+    return float(flow.get_flow_last_seen() - flow.get_flow_start_time())

@@ -3,6 +3,7 @@
 from multipledispatch import dispatch
 from scapy.all import *
 from .packet import Packet
+from .flow import Flow
 
 
 class NetFlowCapturer:
