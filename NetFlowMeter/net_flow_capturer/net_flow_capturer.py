@@ -13,26 +13,27 @@ class NetFlowCapturer:
         self.all_flows = []
         self.max_flow_duration = max_flow_duration
         self.activity_timeout = activity_timeout
-        
+ 
     def capture(self, pcap_file):
-        packets = rdpcap(pcap_file)
-        for pkt in packets:
-            if IP not in pkt:
-                continue
-            if TCP in pkt:
-                packet = Packet(src_ip=pkt[IP].src, src_port=pkt[TCP].sport, dst_ip=pkt[IP].dst,
-                                dst_port=pkt[TCP].dport, protocol=pkt[IP].proto,
-                                flags=str(pkt[TCP].flags), timestamp=pkt.time, length= len(pkt),
-                                payloadbytes=len(pkt[TCP].payload))
-                self.__add_packet_to_flow(packet)
-            if UDP in pkt:
-                packet = Packet(src_ip=pkt[IP].src, src_port=pkt[UDP].sport, dst_ip=pkt[IP].dst,
-                                dst_port=pkt[UDP].dport, protocol=pkt[IP].proto,
-                                timestamp=pkt.time, length= len(pkt),payloadbytes=len(pkt[UDP].payload))
-            
-                self.__add_packet_to_flow(packet)
+        sniff(offline=pcap_file, prn=self.packet_processing, store=0)
         self.all_flows = self.finished_flows + self.current_flows
         return self.all_flows
+
+    def packet_processing(self, scapy_packet):
+        if IP not in scapy_packet:
+            return
+        if TCP in scapy_packet:
+            packet = Packet(src_ip=scapy_packet[IP].src, src_port=scapy_packet[TCP].sport, dst_ip=scapy_packet[IP].dst,
+                            dst_port=scapy_packet[TCP].dport, protocol=scapy_packet[IP].proto,
+                            flags=str(scapy_packet[TCP].flags), timestamp=scapy_packet.time, length= len(scapy_packet),
+                            payloadbytes=len(scapy_packet[TCP].payload))
+            self.__add_packet_to_flow(packet)
+        if UDP in scapy_packet:
+            packet = Packet(src_ip=scapy_packet[IP].src, src_port=scapy_packet[UDP].sport, dst_ip=scapy_packet[IP].dst,
+                            dst_port=scapy_packet[UDP].dport, protocol=scapy_packet[IP].proto,
+                            timestamp=scapy_packet.time, length= len(scapy_packet),payloadbytes=len(scapy_packet[UDP].payload))
+
+            self.__add_packet_to_flow(packet)
     
     def __add_packet_to_flow(self, packet):
         flow = self.__search_for_flow(packet)
