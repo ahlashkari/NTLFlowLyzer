@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
 from abc import ABC, abstractmethod
+from ..net_flow_capturer import Flow
 
 class Feature(ABC):
     name: str
     @abstractmethod
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> float:
         pass
 
     def set_floating_point_unit(self, floating_point_unit: str) -> None:

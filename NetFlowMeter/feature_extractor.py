@@ -91,13 +91,12 @@ class FeatureExtractor(object):
                 SubflowBwdBytes(),
             ]
 
-
     def execute(self, features_ignore_list: list = []) -> list:
         self.__extracted_data = []
         for flow in self.__flows:
             features_of_flow = {}
-            features_of_flow["flow_id"] = flow.get_flow_id()
-            features_of_flow["timestamp"] = flow.get_flow_start_time()
+            features_of_flow["flow_id"] = str(flow)
+            features_of_flow["timestamp"] = str(datetime.fromtimestamp(float(flow.flow_start_time)))
             features_of_flow["src_ip"] = flow.get_src_ip()
             features_of_flow["src_port"] = flow.get_src_port()
             features_of_flow["dst_ip"] = flow.get_dst_ip()

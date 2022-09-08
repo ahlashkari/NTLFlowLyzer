@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-from multipledispatch import dispatch
+import datetime
 from scapy.all import *
 from .packet import Packet
 from .flow import Flow
 
 
 class NetFlowCapturer:
-    def __init__(self,max_flow_duration,activity_timeout):
+    def __init__(self, max_flow_duration, activity_timeout):
         self.finished_flows = []
         self.current_flows = []
         self.all_flows = []
@@ -23,36 +23,40 @@ class NetFlowCapturer:
         if IP not in scapy_packet:
             return
         if TCP in scapy_packet:
-            packet = Packet(src_ip=scapy_packet[IP].src, src_port=scapy_packet[TCP].sport, dst_ip=scapy_packet[IP].dst,
-                            dst_port=scapy_packet[TCP].dport, protocol=scapy_packet[IP].proto,
-                            flags=str(scapy_packet[TCP].flags), timestamp=scapy_packet.time, length= len(scapy_packet),
+            packet = Packet(src_ip=scapy_packet[IP].src, src_port=scapy_packet[TCP].sport,
+                            dst_ip=scapy_packet[IP].dst, dst_port=scapy_packet[TCP].dport,
+                            protocol=scapy_packet[IP].proto, flags=scapy_packet[TCP].flags,
+                            timestamp=scapy_packet.time, length=len(scapy_packet),
                             payloadbytes=len(scapy_packet[TCP].payload))
             self.__add_packet_to_flow(packet)
         if UDP in scapy_packet:
-            packet = Packet(src_ip=scapy_packet[IP].src, src_port=scapy_packet[UDP].sport, dst_ip=scapy_packet[IP].dst,
-                            dst_port=scapy_packet[UDP].dport, protocol=scapy_packet[IP].proto,
-                            timestamp=scapy_packet.time, length= len(scapy_packet),payloadbytes=len(scapy_packet[UDP].payload))
-
+            packet = Packet(src_ip=scapy_packet[IP].src, src_port=scapy_packet[UDP].sport,
+                            dst_ip=scapy_packet[IP].dst, dst_port=scapy_packet[UDP].dport,
+                            protocol=scapy_packet[IP].proto, timestamp=scapy_packet.time,
+                            length=len(scapy_packet), payloadbytes=len(scapy_packet[UDP].payload))
             self.__add_packet_to_flow(packet)
     
     def __add_packet_to_flow(self, packet):
         flow = self.__search_for_flow(packet)
         if flow == None:
             self.__create_new_flow(packet)
-        else:
+            return
 
-            if self.flow_is_ended(flow, packet):
-                self.finished_flows.append(flow)
-                self.current_flows.remove(flow)
-                self.__create_new_flow(packet)
-            else:
-                flow.add_packet(packet)
+        if self.flow_is_ended(flow, packet):
+            self.finished_flows.append(flow)
+            self.current_flows.remove(flow)
+            self.__create_new_flow(packet)
+            return
+
+        flow.add_packet(packet)
 
     def flow_is_ended(self,flow,packet):
-        flow_duration =flow.get_flow_last_seen() - flow.get_flow_start_time()
-        active_time = packet.get_timestamp() - flow.get_flow_last_seen()
-        if flow_duration > self.max_flow_duration or active_time > self.activity_timeout \
-                 or packet.has_flagFIN() == True or packet.has_flagRST()==True:
+        flow_duration = datetime.fromtimestamp(packet.get_timestamp()) - datetime.fromtimestamp(flow.get_flow_start_time())
+        active_time = datetime.fromtimestamp(packet.get_timestamp()) - datetime.fromtimestamp(flow.get_flow_last_seen())
+        if flow_duration.total_seconds() > self.max_flow_duration \
+                or active_time.total_seconds() > self.activity_timeout \
+                or flow.has_two_FIN_flags() \
+                or flow.has_flagRST():
             return True
         return False
 

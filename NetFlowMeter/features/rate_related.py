@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 
+from ..net_flow_capturer import Flow
 from .feature import Feature
 from . import utils
 
 
 class BytesRate(Feature):
     name = "bytes_rate"
-    def extract(self, flow: object) -> float:
+    def extract(self, flow: Flow) -> float:
         try:
             return utils.calculate_flow_payload_bytes(flow) / utils.calculate_flow_duration(flow)
         except ZeroDivisionError:
@@ -16,7 +17,7 @@ class BytesRate(Feature):
 # TODO: we should calculate the duration for just forward packets, not whole packets
 class FwdBytesRate(Feature):
     name = "fwd_bytes_rate"
-    def extract(self, flow: object) -> float:
+    def extract(self, flow: Flow) -> float:
         try:
             return utils.calculate_fwd_flow_payload_bytes(flow) / utils.calculate_flow_duration(flow)
         except ZeroDivisionError:
@@ -25,7 +26,7 @@ class FwdBytesRate(Feature):
 
 class BwdBytesRate(Feature):
     name = "bwd_bytes_rate"
-    def extract(self, flow: object) -> float:
+    def extract(self, flow: Flow) -> float:
         try:
             return utils.calculate_bwd_flow_payload_bytes(flow) / utils.calculate_flow_duration(flow)
         except ZeroDivisionError:
@@ -34,7 +35,7 @@ class BwdBytesRate(Feature):
 
 class PacketsRate(Feature):
     name = "packets_rate"
-    def extract(self, flow: object) -> float:
+    def extract(self, flow: Flow) -> float:
         try:
             return len(flow.get_packets()) / utils.calculate_flow_duration(flow)
         except ZeroDivisionError:
@@ -43,7 +44,7 @@ class PacketsRate(Feature):
 
 class BwdPacketsRate(Feature):
     name = "bwd_packets_rate"
-    def extract(self, flow: object) -> float:
+    def extract(self, flow: Flow) -> float:
         try:
             return len(flow.get_backwardpackets()) / utils.calculate_flow_duration(flow)
         except ZeroDivisionError:
@@ -52,7 +53,7 @@ class BwdPacketsRate(Feature):
 
 class FwdPacketsRate(Feature):
     name = "fwd_packets_rate"
-    def extract(self, flow: object) -> float:
+    def extract(self, flow: Flow) -> float:
         try:
             return len(flow.get_forwardpackets()) / utils.calculate_flow_duration(flow)
         except ZeroDivisionError:

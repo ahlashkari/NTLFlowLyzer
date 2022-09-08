@@ -21,11 +21,10 @@ class Flow(object):
         self.flow_idle = []
         self.start_active_time = packet.get_timestamp()
         self.end_active_time = packet.get_timestamp()
-        self.flow_id = str(self.src_ip) + "_" + str(self.src_port) + "_" + str(self.dst_ip) + "_" + str(
-            self.dst_port) + "_" + str(self.protocol) + "_" + str(
-            datetime.utcfromtimestamp(float(self.flow_start_time)))
 
-        ###bulk features##
+        self.__number_of_fin_flags = 0
+        self.__has_rst_flag = False
+
         self.fbulkDuration = 0
         self.fbulkPacketCount = 0
         self.fbulkSizeTotal = 0
@@ -42,7 +41,11 @@ class Flow(object):
         self.bbulkStartHelper = 0
         self.bbulkSizeHelper = 0
         self.blastBulkTS = 0
-        ##end bulk features##
+
+    def __str__(self):
+        return str(self.src_ip) + "_" + str(self.src_port) + "_" + str(self.dst_ip) + "_" + str(
+                    self.dst_port) + "_" + str(self.protocol) + "_" + str(
+                    datetime.utcfromtimestamp(float(self.flow_start_time)))
 
     def get_src_ip(self):
         return self.src_ip
@@ -69,21 +72,18 @@ class Flow(object):
         return self.packets[-1].get_timestamp()
 
     def get_forwardpackets(self):
-        return [p for p in self.packets if p.is_forward() == True]
+        return [packet for packet in self.packets if packet.is_forward()]
 
     def get_backwardpackets(self):
-        return [p for p in self.packets if p.is_forward() == False]
-
-    def get_flow_id(self):
-        return self.flow_id
+        return [packet for packet in self.packets if not packet.is_forward()]
 
     def get_timestamp(self) :
-        return self.flow_last_seen
+        return self.flow_start_time
 
     def total_packets_payloadbytes(self):
         sum_payloads=0
         for packet in self.packets:
-            sum_payloads+= packet.get_payloadbytes()
+            sum_payloads += packet.get_payloadbytes()
         return sum_payloads
 
     def update_subflow(self, packet_time):
@@ -96,7 +96,7 @@ class Flow(object):
     def get_subflow_count(self):
         return self.sfcount
 
-    def updateFlowBulk(self, packet):  #####
+    def updateFlowBulk(self, packet):
         if packet.is_forward():
             self.updateForwardBulk(packet, self.blastBulkTS)
         else:
@@ -114,7 +114,7 @@ class Flow(object):
             self.fbulkPacketCountHelper = 1
             self.fbulkSizeHelper = size
             self.flastBulkTS = packet.get_timestamp()
-        ##possible bulk
+        # Possible bulk
         else:
             if (packet.get_timestamp() - self.flastBulkTS) > 1:
                 self.fbulkStartHelper = packet.get_timestamp()
@@ -149,14 +149,14 @@ class Flow(object):
             self.bbulkPacketCountHelper = 1
             self.bbulkSizeHelper = size
             self.blastBulkTS = packet.get_timestamp()
-        ##possible bulk
+        # Possible bulk
         else:
             if (packet.get_timestamp() - self.flastBulkTS) > 1:
                 self.bbulkStartHelper = packet.get_timestamp()
                 self.bblastBulkTS = packet.get_timestamp()
                 self.bbulkPacketCountHelper = 1
                 self.bbulkSizeHelper = size
-            else:  # Add to bulk
+            else: # Add to bulk
                 self.bbulkPacketCountHelper += 1
                 self.bbulkSizeHelper += size
                 # New bulk
@@ -217,3 +217,16 @@ class Flow(object):
         self.update_active_idle_time(time)
         self.update_subflow(time)
         self.updateFlowBulk(packet)
+
+        if packet.has_flagFIN():
+            self.__number_of_fin_flags += 1
+        if packet.has_flagRST():
+            self.__has_rst_flag = True
+
+    def has_two_FIN_flags(self):
+        if self.__number_of_fin_flags >= 2:
+            return True
+        return False
+
+    def has_flagRST(self):
+        return self.__has_rst_flag

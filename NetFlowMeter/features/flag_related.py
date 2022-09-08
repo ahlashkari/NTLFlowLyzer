@@ -1,9 +1,12 @@
+#!/usr/bin/env python3
+
+from ..net_flow_capturer import Flow
 from .feature import Feature
 
 
 class FINFlagCounts(Feature):
     name = "fin_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_packets():
             if packet.has_flagFIN():
@@ -13,7 +16,7 @@ class FINFlagCounts(Feature):
 
 class PSHFlagCounts(Feature):
     name = "psh_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_packets():
             if packet.has_flagPSH():
@@ -23,7 +26,7 @@ class PSHFlagCounts(Feature):
 
 class URGFlagCounts(Feature):
     name = "urg_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_packets():
             if packet.has_flagURG():
@@ -33,7 +36,7 @@ class URGFlagCounts(Feature):
 
 class ECEFlagCounts(Feature):
     name = "ece_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_packets():
             if packet.has_flagECE():
@@ -43,7 +46,7 @@ class ECEFlagCounts(Feature):
 
 class SYNFlagCounts(Feature):
     name = "syn_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_packets():
             if packet.has_flagSYN():
@@ -53,7 +56,7 @@ class SYNFlagCounts(Feature):
 
 class ACKFlagCounts(Feature):
     name = "ack_flag_counts"
-    def extract(self, flow:object) -> dict:
+    def extract(self, flow:object) -> int:
         counts = 0
         for packet in flow.get_packets():
             if packet.has_flagACK():
@@ -63,7 +66,7 @@ class ACKFlagCounts(Feature):
 
 class CWRFlagCounts(Feature):
     name = "cwr_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_packets():
             if packet.has_flagCWR():
@@ -73,7 +76,7 @@ class CWRFlagCounts(Feature):
 
 class RSTFlagCounts(Feature):
     name = "rst_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_packets():
             if packet.has_flagRST():
@@ -83,7 +86,7 @@ class RSTFlagCounts(Feature):
 
 class FwdFINFlagCounts(Feature):
     name = "fwd_fin_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_forwardpackets():
             if packet.has_flagFIN():
@@ -93,7 +96,7 @@ class FwdFINFlagCounts(Feature):
 
 class FwdPSHFlagCounts(Feature):
     name = "fwd_psh_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_forwardpackets():
             if packet.has_flagPSH():
@@ -103,7 +106,7 @@ class FwdPSHFlagCounts(Feature):
 
 class FwdURGFlagCounts(Feature):
     name = "fwd_urg_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_forwardpackets():
             if packet.has_flagURG():
@@ -113,7 +116,7 @@ class FwdURGFlagCounts(Feature):
 
 class FwdECEFlagCounts(Feature):
     name = "fwd_ece_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_forwardpackets():
             if packet.has_flagECE():
@@ -123,7 +126,7 @@ class FwdECEFlagCounts(Feature):
 
 class FwdSYNFlagCounts(Feature):
     name = "fwd_syn_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_forwardpackets():
             if packet.has_flagSYN():
@@ -133,7 +136,7 @@ class FwdSYNFlagCounts(Feature):
 
 class FwdACKFlagCounts(Feature):
     name = "fwd_ack_flag_counts"
-    def extract(self, flow:object) -> dict:
+    def extract(self, flow:object) -> int:
         counts = 0
         for packet in flow.get_forwardpackets():
             if packet.has_flagACK():
@@ -143,7 +146,7 @@ class FwdACKFlagCounts(Feature):
 
 class FwdCWRFlagCounts(Feature):
     name = "fwd_cwr_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_forwardpackets():
             if packet.has_flagCWR():
@@ -153,7 +156,7 @@ class FwdCWRFlagCounts(Feature):
 
 class FwdRSTFlagCounts(Feature):
     name = "fwd_rst_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_forwardpackets():
             if packet.has_flagRST():
@@ -163,7 +166,7 @@ class FwdRSTFlagCounts(Feature):
 
 class BwdFINFlagCounts(Feature):
     name = "bwd_fin_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_backwardpackets():
             if packet.has_flagFIN():
@@ -173,7 +176,7 @@ class BwdFINFlagCounts(Feature):
 
 class BwdPSHFlagCounts(Feature):
     name = "bwd_psh_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_backwardpackets():
             if packet.has_flagPSH():
@@ -183,7 +186,7 @@ class BwdPSHFlagCounts(Feature):
 
 class BwdURGFlagCounts(Feature):
     name = "bwd_urg_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_backwardpackets():
             if packet.has_flagURG():
@@ -193,7 +196,7 @@ class BwdURGFlagCounts(Feature):
 
 class BwdECEFlagCounts(Feature):
     name = "bwd_ece_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_backwardpackets():
             if packet.has_flagECE():
@@ -203,7 +206,7 @@ class BwdECEFlagCounts(Feature):
 
 class BwdSYNFlagCounts(Feature):
     name = "bwd_syn_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_backwardpackets():
             if packet.has_flagSYN():
@@ -213,7 +216,7 @@ class BwdSYNFlagCounts(Feature):
 
 class BwdACKFlagCounts(Feature):
     name = "bwd_ack_flag_counts"
-    def extract(self, flow:object) -> dict:
+    def extract(self, flow:object) -> int:
         counts = 0
         for packet in flow.get_backwardpackets():
             if packet.has_flagACK():
@@ -223,7 +226,7 @@ class BwdACKFlagCounts(Feature):
 
 class BwdCWRFlagCounts(Feature):
     name = "bwd_cwr_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_backwardpackets():
             if packet.has_flagCWR():
@@ -233,7 +236,7 @@ class BwdCWRFlagCounts(Feature):
 
 class BwdRSTFlagCounts(Feature):
     name = "bwd_rst_flag_counts"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> int:
         counts = 0
         for packet in flow.get_backwardpackets():
             if packet.has_flagRST():

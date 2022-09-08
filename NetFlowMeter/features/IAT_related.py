@@ -1,30 +1,32 @@
-import numpy as np
+#!/usr/bin/env python3
 
+import statistics
 from .feature import Feature
+from ..net_flow_capturer import Flow
 from . import utils
 
 
 class IAT(Feature):
     name = "IAT"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> float:
         return utils.calculate_IAT(flow.get_packets())
 
 
 class PacketsIATMean(Feature):
     name = "packets_IAT_mean"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> float:
         times = utils.calculate_IAT(flow.get_packets())
         if times:
-            return np.mean(times)
+            return format(statistics.mean(times), self.floating_point_unit)
         return 0
 
 
 class PacketsIATStd(Feature):
-    name = "packet_IAT_Std"
-    def extract(self, flow: object) -> dict:
+    name = "packet_IAT_std"
+    def extract(self, flow: Flow) -> float:
         times = utils.calculate_IAT(flow.get_packets())
         try:
-            return np.std(times)
+            return format(statistics.pstdev(times), self.floating_point_unit)
         except RuntimeWarning:
             return 0
         except ZeroDivisionError:
@@ -35,7 +37,7 @@ class PacketsIATStd(Feature):
 
 class PacketsIATMax(Feature):
     name = "packet_IAT_max"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> float:
         times = utils.calculate_IAT(flow.get_packets())
         if times:
             return max(times)
@@ -44,7 +46,7 @@ class PacketsIATMax(Feature):
 
 class PacketsIATMin(Feature):
     name = "packet_IAT_min"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> float:
         times = utils.calculate_IAT(flow.get_packets())
         if times:
             return min(times)
@@ -52,8 +54,8 @@ class PacketsIATMin(Feature):
 
 
 class PacketsIATSum(Feature):
-    name = "packet_IAT_Total"
-    def extract(self, flow: object) -> dict:
+    name = "packet_IAT_total"
+    def extract(self, flow: Flow) -> float:
         times = utils.calculate_IAT(flow.get_packets())
         if times:
             return sum(times)
@@ -62,25 +64,25 @@ class PacketsIATSum(Feature):
 
 class FwdIAT(Feature):
     name = "fwd_IAT"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> float:
         return utils.calculate_IAT(flow.get_forwardpackets())
 
 
 class FwdPacketsIATMean(Feature):
     name = "fwd_packets_IAT_mean"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> float:
         times = utils.calculate_IAT(flow.get_forwardpackets())
         if times:
-            return np.mean(times)
+            return format(statistics.mean(times), self.floating_point_unit)
         return 0
 
 
 class FwdPacketsIATStd(Feature):
-    name = "fwd_packets_IAT_Std"
-    def extract(self, flow: object) -> dict:
+    name = "fwd_packets_IAT_std"
+    def extract(self, flow: Flow) -> float:
         times = utils.calculate_IAT(flow.get_forwardpackets())
         try:
-            return np.std(times)
+            return format(statistics.pstdev(times), self.floating_point_unit)
         except RuntimeWarning:
             return 0
         except ZeroDivisionError:
@@ -91,7 +93,7 @@ class FwdPacketsIATStd(Feature):
 
 class FwdPacketsIATMax(Feature):
     name = "fwd_packets_IAT_max"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> float:
         times = utils.calculate_IAT(flow.get_forwardpackets())
         if times:
             return max(times)
@@ -100,7 +102,7 @@ class FwdPacketsIATMax(Feature):
 
 class FwdPacketsIATMin(Feature):
     name = "fwd_packets_IAT_min"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> float:
         times = utils.calculate_IAT(flow.get_forwardpackets())
         if times:
             return min(times)
@@ -108,8 +110,8 @@ class FwdPacketsIATMin(Feature):
 
 
 class FwdPacketsIATSum(Feature):
-    name = "fwd_packets_IAT_Total"
-    def extract(self, flow: object) -> dict:
+    name = "fwd_packets_IAT_total"
+    def extract(self, flow: Flow) -> float:
         times = utils.calculate_IAT(flow.get_forwardpackets())
         if times:
             return sum(times)
@@ -118,25 +120,25 @@ class FwdPacketsIATSum(Feature):
 
 class BwdIAT(Feature):
     name = "bwd_IAT"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> float:
         return utils.calculate_IAT(flow.get_backwardpackets())
 
 
 class BwdPacketsIATMean(Feature):
     name = "bwd_packets_IAT_mean"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> float:
         times = utils.calculate_IAT(flow.get_backwardpackets())
         if times:
-            return np.mean(times)
+            return format(statistics.mean(times), self.floating_point_unit)
         return 0
 
 
 class BwdPacketsIATStd(Feature):
-    name = "bwd_packets_IAT_Std"
-    def extract(self, flow: object) -> dict:
+    name = "bwd_packets_IAT_std"
+    def extract(self, flow: Flow) -> float:
         times = utils.calculate_IAT(flow.get_backwardpackets())
         try:
-            return np.std(times)
+            return format(statistics.pstdev(times), self.floating_point_unit)
         except RuntimeWarning:
             return 0
         except ZeroDivisionError:
@@ -147,7 +149,7 @@ class BwdPacketsIATStd(Feature):
 
 class BwdPacketsIATMax(Feature):
     name = "bwd_packets_IAT_max"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> float:
         times = utils.calculate_IAT(flow.get_backwardpackets())
         if times:
             return max(times)
@@ -156,7 +158,7 @@ class BwdPacketsIATMax(Feature):
 
 class BwdPacketsIATMin(Feature):
     name = "bwd_packets_IAT_min"
-    def extract(self, flow: object) -> dict:
+    def extract(self, flow: Flow) -> float:
         times = utils.calculate_IAT(flow.get_backwardpackets())
         if times:
             return min(times)
@@ -164,8 +166,8 @@ class BwdPacketsIATMin(Feature):
 
 
 class BwdPacketsIATSum(Feature):
-    name = "bwd_packets_IAT_Total"
-    def extract(self, flow: object) -> dict:
+    name = "bwd_packets_IAT_total"
+    def extract(self, flow: Flow) -> float:
         times = utils.calculate_IAT(flow.get_backwardpackets())
         if times:
             return sum(times)

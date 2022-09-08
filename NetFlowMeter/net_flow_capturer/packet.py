@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 
-from datetime import datetime
 from scapy.all import *
 
 
 class Packet():
-    def __init__(self, src_ip=0, src_port=0, dst_ip=" ", dst_port=0, protocol=0, flags="",
-            timestamp=0, forward=True, length=0,payloadbytes=0):
+    def __init__(self, src_ip=0, src_port=0, dst_ip="", dst_port=0, protocol=0, flags=[],
+            timestamp=0, forward=True, length=0, payloadbytes=0):
         self.src_ip = src_ip
         self.src_port = src_port
         self.dst_ip = dst_ip
@@ -17,7 +16,6 @@ class Packet():
         self.forward = forward
         self.length = length
         self.payloadbytes=payloadbytes
-        # self.payloadPacket =payloadPacket  ##bulk #newly added
 
     def get_src_ip(self):
         return self.src_ip
