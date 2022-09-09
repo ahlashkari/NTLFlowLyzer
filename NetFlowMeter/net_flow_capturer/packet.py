@@ -10,7 +10,7 @@ class Packet():
         self.src_port = src_port
         self.dst_ip = dst_ip
         self.dst_port = dst_port
-        self.protocol = protocol
+        self.protocol = "TCP" if protocol == 6 else "UDP"
         self.flags = flags
         self.timestamp = timestamp
         self.forward = forward

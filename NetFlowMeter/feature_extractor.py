@@ -9,6 +9,10 @@ class FeatureExtractor(object):
         self.__flows = flows
         self.floating_point_unit = floating_point_unit
         self.__features = [
+                Duration(),
+                PacketsCount(),
+                FwdPacketsCount(),
+                BwdPacketsCount(),
                 TotalPayloadBytes(),
                 FwdTotalPayloadBytes(),
                 BwdTotalPayloadBytes(),
@@ -27,10 +31,6 @@ class FeatureExtractor(object):
                 FwdAvgSegmentSize(),
                 BwdAvgSegmentSize(),
                 AvgSegmentSize(),
-                PacketsCount(),
-                FwdPacketsCount(),
-                BwdPacketsCount(),
-                Duration(),
                 ActiveMin(),
                 ActiveMax(),
                 ActiveMean(),
