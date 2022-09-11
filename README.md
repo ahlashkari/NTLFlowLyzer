@@ -73,7 +73,7 @@ TODO: explain how to use the config file.
 
 # Extracted Features
                 
-We have currenlty 80 features that are as follows:
+We have currenlty 114 features that are as follows:
 
 1. Duration
 1. PacketsCount
