@@ -275,5 +275,5 @@ For citation in your works and also understanding DoHLyzer completely, you can f
 
 # Acknowledgement 
 
-This project has been made possible through funding from the [**NSERC - DISCOVERY**](https://www.nserc-crsng.gc.ca/professors-professeurs/grants-subs/dgigp-psigp_eng.asp). 
+This project has been made possible through the [**NSERC - DISCOVERY**](https://www.nserc-crsng.gc.ca/professors-professeurs/grants-subs/dgigp-psigp_eng.asp) grant. 
 
