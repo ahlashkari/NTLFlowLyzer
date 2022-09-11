@@ -104,7 +104,7 @@ class FwdPayloadBytesStd(Feature):
 
 
 class FwdPayloadBytesVariance(Feature):
-    name = "payload_bytes_variance"
+    name = "fwd_payload_bytes_variance"
     def extract(self, flow: Flow) -> float:
         packets_len = [packet.get_payloadbytes() for packet in flow.get_forwardpackets()]
         if len(packets_len) > 0:
@@ -269,13 +269,13 @@ class FwdStdHeaderBytes(Feature):
 
 
 class BwdTotalHeaderBytes(Feature):
-    name = "fwd_total_header_bytes"
+    name = "bwd_total_header_bytes"
     def extract(self, flow: Flow) -> int:
         return utils.calculate_flow_header_bytes(flow.get_backwardpackets())
 
 
 class BwdMaxHeaderBytes(Feature):
-    name = "fwd_max_header_bytes"
+    name = "bwd_max_header_bytes"
     def extract(self, flow: Flow) -> int:
         packets_header_len = [packet.get_header_size() for packet in flow.get_backwardpackets()]
         if packets_header_len:
@@ -284,7 +284,7 @@ class BwdMaxHeaderBytes(Feature):
 
 
 class BwdMinHeaderBytes(Feature):
-    name = "fwd_min_header_bytes"
+    name = "bwd_min_header_bytes"
     def extract(self, flow: Flow) -> int:
         packets_header_len = [packet.get_header_size() for packet in flow.get_backwardpackets()]
         if packets_header_len:
@@ -293,7 +293,7 @@ class BwdMinHeaderBytes(Feature):
 
 
 class BwdMeanHeaderBytes(Feature):
-    name = "fwd_mean_header_bytes"
+    name = "bwd_mean_header_bytes"
     def extract(self, flow: Flow) -> int:
         packets_header_len = [packet.get_header_size() for packet in flow.get_backwardpackets()]
         if packets_header_len:
@@ -302,7 +302,7 @@ class BwdMeanHeaderBytes(Feature):
 
 
 class BwdStdHeaderBytes(Feature):
-    name = "fwd_std_header_bytes"
+    name = "bwd_std_header_bytes"
     def extract(self, flow: Flow) -> int:
         packets_header_len = [packet.get_header_size() for packet in flow.get_backwardpackets()]
         if packets_header_len:
