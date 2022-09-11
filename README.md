@@ -76,85 +76,119 @@ TODO: explain how to use the config file.
 We have currenlty 80 features that are as follows:
 
 1. Duration
-1. Packets Count
-1. Forward Packets Count
-1. Backward Packets Count
-1. Total Payload Bytes
-1. Forward Total Payload Bytes
-1. Backward Total Payload Bytes
-1. Payload Bytes Max
-1. Payload Bytes Min
-1. Payload Bytes Mean
-1. Payload Bytes Std
-1. Forward Payload Bytes Max
-1. Forward Payload Bytes Min
-1. Forward Payload Bytes Mean
-1. Forward Payload Bytes Std
-1. Backward Payload Bytes Max
-1. Backward Payload Bytes Min
-1. Backward Payload Bytes Mean
-1. Backward Payload Bytes Std
-1. Forward Avg Segment Size
-1. Backward Avg Segment Size
-1. Avg SegmentSize
-1. Active Min
-1. Active Max
-1. Active Mean
-1. Active Std
-1. Idle Min
-1. Idle Max
-1. Idle Mean
-1. Idle Std
-1. Bytes Rate
-1. Forward Bytes Rate
-1. Backward Bytes Rate
-1. Packets Rate
-1. Backward Packets Rate
-1. Forward Packets Rate
-1. Avg Forward Bytes Per Bulk
-1. Avg Forward Packets Per Bulk
-1. Avg Forward Bulk Rate
-1. Avg Backward Bytes Per Bulk
-1. Avg Backward Packets Per Bulk
-1. Avg Backward Bulk Rate
-1. Forward Bulk State Count
-1. Forward Bulk Size Total
-1. Forward Bulk Packet Count
-1. Forward Bulk Duration
-1. Backward Bulk State Count
-1. Backward Bulk Size Total
-1. Backward Bulk Packet Count
-1. Backward Bulk Duration
-1. FIN Flag Counts
-1. PSH Flag Counts
-1. URG Flag Counts
-1. ECE Flag Counts
-1. SYN Flag Counts
-1. ACK Flag Counts
-1. CWR Flag Counts
-1. RST Flag Counts
-1. IAT
-1. Packets IAT Mean
-1. Packets IAT Std
-1. Packets IAT Max
-1. Packets IAT Min
-1. Packets IAT Sum
-1. ForwardIAT
-1. Forward Packets IATMean
-1. Forward Packets IATStd
-1. Forward Packets IATMax
-1. Forward Packets IATMin
-1. Forward Packets IATSum
-1. Backward IAT
-1. Backward Packets IATMean
-1. Backward Packets IATStd
-1. Backward Packets IATMax
-1. Backward Packets IATMin
-1. Backward Packets IATSum
-1. Subflow Forward Packets
-1. Subflow Backward Packets
-1. Subflow Forward Bytes
-1. Subflow Backward Bytes
+1. PacketsCount
+1. FwdPacketsCount
+1. BwdPacketsCount
+1. TotalPayloadBytes
+1. FwdTotalPayloadBytes
+1. BwdTotalPayloadBytes
+1. PayloadBytesMax
+1. PayloadBytesMin
+1. PayloadBytesMean
+1. PayloadBytesStd
+1. PayloadBytesVariance
+1. FwdPayloadBytesMax
+1. FwdPayloadBytesMin
+1. FwdPayloadBytesMean
+1. FwdPayloadBytesStd
+1. FwdPayloadBytesVariance
+1. BwdPayloadBytesMax
+1. BwdPayloadBytesMin
+1. BwdPayloadBytesMean
+1. BwdPayloadBytesStd
+1. BwdPayloadBytesVariance
+1. TotalHeaderBytes
+1. MaxHeaderBytes
+1. MinHeaderBytes
+1. MeanHeaderBytes
+1. StdHeaderBytes
+1. FwdTotalHeaderBytes
+1. FwdMaxHeaderBytes
+1. FwdMinHeaderBytes
+1. FwdMeanHeaderBytes
+1. FwdStdHeaderBytes
+1. BwdTotalHeaderBytes
+1. BwdMaxHeaderBytes
+1. BwdMinHeaderBytes
+1. BwdMeanHeaderBytes
+1. BwdStdHeaderBytes
+1. FwdAvgSegmentSize
+1. BwdAvgSegmentSize
+1. AvgSegmentSize
+1. FwdInitWinBytes
+1. BwdInitWinBytes
+1. ActiveMin
+1. ActiveMax
+1. ActiveMean
+1. ActiveStd
+1. IdleMin
+1. IdleMax
+1. IdleMean
+1. IdleStd
+1. BytesRate
+1. FwdBytesRate
+1. BwdBytesRate
+1. PacketsRate
+1. BwdPacketsRate
+1. FwdPacketsRate
+1. DownUpRate
+1. AvgFwdBytesPerBulk
+1. AvgFwdPacketsPerBulk
+1. AvgFwdBulkRate
+1. AvgBwdBytesPerBulk
+1. AvgBwdPacketsPerBulk
+1. AvgBwdBulkRate
+1. FwdBulkStateCount
+1. FwdBulkSizeTotal
+1. FwdBulkPacketCount
+1. FwdBulkDuration
+1. BwdBulkStateCount
+1. BwdBulkSizeTotal
+1. BwdBulkPacketCount
+1. BwdBulkDuration
+1. FINFlagCounts
+1. PSHFlagCounts
+1. URGFlagCounts
+1. ECEFlagCounts
+1. SYNFlagCounts
+1. ACKFlagCounts
+1. CWRFlagCounts
+1. RSTFlagCounts
+1. FwdFINFlagCounts
+1. FwdPSHFlagCounts
+1. FwdURGFlagCounts
+1. FwdECEFlagCounts
+1. FwdSYNFlagCounts
+1. FwdACKFlagCounts
+1. FwdCWRFlagCounts
+1. FwdRSTFlagCounts
+1. BwdFINFlagCounts
+1. BwdPSHFlagCounts
+1. BwdURGFlagCounts
+1. BwdECEFlagCounts
+1. BwdSYNFlagCounts
+1. BwdACKFlagCounts
+1. BwdCWRFlagCounts
+1. BwdRSTFlagCounts
+1. PacketsIATMean
+1. PacketsIATStd
+1. PacketsIATMax
+1. PacketsIATMin
+1. PacketsIATSum
+1. FwdPacketsIATMean
+1. FwdPacketsIATStd
+1. FwdPacketsIATMax
+1. FwdPacketsIATMin
+1. FwdPacketsIATSum
+1. BwdPacketsIATMean
+1. BwdPacketsIATStd
+1. BwdPacketsIATMax
+1. BwdPacketsIATMin
+1. BwdPacketsIATSum
+1. SubflowFwdPackets
+1. SubflowBwdPackets
+1. SubflowFwdBytes
+1. SubflowBwdBytes
 
 
 TODO: complete the definitions

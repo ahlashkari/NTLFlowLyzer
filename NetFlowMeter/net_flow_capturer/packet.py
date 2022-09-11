@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
-from scapy.all import *
-
 
 class Packet():
     def __init__(self, src_ip=0, src_port=0, dst_ip="", dst_port=0, protocol=0, flags=[],
-            timestamp=0, forward=True, length=0, payloadbytes=0):
+            timestamp=0, forward=True, length=0, payloadbytes=0, header_size=0,
+            window_size=0):
         self.src_ip = src_ip
         self.src_port = src_port
         self.dst_ip = dst_ip
@@ -15,7 +14,9 @@ class Packet():
         self.timestamp = timestamp
         self.forward = forward
         self.length = length
-        self.payloadbytes=payloadbytes
+        self.payloadbytes = payloadbytes
+        self.header_size = header_size
+        self.window_size = window_size
 
     def get_src_ip(self):
         return self.src_ip
@@ -67,3 +68,9 @@ class Packet():
 
     def get_payloadbytes(self):
         return self.payloadbytes
+
+    def get_header_size(self):
+        return self.header_size
+
+    def get_window_size(self):
+        return self.window_size

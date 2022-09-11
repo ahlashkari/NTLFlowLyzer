@@ -1,5 +1,5 @@
 {
-    "pcap_file_address": "./test.pcap",
+    "pcap_file_address": "../AppFlowMeter/pcaps/test/moein.pcap",
     "output_file_address": "./output.csv",
     "interface_name": "eth0",
     "max_flow_duration": 120000,

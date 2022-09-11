@@ -6,12 +6,6 @@ from ..net_flow_capturer import Flow
 from . import utils
 
 
-class IAT(Feature):
-    name = "IAT"
-    def extract(self, flow: Flow) -> float:
-        return utils.calculate_IAT(flow.get_packets())
-
-
 class PacketsIATMean(Feature):
     name = "packets_IAT_mean"
     def extract(self, flow: Flow) -> float:
@@ -62,12 +56,6 @@ class PacketsIATSum(Feature):
         return 0
 
 
-class FwdIAT(Feature):
-    name = "fwd_IAT"
-    def extract(self, flow: Flow) -> float:
-        return utils.calculate_IAT(flow.get_forwardpackets())
-
-
 class FwdPacketsIATMean(Feature):
     name = "fwd_packets_IAT_mean"
     def extract(self, flow: Flow) -> float:
@@ -116,12 +104,6 @@ class FwdPacketsIATSum(Feature):
         if times:
             return sum(times)
         return 0
-
-
-class BwdIAT(Feature):
-    name = "bwd_IAT"
-    def extract(self, flow: Flow) -> float:
-        return utils.calculate_IAT(flow.get_backwardpackets())
 
 
 class BwdPacketsIATMean(Feature):

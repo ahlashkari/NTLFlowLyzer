@@ -23,17 +23,21 @@ class NetFlowCapturer:
         if IP not in scapy_packet:
             return
         if TCP in scapy_packet:
+            header_size = len(scapy_packet[TCP]) - len(scapy_packet[TCP].payload)
             packet = Packet(src_ip=scapy_packet[IP].src, src_port=scapy_packet[TCP].sport,
                             dst_ip=scapy_packet[IP].dst, dst_port=scapy_packet[TCP].dport,
                             protocol=scapy_packet[IP].proto, flags=scapy_packet[TCP].flags,
                             timestamp=scapy_packet.time, length=len(scapy_packet),
-                            payloadbytes=len(scapy_packet[TCP].payload))
+                            payloadbytes=len(scapy_packet[TCP].payload), header_size=header_size,
+                            window_size = scapy_packet[TCP].window)
             self.__add_packet_to_flow(packet)
         if UDP in scapy_packet:
+            header_size = len(scapy_packet[UDP]) - len(scapy_packet[UDP].payload)
             packet = Packet(src_ip=scapy_packet[IP].src, src_port=scapy_packet[UDP].sport,
                             dst_ip=scapy_packet[IP].dst, dst_port=scapy_packet[UDP].dport,
                             protocol=scapy_packet[IP].proto, timestamp=scapy_packet.time,
-                            length=len(scapy_packet), payloadbytes=len(scapy_packet[UDP].payload))
+                            length=len(scapy_packet), payloadbytes=len(scapy_packet[UDP].payload),
+                            header_size=header_size)
             self.__add_packet_to_flow(packet)
     
     def __add_packet_to_flow(self, packet):

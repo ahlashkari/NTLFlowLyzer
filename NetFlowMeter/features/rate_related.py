@@ -58,3 +58,11 @@ class FwdPacketsRate(Feature):
             return len(flow.get_forwardpackets()) / utils.calculate_flow_duration(flow)
         except ZeroDivisionError:
             return 0
+
+
+class DownUpRate(Feature):
+    name = "down_up_rate"
+    def extract(self, flow: Flow) -> float:
+        if len(flow.get_forwardpackets()) > 0:
+            return len(flow.get_backwardpackets()) / len(flow.get_forwardpackets())
+        return 0

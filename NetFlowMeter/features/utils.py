@@ -29,3 +29,9 @@ def calculate_IAT(packets: list):
 
 def calculate_flow_duration(flow: Flow):
     return float(flow.get_flow_last_seen() - flow.get_flow_start_time())
+
+def calculate_flow_header_bytes(packets: list):
+    header_size = 0
+    for packet in packets:
+        header_size += packet.get_header_size()
+    return header_size
