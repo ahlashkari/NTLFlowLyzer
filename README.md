@@ -255,7 +255,7 @@ The project is not currently in development but any contribution is welcome in f
 
 # Project Team members 
 
-* [**Arash Habibi Lashkari:**](http://ahlashkari.com/index.asp) Founder and supervisor
+* [**Arash Habibi Lashkari:**](https://github.com/ahlashkari) Founder and supervisor
 
 * [**Moein Shafi:**](https://github.com/moein-shafi) Researcher and developer - Graduate Student - York University
 
