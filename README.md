@@ -5,24 +5,6 @@ TODO: update these values:
 A Python open-source project to extract features from network traffic flow. 
 
 
-## Project Team members 
-
-* [**Arash Habibi Lashkari:**](http://ahlashkari.com/index.asp) Founder and supervisor
-
-* [**Moein Shafi:**](https://github.com/moein-shafi) Researcher and developer - York University
-
-* [**Sepideh Niktabe:**](https://github.com/sepideh2020) Researcher and developer - York University
-
-* [**Mehrsa Khoshpasand:**](https://github.com/Khoshpasand-mehrsa) Researcher and developer - York University
-
-* [**Parisa Ghanad:**](https://github.com/parishisit) Researcher and developer - Amirkabir University
-
-
-### Acknowledgement 
-
-This project has been made possible through funding from the [**Mitacs Global Research Internship**](https://www.mitacs.ca/en/programs/globalink/globalink-research-internship). 
-
-
 
 # Table of Contents
 
@@ -32,8 +14,10 @@ This project has been made possible through funding from the [**Mitacs Global Re
   * [Definitions](#definitions)
   * [Statistical Information Calculation](#statistical-information-calculation)
 - [Output](#output)
-- [Development](#development)
-
+- [Contributing](#Contributing)
+- [Project Team Members](#Team Members)
+- [Copyright (c) 2022](#Copyright (c) 2022)
+- [Acknowledgment](#Acknowledgment)
 
 # Installation
 
@@ -264,8 +248,32 @@ TODO: put more examples here
 
 ----
 
-TODO: complete this part
-# Development
 
-Talk about how other people can improve the NetFlowMeter and adding new features.
+# Contributing
+
+The project is not currently in development but any contribution is welcome in form of pull requests.
+
+# Project Team members 
+
+* [**Arash Habibi Lashkari:**](http://ahlashkari.com/index.asp) Founder and supervisor
+
+* [**Moein Shafi:**](https://github.com/moein-shafi) Researcher and developer - Graduate Student - York University
+
+* [**Sepideh Niktabe:**](https://github.com/sepideh2020) Researcher and developer - Graduate Student - York University
+
+* [**Mehrsa Khoshpasand:**](https://github.com/Khoshpasand-mehrsa) Researcher and developer - Undergraduate Student - York University
+
+* [**Parisa Ghanad:**](https://github.com/parishisit) Researcher and developer - Invited Researcher - Amirkabir University
+
+
+# Copyright (c) 2022
+
+For citation in your works and also understanding DoHLyzer completely, you can find below published paper:
+
+"??????????", ????????, 2022 2020
+
+
+# Acknowledgement 
+
+This project has been made possible through funding from the [**NSERC - DISCOVERY**](https://www.nserc-crsng.gc.ca/professors-professeurs/grants-subs/dgigp-psigp_eng.asp). 
 
