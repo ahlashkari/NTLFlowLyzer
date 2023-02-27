@@ -1,28 +1,31 @@
 #!/usr/bin/env python3
 
+import datetime
 from datetime import datetime
+from .packet import Packet
 
 
-class Flow(object):
-    
-    def __init__(self,packet):
+class Flow(object):    
+    def __init__(self, packet, activity_timeout):
         self.src_ip = packet.get_src_ip()
         self.dst_ip = packet.get_dst_ip()
         self.src_port = packet.get_src_port()
         self.dst_port = packet.get_dst_port()
         self.protocol = packet.get_protocol()
-        self.first_packet = packet  # will we need it?
-        self.flow_start_time = packet.get_timestamp()
-        self.flow_last_seen = packet.get_timestamp()
+        self.__activity_timeout = activity_timeout
+        self.flow_start_time = float(packet.get_timestamp())
+        self.flow_last_seen = float(packet.get_timestamp())
         self.packets = []
         self.sflastts = -1
         self.sfcount = 0
         self.flow_active = []
         self.flow_idle = []
-        self.start_active_time = packet.get_timestamp()
-        self.end_active_time = packet.get_timestamp()
+        self.start_active_time = float(packet.get_timestamp())
+        self.end_active_time = float(packet.get_timestamp())
 
-        self.__number_of_fin_flags = 0
+        self.__number_of_fwd_fin_flags = 0
+        self.__number_of_bwd_fin_flags = 0
+
         self.__has_rst_flag = False
 
         self.fbulkDuration = 0
@@ -43,9 +46,8 @@ class Flow(object):
         self.blastBulkTS = 0
 
     def __str__(self):
-        return str(self.src_ip) + "_" + str(self.src_port) + "_" + str(self.dst_ip) + "_" + str(
-                    self.dst_port) + "_" + str(self.protocol) + "_" + str(
-                    datetime.utcfromtimestamp(float(self.flow_start_time)))
+        return "_".join([str(datetime.fromtimestamp(float(self.flow_start_time))), str(self.src_ip),
+                str(self.src_port), str(self.dst_ip), str(self.src_port), str(self.protocol)])
 
     def get_src_ip(self):
         return self.src_ip
@@ -110,15 +112,15 @@ class Flow(object):
             return
 
         if self.fbulkStartHelper == 0:
-            self.fbulkStartHelper = packet.get_timestamp()
+            self.fbulkStartHelper = float(packet.get_timestamp())
             self.fbulkPacketCountHelper = 1
             self.fbulkSizeHelper = size
-            self.flastBulkTS = packet.get_timestamp()
+            self.flastBulkTS = float(packet.get_timestamp())
         # Possible bulk
         else:
-            if (packet.get_timestamp() - self.flastBulkTS) > 1:
-                self.fbulkStartHelper = packet.get_timestamp()
-                self.flastBulkTS = packet.get_timestamp()
+            if (float(packet.get_timestamp()) - self.flastBulkTS) > 1:
+                self.fbulkStartHelper = float(packet.get_timestamp())
+                self.flastBulkTS = float(packet.get_timestamp())
                 self.fbulkPacketCountHelper = 1
                 self.fbulkSizeHelper = size
             else:  # Add to bulk
@@ -129,13 +131,13 @@ class Flow(object):
                     self.fbulkStateCount += 1
                     self.fbulkPacketCount += self.fbulkPacketCountHelper
                     self.fbulkSizeTotal += self.fbulkSizeHelper
-                    self.fbulkDuration += packet.get_timestamp()- self.fbulkStartHelper
+                    self.fbulkDuration += float(packet.get_timestamp())- self.fbulkStartHelper
                 else:
                     if self.fbulkPacketCountHelper > 4:
                         self.fbulkPacketCount += 1
                         self.fbulkSizeTotal += size
-                        self.fbulkDuration += packet.get_timestamp() - self.flastBulkTS
-                self.flastBulkTS = packet.get_timestamp()
+                        self.fbulkDuration += float(packet.get_timestamp()) - self.flastBulkTS
+                self.flastBulkTS = float(packet.get_timestamp())
 
     def updateBackwardBulk(self, packet, tsOflastBulkInOther):
         size = packet.get_payloadbytes()
@@ -145,15 +147,15 @@ class Flow(object):
             return
 
         if self.bbulkStartHelper == 0:
-            self.bbulkStartHelper = packet.get_timestamp()
+            self.bbulkStartHelper = float(packet.get_timestamp())
             self.bbulkPacketCountHelper = 1
             self.bbulkSizeHelper = size
-            self.blastBulkTS = packet.get_timestamp()
+            self.blastBulkTS = float(packet.get_timestamp())
         # Possible bulk
         else:
-            if (packet.get_timestamp() - self.flastBulkTS) > 1:
-                self.bbulkStartHelper = packet.get_timestamp()
-                self.bblastBulkTS = packet.get_timestamp()
+            if (float(packet.get_timestamp()) - self.flastBulkTS) > 1:
+                self.bbulkStartHelper = float(packet.get_timestamp())
+                self.bblastBulkTS = float(packet.get_timestamp())
                 self.bbulkPacketCountHelper = 1
                 self.bbulkSizeHelper = size
             else: # Add to bulk
@@ -164,13 +166,13 @@ class Flow(object):
                     self.bbulkStateCount += 1
                     self.bbulkPacketCount += self.bbulkPacketCountHelper
                     self.bbulkSizeTotal += self.bbulkSizeHelper
-                    self.bbulkDuration += packet.get_timestamp() - self.bbulkStartHelper
+                    self.bbulkDuration += float(packet.get_timestamp()) - self.bbulkStartHelper
                 else:
                     if self.bbulkPacketCountHelper > 4:
                         self.bbulkPacketCount += 1
                         self.bbulkSizeTotal += size
-                        self.bbulkDuration += packet.get_timestamp() - self.blastBulkTS
-                self.blastBulkTS = packet.get_timestamp()
+                        self.bbulkDuration += float(packet.get_timestamp()) - self.blastBulkTS
+                self.blastBulkTS = float(packet.get_timestamp())
 
     def get_fBulkStateCount(self):
         return self.fbulkStateCount
@@ -211,7 +213,7 @@ class Flow(object):
         return self.flow_active
 
     def add_packet(self, packet):
-        time = packet.get_timestamp()
+        time = float(packet.get_timestamp())
         self.packets.append(packet)
         self.flow_last_seen = time
         self.update_active_idle_time(time)
@@ -219,14 +221,25 @@ class Flow(object):
         self.updateFlowBulk(packet)
 
         if packet.has_flagFIN():
-            self.__number_of_fin_flags += 1
+            if packet.is_forward():
+                self.__number_of_fwd_fin_flags += 1
+            else:
+                self.__number_of_bwd_fin_flags += 1
+                
         if packet.has_flagRST():
             self.__has_rst_flag = True
 
     def has_two_FIN_flags(self):
-        if self.__number_of_fin_flags >= 2:
+        if self.__number_of_fwd_fin_flags >= 1 and self.__number_of_bwd_fin_flags >= 1:
             return True
         return False
 
     def has_flagRST(self):
         return self.__has_rst_flag
+
+    def actvity_timeout(self, packet: Packet):
+        active_time = float(packet.get_timestamp()) - float(self.get_flow_last_seen())
+        if active_time > self.__activity_timeout:
+            return True
+        return False
+

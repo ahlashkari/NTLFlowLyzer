@@ -1,16 +1,21 @@
 #!/usr/bin/env python3
 
+import dpkt
+import socket
+import datetime
+from datetime import datetime
+
 
 class Packet():
-    def __init__(self, src_ip=0, src_port=0, dst_ip="", dst_port=0, protocol=0, flags=[],
+    def __init__(self, src_ip="", src_port=0, dst_ip="", dst_port=0, protocol=None, flags=0,
             timestamp=0, forward=True, length=0, payloadbytes=0, header_size=0,
             window_size=0):
         self.src_ip = src_ip
         self.src_port = src_port
         self.dst_ip = dst_ip
         self.dst_port = dst_port
-        self.protocol = "TCP" if protocol == 6 else "UDP"
-        self.flags = flags
+        self.protocol = protocol
+        self.__tcp_flags = flags
         self.timestamp = timestamp
         self.forward = forward
         self.length = length
@@ -33,30 +38,30 @@ class Packet():
     def get_protocol(self):
         return self.protocol
     
-    def has_flagFIN(self): 
-        return 'F' in self.flags
+    def has_flagFIN(self):
+        return (self.__tcp_flags & dpkt.tcp.TH_FIN)
     
     def has_flagPSH(self):
-        return 'P' in self.flags
+        return (self.__tcp_flags & dpkt.tcp.TH_PUSH)
 
     def has_flagURG(self):
-        return 'U' in self.flags
+        return (self.__tcp_flags & dpkt.tcp.TH_URG)
     
     def has_flagECE(self):
-        return 'E' in self.flags
+        return (self.__tcp_flags & dpkt.tcp.TH_ECE)
     
     def has_flagSYN(self):
-        return 'S' in self.flags
+        return (self.__tcp_flags & dpkt.tcp.TH_SYN)
     
     def has_flagACK(self):
-        return 'A' in self.flags
+        return (self.__tcp_flags & dpkt.tcp.TH_ACK)
 
     def has_flagCWR(self):
-        return 'C' in self.flags
+        return (self.__tcp_flags & dpkt.tcp.TH_CWR)
     
     def has_flagRST(self):
-        return 'R' in self.flags
-    
+        return (self.__tcp_flags & dpkt.tcp.TH_RST)
+
     def is_forward(self):
         return self.forward
     

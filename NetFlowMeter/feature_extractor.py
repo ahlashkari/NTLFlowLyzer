@@ -5,8 +5,7 @@ from .features import *
 
 
 class FeatureExtractor(object):
-    def __init__(self, flows: list, floating_point_unit: str):
-        self.__flows = flows
+    def __init__(self, floating_point_unit: str):
         self.floating_point_unit = floating_point_unit
         self.__features = [
                 Duration(),
@@ -125,12 +124,13 @@ class FeatureExtractor(object):
                 SubflowBwdBytes(),
             ]
 
-    def execute(self, features_ignore_list: list = []) -> list:
+    def execute(self, data: list, data_lock, flows: list, features_ignore_list: list = [],
+            label: str = "") -> list:
         self.__extracted_data = []
-        for flow in self.__flows:
+        for flow in flows:
             features_of_flow = {}
             features_of_flow["flow_id"] = str(flow)
-            features_of_flow["timestamp"] = str(datetime.fromtimestamp(float(flow.flow_start_time)))
+            features_of_flow["timestamp"] = datetime.fromtimestamp(float(flow.get_timestamp()))
             features_of_flow["src_ip"] = flow.get_src_ip()
             features_of_flow["src_port"] = flow.get_src_port()
             features_of_flow["dst_ip"] = flow.get_dst_ip()
@@ -141,5 +141,8 @@ class FeatureExtractor(object):
                     continue
                 feature.set_floating_point_unit(self.floating_point_unit)
                 features_of_flow[feature.name] = feature.extract(flow)
+            features_of_flow["label"] = label
             self.__extracted_data.append(features_of_flow.copy())
-        return self.__extracted_data.copy()
+        with data_lock:
+            data.extend(self.__extracted_data)
+            del self.__extracted_data
