@@ -3,16 +3,20 @@
 import csv
 from .strategy import Strategy
 
+
 class CSVWriter(Strategy):
-    #TODO: Improve it
-    def write(self, file_address: str, data: list) -> str:
-        with open(file_address, 'w') as f:
+    def write(self, file_address: str, data: list, writing_mode: str = 'w',
+            only_headers: bool = False) -> None:
+        with open(file_address, writing_mode) as f:
             writer = csv.writer(f)
             if len(data) == 0:
-                print("There is nothing to be shown.")
-                return 0
+                return
+
             headers = list(data[0].keys())
-            writer.writerow(headers)
+            if only_headers:
+                writer.writerow(headers)
+                return
+
             for data_row in data:
                 row = []
                 for header in headers:
