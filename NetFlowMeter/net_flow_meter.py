@@ -77,16 +77,25 @@ class NetFlowMeter(object):
                 with self.__flows_lock:
                     temp_flows.extend(self.__flows)
                     self.__flows[:] = []
+                print(f">> Extracting features of {len(temp_flows)} number of flows...")
                 pool.starmap_async(feature_extractor.execute,
                         [(self.__data, self.__data_lock, temp_flows,
                         self.__config.features_ignore_list, self.__config.label)])
                 del temp_flows
             if self.__capturer_thread_finish.get():
-                if len(self.__flows) > 0:
-                    pool.starmap_async(feature_extractor.execute,
-                            [(self.__data, self.__data_lock, self.__flows,
-                            self.__config.features_ignore_list, self.__config.label)])
-                return
+                if len(self.__flows) == 0:
+                    return
+
+                temp_flows = []
+                with self.__flows_lock:
+                    temp_flows.extend(self.__flows)
+                    self.__flows[:] = []
+                print(f">> Extracting features of the last {len(temp_flows)} number of flows...")
+                pool.starmap_async(feature_extractor.execute,
+                        [(self.__data, self.__data_lock, temp_flows,
+                        self.__config.features_ignore_list, self.__config.label)])
+                del temp_flows
+
 
     def writer(self):
         writer = Writer(CSVWriter())
@@ -95,7 +104,7 @@ class NetFlowMeter(object):
         file_address = self.__config.output_file_address
         write_headers = True
         while 1:
-            if len(self.__data) > self.__config.writer_min_rows:
+            if len(self.__data) >= self.__config.writer_min_rows:
                 with self.__writed_rows_lock and self.__output_file_index_lock:
                     if self.__writed_rows.get() > self.__config.max_rows_number:
                         new_file_address = self.__config.output_file_address + str(self.__output_file_index.get())
@@ -113,11 +122,26 @@ class NetFlowMeter(object):
                 with self.__data_lock:
                     temp_data.extend(self.__data)
                     self.__data[:] = []
+                    print(f">>> Writing {len(temp_data)} flows with extracted features...")
                 writer.write(file_address, temp_data, data_writing_mode)
                 with self.__writed_rows_lock:
                     self.__writed_rows.set(self.__writed_rows.get() + len(temp_data))
                 del temp_data
             with self.__feature_extractor_watchdog_lock:
                 if self.__extractor_thread_finish.get():
-                    writer.write(file_address, self.__data, data_writing_mode)
-                    return
+                    print(">>> Extracting finished, lets go for final writing")
+                    temp_data = []
+                    with self.__data_lock:
+                        temp_data.extend(self.__data)
+                        self.__data[:] = []
+                    print(f">>> Writing the last {len(temp_data)} flows with extracted features...")
+
+                    if write_headers:
+                        writer.write(file_address, self.__data, header_writing_mode, only_headers=True)
+                        write_headers = False
+
+                    if len(temp_data) > 0:
+                        writer.write(file_address, temp_data, data_writing_mode)
+                    if len(self.__data) == 0:
+                        print(">>> Writing finished, lets wrapp up!")
+                        return 0
