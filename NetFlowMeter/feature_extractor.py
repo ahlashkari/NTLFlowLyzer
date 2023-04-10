@@ -145,4 +145,3 @@ class FeatureExtractor(object):
             self.__extracted_data.append(features_of_flow.copy())
         with data_lock:
             data.extend(self.__extracted_data)
-            del self.__extracted_data
