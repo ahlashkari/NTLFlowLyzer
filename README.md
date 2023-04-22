@@ -2,12 +2,11 @@
 TODO: update these values:
 ![](https://img.shields.io/github/stars/pandao/editor.md.svg) ![](https://img.shields.io/github/forks/pandao/editor.md.svg) ![](https://img.shields.io/github/tag/pandao/editor.md.svg) ![](https://img.shields.io/github/release/pandao/editor.md.svg) ![](https://img.shields.io/github/issues/pandao/editor.md.svg)
 
-The NLFlowLyzer is an open source tool that generates Biflows of netwrok-layer from pcap files, and extracts features from these flows.
+As part of the Universal User Profiling (UUP), NLFlowLyzer is a Python open-source project to extract network layer features from a TCP-based network traffic for Anomaly Profiling (AP).  
 
-NLFlowLyzer is a network-layer traffic flow generator. It can be used to generate bidirectional flows, where the first packet determines the forward (source to destination) and backward (destination to source) directions, hence the statistical time-related features can be calculated separately in the forward and backward directions. Additional functionalities include, selecting features from the list of existing features, adding new features, and controlling the duration of flow timeout.
+NLFlowLyzer is generating bidirectional flows from a TCP-based network traffic, where the first packet determines the forward (source to destination) and backward (destination to source) directions, hence the statistical time-related features can be calculated separately in the forward and backward directions. Additional functionalities include, selecting features from the list of existing features, adding new features, and controlling the duration of flow timeout.
 
-NOTE: TCP flows are usually terminated upon connection teardown (by FIN packet) while UDP flows are terminated by a flow timeout. The flow timeout value can be assigned arbitrarily by the individual scheme e.g., 600 seconds for both TCP and UDP.
-
+NOTE: TCP flows are usually terminated upon connection teardown (by FIN or RST packet) while UDP flows are terminated by a flow timeout. The flow timeout value can be assigned arbitrarily by the individual scheme e.g., 600 seconds for both TCP and UDP.
 
 
 # Table of Contents
@@ -18,10 +17,10 @@ NOTE: TCP flows are usually terminated upon connection teardown (by FIN packet) 
   * [Definitions](#definitions)
   * [Statistical Information Calculation](#statistical-information-calculation)
 - [Output](#output)
-- [Contributing](#Contributing)
-- [Project Team Members](#Team Members)
-- [Copyright (c) 2022](#Copyright (c) 2022)
-- [Acknowledgment](#Acknowledgment)
+- [Contributing](#contributing)
+- [Project Team Members](#project-team-members)
+- [Copyright (c) 2022](#copyright)
+- [Acknowledgment](#acknowledgment)
 
 # Installation
 
@@ -253,31 +252,31 @@ TODO: put more examples here
 ----
 
 
+# Copyright (c) 2022
+
+For citation in your works and also understanding NLFlowLyzer completely, you can find below published papers:
+
+????????????????????????????????????????????????????????????
+
+
 # Contributing
 
-The project is not currently in development but any contribution is welcome in form of pull requests.
+Any contribution is welcome in form of pull requests.
+
 
 # Project Team members 
 
-* [**Arash Habibi Lashkari:**](https://github.com/ahlashkari) Founder and supervisor
+* [**Arash Habibi Lashkari:**](http://ahlashkari.com/index.asp) Founder and supervisor
 
-* [**Moein Shafi:**](https://github.com/moein-shafi) Researcher and developer - Graduate Student - York University
+* [**Moein Shafi:**](https://github.com/moein-shafi) Graduate student, Researcher and developer - York University 
 
-* [**Sepideh Niktabe:**](https://github.com/sepideh2020) Researcher and developer - Graduate Student - York University
+* [**Sepideh Niktabe:**](https://github.com/sepideh2020) Graduate students, Researcher and developer - York University (6 months, 2022-2023)
 
-* [**Mehrsa Khoshpasand:**](https://github.com/Khoshpasand-mehrsa) Researcher and developer - Undergraduate Student - York University
+* [**Mehrsa Khoshpasand:**](https://github.com/Khoshpasand-mehrsa) Researcher Assistant (RA) - York University (3 months, 2022)
 
-* [**Parisa Ghanad:**](https://github.com/parishisit) Researcher and developer - Invited Researcher - Amirkabir University
-
-
-# Copyright (c) 2022
-
-For citation in your works and also understanding DoHLyzer completely, you can find below published paper:
-
-"??????????", ????????, 2022 2020
+* [**Parisa Ghanad:**](https://github.com/parishisit) Volunteer Researcher and developer - Amirkabir University (4 months, 2022)
 
 
-# Acknowledgement 
+# Acknowledgement
 
-This project has been made possible through the [**NSERC - DISCOVERY**](https://www.nserc-crsng.gc.ca/professors-professeurs/grants-subs/dgigp-psigp_eng.asp) grant. 
-
+This project has been made possible through funding from the Natural Sciences and Engineering Research Council of Canada — NSERC (#RGPIN-2020-04701) and Canada Research Chair (Tier II) - (#CRC-2021-00340) to Arash Habibi Lashkari.
