@@ -17,9 +17,9 @@ NOTE: TCP flows are usually terminated upon connection teardown (by FIN or RST p
   * [Definitions](#definitions)
   * [Statistical Information Calculation](#statistical-information-calculation)
 - [Output](#output)
+- [Copyright (c) 2023](#copyright-c-2023)
 - [Contributing](#contributing)
 - [Project Team Members](#project-team-members)
-- [Copyright (c) 2023](#copyright-(c)-2023)
 - [Acknowledgment](#acknowledgment)
 
 # Installation
@@ -252,7 +252,7 @@ TODO: put more examples here
 ----
 
 
-# Copyright (c) 2022
+# Copyright (c) 2023
 
 For citation in your works and also understanding NLFlowLyzer completely, you can find below published papers:
 
@@ -277,6 +277,6 @@ Any contribution is welcome in form of pull requests.
 * [**Parisa Ghanad:**](https://github.com/parishisit) Volunteer Researcher and developer - Amirkabir University (4 months, 2022)
 
 
-# Acknowledgement
+# Acknowledgment
 
 This project has been made possible through funding from the Natural Sciences and Engineering Research Council of Canada — NSERC (#RGPIN-2020-04701) and Canada Research Chair (Tier II) - (#CRC-2021-00340) to Arash Habibi Lashkari.
