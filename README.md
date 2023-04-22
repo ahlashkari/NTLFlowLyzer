@@ -1,10 +1,10 @@
-# NetFlowMeter
+# NLFlowLyzer
 TODO: update these values:
 ![](https://img.shields.io/github/stars/pandao/editor.md.svg) ![](https://img.shields.io/github/forks/pandao/editor.md.svg) ![](https://img.shields.io/github/tag/pandao/editor.md.svg) ![](https://img.shields.io/github/release/pandao/editor.md.svg) ![](https://img.shields.io/github/issues/pandao/editor.md.svg)
 
-The NetFlowMeter is an open source tool that generates Biflows of netwrok-layer from pcap files, and extracts features from these flows.
+The NLFlowLyzer is an open source tool that generates Biflows of netwrok-layer from pcap files, and extracts features from these flows.
 
-NetFlowMeter is a network-layer traffic flow generator. It can be used to generate bidirectional flows, where the first packet determines the forward (source to destination) and backward (destination to source) directions, hence the statistical time-related features can be calculated separately in the forward and backward directions. Additional functionalities include, selecting features from the list of existing features, adding new features, and controlling the duration of flow timeout.
+NLFlowLyzer is a network-layer traffic flow generator. It can be used to generate bidirectional flows, where the first packet determines the forward (source to destination) and backward (destination to source) directions, hence the statistical time-related features can be calculated separately in the forward and backward directions. Additional functionalities include, selecting features from the list of existing features, adding new features, and controlling the duration of flow timeout.
 
 NOTE: TCP flows are usually terminated upon connection teardown (by FIN packet) while UDP flows are terminated by a flow timeout. The flow timeout value can be assigned arbitrarily by the individual scheme e.g., 600 seconds for both TCP and UDP.
 
@@ -31,7 +31,7 @@ You must install the requirements in your system before you can begin installing
 sudo pip3 install -r requirements.txt
 ```
 
-You are now ready to install AppFlowMeter. In order to do so, you should run this command, which will install the AppFlowMeter package in your system:
+You are now ready to install NLFlowLyzer. In order to do so, you should run this command, which will install the NLFlowLyzer package in your system:
 
 ```bash
 sudo python3 setup.py install
@@ -40,7 +40,7 @@ sudo python3 setup.py install
 Finally, to execute the program, run this command:
 
 ```bash
-sudo net-flow-meter
+sudo nlflowlyzer
 ```
 Also, you can use `-h` to see different options of the program.
 
@@ -198,7 +198,7 @@ We use differnet libraries to calculate various mathematical equations. Below yo
      The module is not intended to be a competitor to third-party libraries such as NumPy, SciPy, or proprietary full-featured statistics packages aimed at professional statisticians such as Minitab, SAS and Matlab. It is aimed at the level of graphing and scientific calculators.
 
 
-Nine mathematical functions are used to extract different features. You can see how those functions are calculated in the AppFlowMeter below:
+Nine mathematical functions are used to extract different features. You can see how those functions are calculated in the NLFlowLyzer below:
 
 1. Min
 

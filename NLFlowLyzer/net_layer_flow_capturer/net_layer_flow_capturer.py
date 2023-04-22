@@ -8,7 +8,7 @@ from .packet import Packet
 from .flow import Flow
 
 
-class NetFlowCapturer:
+class NetLayerFlowCapturer:
     def __init__(self, max_flow_duration: int, activity_timeout: int,
                 check_flows_ending_min_flows: int, capturer_updating_flows_min_value: int,
                 read_packets_count_value_log_info: int):
@@ -52,7 +52,7 @@ class NetFlowCapturer:
                     window_size = 0
                     tcp_flags = 0
 
-                net_flow_packet = Packet(
+                nlflyzer_packet = Packet(
                     src_ip=socket.inet_ntoa(ip.src), 
                     src_port=net_layer.sport,
                     dst_ip=socket.inet_ntoa(ip.dst), 
@@ -65,7 +65,7 @@ class NetFlowCapturer:
                     header_size=len(ip.data) - len(net_layer.data),
                     window_size=window_size)
 
-                self.__add_packet_to_flow(net_flow_packet, flows, flows_lock)
+                self.__add_packet_to_flow(nlflyzer_packet, flows, flows_lock)
 
                 if i % self.__read_packets_count_value_log_info == 0:
                     print(">>", i, "number of packets has been processed...")

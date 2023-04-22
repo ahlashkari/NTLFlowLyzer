@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from ..net_flow_capturer import Flow
+from ..net_layer_flow_capturer import Flow
 
 def calculate_flow_payload_bytes(flow: Flow):
     total_bytes = [packet.get_payloadbytes() for packet in flow.get_packets()]

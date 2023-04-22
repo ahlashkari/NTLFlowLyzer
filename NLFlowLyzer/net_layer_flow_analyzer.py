@@ -3,15 +3,15 @@
 import dpkt
 import multiprocessing
 from multiprocessing import Process, Manager, Pool
-from .net_flow_capturer import NetFlowCapturer
+from .net_layer_flow_capturer import NetLayerFlowCapturer
 from .feature_extractor import FeatureExtractor
 from .writers import Writer, CSVWriter
 from .config_loader import ConfigLoader
 
 
-class NetFlowMeter(object):
+class NLFlowLyzer(object):
     def __init__(self, config_file_address: str, online_capturing: bool):
-        print("You initiated Application Flow Meter!")
+        print("You initiated NLFlowLyzer!")
         self.__config_file_address = config_file_address
 
     def run(self):
@@ -48,7 +48,7 @@ class NetFlowMeter(object):
             self.__writed_rows_lock = manager.Lock()
             self.__output_file_index_lock = manager.Lock()
 
-            capturer = NetFlowCapturer(
+            capturer = NetLayerFlowCapturer(
                     max_flow_duration=self.__config.max_flow_duration,
                     activity_timeout=self.__config.activity_timeout,
                     check_flows_ending_min_flows=self.__config.check_flows_ending_min_flows,

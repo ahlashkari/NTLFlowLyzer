@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from ..net_flow_capturer import Flow
+from ..net_layer_flow_capturer import Flow
 from .feature import Feature
 
 

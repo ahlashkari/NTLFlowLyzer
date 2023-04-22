@@ -9,24 +9,24 @@ version = "0.1.0"
 author = "Moein Shafi"
 author_email = "mosafer.moein@gmail.com"
 entry_points = {
-        "console_scripts": ["net-flow-meter = NetFlowMeter.__main__:main"]
+        "console_scripts": ["nlflowlyzer = NLFlowLyzer.__main__:main"]
         }
 
 setup(
-        name="NetFlowMeter",
+        name="NLFlowLyzer",
         version=version,
         author=author,
         author_email=author_email,
         packages=[
-            "NetFlowMeter",
-            "NetFlowMeter.features",
-            "NetFlowMeter.net_flow_capturer",
-            "NetFlowMeter.writers",
+            "NLFlowLyzer",
+            "NLFlowLyzer.features",
+            "NLFlowLyzer.net_layer_flow_capturer",
+            "NLFlowLyzer.writers",
         ],
         package_dir={
-            "NetFlowMeter": "NetFlowMeter",
-            "NetFlowMeter.features": "NetFlowMeter/features",
-            "NetFlowMeter.writers": "NetFlowMeter/writers",
+            "NLFlowLyzer": "NLFlowLyzer",
+            "NLFlowLyzer.features": "NLFlowLyzer/features",
+            "NLFlowLyzer.writers": "NLFlowLyzer/writers",
         },
         entry_points=entry_points,
 )
