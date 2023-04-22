@@ -19,7 +19,7 @@ NOTE: TCP flows are usually terminated upon connection teardown (by FIN or RST p
 - [Output](#output)
 - [Contributing](#contributing)
 - [Project Team Members](#project-team-members)
-- [Copyright (c) 2022](#copyright)
+- [Copyright (c) 2023](#copyright-(c)-2023)
 - [Acknowledgment](#acknowledgment)
 
 # Installation
