@@ -1,8 +1,8 @@
 {
-    "pcap_file_address": "../pcaps/cic-2017/Friday-WorkingHours-corrected.pcap",
-    "output_file_address": "./last-output-of-Friday-pcap.csv",
+    "pcap_file_address": "../pcaps/test.pcap",
+    "output_file_address": "./output-of-test-pcap.csv",
     "label": "BENIGN",
-    "number_of_threads": 3,
+    "number_of_threads": 4,
     "feature_extractor_min_flows": 2500,
     "writer_min_rows": 1000,
     "read_packets_count_value_log_info": 1000000,
