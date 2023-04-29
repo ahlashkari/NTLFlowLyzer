@@ -1,0 +1,17 @@
+{
+    "pcap_file_address": "../pcaps/test.pcap",
+    "output_file_address": "./output-of-test-pcap.csv",
+    "label": "BENIGN",
+    "number_of_threads": 4,
+    "feature_extractor_min_flows": 2500,
+    "writer_min_rows": 1000,
+    "read_packets_count_value_log_info": 1000000,
+    "check_flows_ending_min_flows": 20000,
+    "capturer_updating_flows_min_value": 5000,
+    "interface_name": "eth0",
+    "max_flow_duration": 120000,
+    "activity_timeout": 300,
+    "floating_point_unit": ".8f",
+    "max_rows_number": 800000,
+    "features_ignore_list": []
+}

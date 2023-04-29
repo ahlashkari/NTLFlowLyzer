@@ -1,0 +1,6 @@
+*.egg-info
+build.log
+build
+dist
+*.csv
+*.swp
