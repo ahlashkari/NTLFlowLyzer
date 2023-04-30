@@ -2,7 +2,7 @@
 TODO: update these values:
 ![](https://img.shields.io/github/stars/pandao/editor.md.svg) ![](https://img.shields.io/github/forks/pandao/editor.md.svg) ![](https://img.shields.io/github/tag/pandao/editor.md.svg) ![](https://img.shields.io/github/release/pandao/editor.md.svg) ![](https://img.shields.io/github/issues/pandao/editor.md.svg)
 
-As part of the Understanding Cybersecurity Series (UCS), NLFlowLyzer is a Python open-source project to extract network layer features from a TCP-based network traffic for Anomaly Profiling (AP) which is the first component of the * [**NetFlowLyzer**](https://github.com/ahlashkari/NetFlowLyzer).  
+As part of the Understanding Cybersecurity Series (UCS), NLFlowLyzer is a Python open-source project to extract network layer features from a TCP-based network traffic for Anomaly Profiling (AP) which is the first component of the [**NetFlowLyzer**](https://github.com/ahlashkari/NetFlowLyzer).  
 
 NLFlowLyzer is generating bidirectional flows from a TCP-based network traffic, where the first packet determines the forward (source to destination) and backward (destination to source) directions, hence the statistical time-related features can be calculated separately in the forward and backward directions. Additional functionalities include, selecting features from the list of existing features, adding new features, and controlling the duration of flow timeout.
 
