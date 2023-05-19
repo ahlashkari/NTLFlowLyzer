@@ -1,6 +1,5 @@
 # NLFlowLyzer
-TODO: update these values:
-![](https://img.shields.io/github/stars/pandao/editor.md.svg) ![](https://img.shields.io/github/forks/pandao/editor.md.svg) ![](https://img.shields.io/github/tag/pandao/editor.md.svg) ![](https://img.shields.io/github/release/pandao/editor.md.svg) ![](https://img.shields.io/github/issues/pandao/editor.md.svg)
+Network Layer Flow Analyzer
 
 As part of the Understanding Cybersecurity Series (UCS), NLFlowLyzer is a Python open-source project to extract network layer features from a TCP-based network traffic for Anomaly Profiling (AP) which is the second component of the [**NetFlowLyzer**](https://github.com/ahlashkari/NetFlowLyzer).  
 
@@ -24,30 +23,58 @@ NOTE: TCP flows are usually terminated upon connection teardown (by FIN or RST p
 
 # Installation
 
-You must install the requirements in your system before you can begin installing or running anything. To do so, you can easily run this command:
+You must install the requirements in your system before you can begin installing or running anything. The following two subsections illustrate how you can run NLFlowLyzer in your system whether it is Linux or Windows based. 
 
-```bash
-sudo pip3 install -r requirements.txt
-```
+* Linux: 
 
-You are now ready to install NLFlowLyzer. In order to do so, you should run this command, which will install the NLFlowLyzer package in your system:
+   You must install the requirements in your system before you can begin installing or running anything. To do so, you can easily run this command:
 
-```bash
-sudo python3 setup.py install
-```
+   ```bash
+   sudo pip3 install -r requirements.txt
+   ```
 
-Finally, to execute the program, run this command:
+   You are now ready to install IoTNetLyzer. In order to do so, you should run this command, which will install the IoTNetLyzer package in your system:
 
-```bash
-sudo nlflowlyzer
-```
-Also, you can use `-h` to see different options of the program.
+   ```bash
+   sudo python3 setup.py install
+   ```
+
+   Finally, to execute the program, you have to prepare a config file in Json format (example is available in NlFlowLyzer/config.json) and then run this command:
+
+   ```bash
+   sudo nlflowlyzer -c config.json
+   ```
+   It is mandatory to have the 'input_pcap_file' in your config file. Other things are optional.
+
+   Also, you can use `-h` to see different options of the program.
+
+* Windows: 
+
+  For installing the project in windows can easily run this command in windows commenad lind (CMD):
+
+  ```bash
+  pip install -r requirements.txt
+  ```
+
+  In order to nstall the IoTNetLyzer package in your system run the below command in CMD:
+
+  ```bash
+  pip install .
+  ```
+
+  Finally, to execute the program, you have to prepare a config file in Json format (example is available in NlFlowLyzer/config.json) and then 
+
+  ```bash
+  nlflowlyzer -c config.json
+  ```
+  It is mandatory to have the 'input_pcap_file' in your config file. Other things are optional.
+  
+  Also, you can use `-h` to see different options of the program.
+
+
 
 Moreover, this project has been successfully tested on Ubuntu 20.04. It should work on other versions of Ubuntu OS (or even Debian OS) as long as your system has the necessary python3 packages (you can see the required packages in the `requirements.txt` file).
 
-TODO: explain different options of arg parser.
-
-TODO: explain how to use the config file.
 
 
 # Architecture
@@ -178,13 +205,6 @@ We have currenlty 114 features that are as follows:
 1. SubflowBwdBytes
 
 
-TODO: complete the definitions
-## Definitions
-
-+ **IAT**
-+ **Bulk**
-+ **Subflow**
-+ **Idle**
 
 ## Statistical Information Calculation
 
@@ -213,7 +233,6 @@ Nine mathematical functions are used to extract different features. You can see 
         
       The arithmetic mean is the sum of the data divided by the number of data points. It is commonly called “the average”, although it is only one of many different mathematical averages. It is a measure of the central location of the data.
 
-      TODO: use 'fmean' instead of mean (it is new in python 3.8). According to the library documentation:
         
       This runs faster than the mean() function and it always returns a float. The data may be a sequence or iterable. If the input dataset is empty, raises a StatisticsError.
 
@@ -230,7 +249,6 @@ Nine mathematical functions are used to extract different features. You can see 
 ----
      
      
-TODO: put more examples here
 
 # Output
 
@@ -269,12 +287,41 @@ Any contribution is welcome in form of pull requests.
 * [**Arash Habibi Lashkari:**](http://ahlashkari.com/index.asp) Founder and supervisor
 
 * [**Moein Shafi:**](https://github.com/moein-shafi) Graduate student, Researcher and developer - York University 
+  - Approval of All Features' Development
+  - Project Management
+  - Python Package Management
+  - Repository Management
+  - Architecture Design
+  - Implementation of Base Structure (Architecture), i.e., Development of All Classes and Modules
+  - Re-Development of All Features to Match the Architecture
+  - Approval of Pull Requests
+  - Task Assignment and Management
+  - Implementation of Multi-Process Functionality
+  - Code Style Improvement
+  - Execution of Performance Tests
+  - Verification of Output with Wireshark 
 
 * [**Sepideh Niktabe:**](https://github.com/sepideh2020) Graduate students, Researcher and developer - York University (6 months, 2022-2023)
+  - Development of All Count-related Features
+  - Development of All PayloadBytes-related Features
+  - Development of All Flag-related Features
+  - Verification of Output with CICFlowMeter's output
+  - Identification of CICFlowMeter's shortcomings
+  - Dockerfile
 
 * [**Mehrsa Khoshpasand:**](https://github.com/Khoshpasand-mehrsa) Researcher Assistant (RA) - York University (3 months, 2022)
+  - Development of Down-Up Ratio Feature
+  - Development of All Idle-time-related Features
 
 * [**Parisa Ghanad:**](https://github.com/parishisit) Volunteer Researcher and developer - Amirkabir University (4 months, 2022)
+  - Development of All Bulk-related Features
+  - Development of All Subflow-related Features
+  - Development of All Time-related Features
+  - Development of All Rate-related Features
+  - Approval of All Features' Development
+  - Task Assignment and Management
+  - Verification of Output with Wireshark
+  - Identification of CICFlowMeter's shortcomings
 
 
 # Acknowledgment
