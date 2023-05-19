@@ -6,7 +6,7 @@ import multiprocessing
 class ConfigLoader:
     def __init__(self, config_file_address: str):
         self.config_file_address = config_file_address
-        self.pcap_file_address: str = "./test.pcap"
+        self.pcap_file_address: str = None
         self.output_file_address: str = "./"
         self.interface_name: str = "eth0"
         self.max_flow_duration: int = 120000
@@ -29,6 +29,9 @@ class ConfigLoader:
             with open(self.config_file_address) as config_file:
                 for key, value in json.loads(config_file.read()).items():
                     setattr(self, key, value)
+                if self.pcap_file_address is None:
+                    raise Exception("Please specify the 'pcap_file_address' in the config file.")
         except Exception as error:
             print(f">> Error was detected while reading {self.config_file_address}: {str(error)}. "\
                     "Default values will be applied.")
+            exit(-1)
