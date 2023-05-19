@@ -10,7 +10,7 @@ setuptools.setup(
     version="0.1.0",
     author="Moein Shafi",
     author_email="moeinsh@yorku.ca",
-    description="The Network Layer Analyzer",
+    description="The Network Layer Flow Analyzer",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/ahlashkari/NLFlowLyzer",
