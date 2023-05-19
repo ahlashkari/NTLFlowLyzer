@@ -1,32 +1,27 @@
 #!/usr/bin/env python3
 
-try:
-    from setuptools import setup
-except ImportError as error:
-    raise SystemExit(error)
+import setuptools
 
-version = "0.1.0"
-author = "Moein Shafi"
-author_email = "mosafer.moein@gmail.com"
-entry_points = {
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
+setuptools.setup(
+    name="NLFlowLyzer",
+    version="0.1.0",
+    author="Moein Shafi",
+    author_email="moeinsh@yorku.ca",
+    description="The Network Layer Analyzer",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/ahlashkari/NLFlowLyzer",
+    packages=setuptools.find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: York University",
+        "Operating System :: OS Independent",
+    ],
+    python_requires='>=3.6',
+    entry_points={
         "console_scripts": ["nlflowlyzer = NLFlowLyzer.__main__:main"]
-        }
-
-setup(
-        name="NLFlowLyzer",
-        version=version,
-        author=author,
-        author_email=author_email,
-        packages=[
-            "NLFlowLyzer",
-            "NLFlowLyzer.features",
-            "NLFlowLyzer.net_layer_flow_capturer",
-            "NLFlowLyzer.writers",
-        ],
-        package_dir={
-            "NLFlowLyzer": "NLFlowLyzer",
-            "NLFlowLyzer.features": "NLFlowLyzer/features",
-            "NLFlowLyzer.writers": "NLFlowLyzer/writers",
-        },
-        entry_points=entry_points,
+    },
 )

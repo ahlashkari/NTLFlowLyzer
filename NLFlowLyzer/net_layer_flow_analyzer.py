@@ -29,7 +29,7 @@ class NLFlowLyzer(object):
             number_of_required_threads = 3
             number_of_extractor_threads = self.__config.number_of_threads - number_of_writer_threads
             if self.__config.number_of_threads < number_of_required_threads:
-                print(">>> At least 3 threads are required. "
+                print(">> At least 3 threads are required. "
                 "There should be one for the capturer, one for the writer, "
                 "and one or more for the feature extractor."
                 "\nWe set the number of threads based on your CPU cores.")
@@ -122,19 +122,19 @@ class NLFlowLyzer(object):
                 with self.__data_lock:
                     temp_data.extend(self.__data)
                     self.__data[:] = []
-                    print(f">>> Writing {len(temp_data)} flows with extracted features...")
+                    print(f">> Writing {len(temp_data)} flows with extracted features...")
                 writer.write(file_address, temp_data, data_writing_mode)
                 with self.__writed_rows_lock:
                     self.__writed_rows.set(self.__writed_rows.get() + len(temp_data))
                 del temp_data
             with self.__feature_extractor_watchdog_lock:
                 if self.__extractor_thread_finish.get():
-                    print(">>> Extracting finished, lets go for final writing")
+                    print(">> Extracting finished, lets go for final writing")
                     temp_data = []
                     with self.__data_lock:
                         temp_data.extend(self.__data)
                         self.__data[:] = []
-                    print(f">>> Writing the last {len(temp_data)} flows with extracted features...")
+                    print(f">> Writing the last {len(temp_data)} flows with extracted features...")
 
                     if write_headers:
                         writer.write(file_address, self.__data, header_writing_mode, only_headers=True)
@@ -143,5 +143,5 @@ class NLFlowLyzer(object):
                     if len(temp_data) > 0:
                         writer.write(file_address, temp_data, data_writing_mode)
                     if len(self.__data) == 0:
-                        print(">>> Writing finished, lets wrapp up!")
+                        print(">> Writing finished, lets wrapp up!")
                         return 0
