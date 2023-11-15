@@ -1,0 +1,17 @@
+{
+    "pcap_file_address": "/mnt/c/dataset/Friday-02-03-2018/pcap/capWIN-J6GMIG1DQE5-172.31.67.95",
+    "output_file_address": "./output-of-test4-pcap.csv",
+    "label": "Benign",
+    "number_of_threads": 4,
+    "feature_extractor_min_flows": 2500,
+    "writer_min_rows": 1000,
+    "read_packets_count_value_log_info": 1000000,
+    "check_flows_ending_min_flows": 20000,
+    "capturer_updating_flows_min_value": 5000,
+    "interface_name": "eth0",
+    "max_flow_duration": 120000,
+    "activity_timeout": 300,
+    "floating_point_unit": ".4f",
+    "max_rows_number": 800000,
+    "features_ignore_list": []
+}
