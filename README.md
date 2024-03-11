@@ -268,7 +268,7 @@ Any contribution is welcome in form of pull requests.
 
 * [**Arash Habibi Lashkari:**](http://ahlashkari.com/index.asp) Founder and supervisor
 
-* [**Moein Shafi:**](https://github.com/moein-shafi) Graduate student, Researcher and developer - York University 
+* [**Moein Shafi:**](https://github.com/moein-shafi) Graduate student, Researcher and developer - York University ( 2 years, 2022 - 2024)
 
 * [**Sepideh Niktabe:**](https://github.com/sepideh2020) Graduate students, Researcher and developer - York University (6 months, 2022-2023)
 
