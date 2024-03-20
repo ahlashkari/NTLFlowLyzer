@@ -1,10 +1,10 @@
-# TLFlowLyzer
+# NTLFlowLyzer
 TODO: update these values:
 ![](https://img.shields.io/github/stars/pandao/editor.md.svg) ![](https://img.shields.io/github/forks/pandao/editor.md.svg) ![](https://img.shields.io/github/tag/pandao/editor.md.svg) ![](https://img.shields.io/github/release/pandao/editor.md.svg) ![](https://img.shields.io/github/issues/pandao/editor.md.svg)
 
 As part of the Understanding Cybersecurity Series (UCS), NLFlowLyzer is a Python open-source project to extract network layer features from a TCP-based network traffic for Anomaly Profiling (AP) which is the second component of the [**NetFlowLyzer**](https://github.com/ahlashkari/NetFlowLyzer).  
 
-TLFlowLyzer is generating bidirectional flows from a Transportation Layer of TCP-based network traffic, where the first packet determines the forward (source to destination) and backward (destination to source) directions, hence the statistical time-related features can be calculated separately in the forward and backward directions. Additional functionalities include, selecting features from the list of existing features, adding new features, and controlling the duration of flow timeout.
+NTLFlowLyzer is generating bidirectional flows from the Network and Transportation Layers of network traffic, where the first packet determines the forward (source to destination) and backward (destination to source) directions, hence the statistical time-related features can be calculated separately in the forward and backward directions. Additional functionalities include, selecting features from the list of existing features, adding new features, and controlling the duration of flow timeout.
 
 NOTE: TCP flows are usually terminated upon connection teardown (by FIN or RST packet) while UDP flows are terminated by a flow timeout. The flow timeout value can be assigned arbitrarily by the individual scheme e.g., 600 seconds for both TCP and UDP.
 
