@@ -8,7 +8,7 @@ from .packet import Packet
 from .flow import Flow
 
 
-class NetLayerFlowCapturer:
+class NetworkFlowCapturer:
     def __init__(self, max_flow_duration: int, activity_timeout: int,
                 check_flows_ending_min_flows: int, capturer_updating_flows_min_value: int,
                 read_packets_count_value_log_info: int):

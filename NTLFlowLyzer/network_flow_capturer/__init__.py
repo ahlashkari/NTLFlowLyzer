@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
 
-from .net_layer_flow_capturer import NetLayerFlowCapturer
+from .network_flow_capturer import NetworkFlowCapturer
 from .flow import Flow
 from .packet import Packet

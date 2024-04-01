@@ -6,8 +6,8 @@ from enum import Enum
 from typing import List
 from scipy import stats
 
-from NLFlowLyzer.net_layer_flow_capturer.packet import Packet
-from ..net_layer_flow_capturer import Flow
+from NTLFlowLyzer.network_flow_capturer.packet import Packet
+from ..network_flow_capturer import Flow
 from .feature import Feature
 from . import utils
 

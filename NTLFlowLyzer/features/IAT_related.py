@@ -4,7 +4,7 @@ import statistics
 
 from scipy import stats
 from .feature import Feature
-from ..net_layer_flow_capturer import Flow
+from ..network_flow_capturer import Flow
 from . import utils
 
 

@@ -4,9 +4,9 @@ from datetime import datetime
 import statistics
 from scipy import stats
 from typing import List
-from ..net_layer_flow_capturer import Flow
+from ..network_flow_capturer import Flow
 from .feature import Feature
-from ..net_layer_flow_capturer.packet import Packet
+from ..network_flow_capturer.packet import Packet
 from . import utils
 
 

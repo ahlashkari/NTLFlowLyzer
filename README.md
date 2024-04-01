@@ -2,7 +2,7 @@
 TODO: update these values:
 ![](https://img.shields.io/github/stars/pandao/editor.md.svg) ![](https://img.shields.io/github/forks/pandao/editor.md.svg) ![](https://img.shields.io/github/tag/pandao/editor.md.svg) ![](https://img.shields.io/github/release/pandao/editor.md.svg) ![](https://img.shields.io/github/issues/pandao/editor.md.svg)
 
-As part of the Understanding Cybersecurity Series (UCS), NLFlowLyzer is a Python open-source project to extract network layer features from a TCP-based network traffic for Anomaly Profiling (AP) which is the second component of the [**NetFlowLyzer**](https://github.com/ahlashkari/NetFlowLyzer).  
+As part of the Understanding Cybersecurity Series (UCS), NTLFlowLyzer is a Python open-source project to extract network layer features from a TCP-based network traffic for Anomaly Profiling (AP) which is the second component of the [**NTLFlowLyzer**](https://github.com/ahlashkari/NTLFlowLyzer).
 
 NTLFlowLyzer is generating bidirectional flows from the Network and Transportation Layers of network traffic, where the first packet determines the forward (source to destination) and backward (destination to source) directions, hence the statistical time-related features can be calculated separately in the forward and backward directions. Additional functionalities include, selecting features from the list of existing features, adding new features, and controlling the duration of flow timeout.
 
@@ -11,15 +11,17 @@ NOTE: TCP flows are usually terminated upon connection teardown (by FIN or RST p
 
 # Table of Contents
 
+- [NTLFlowLyzer](#ntlflowlyzer)
+- [Table of Contents](#table-of-contents)
 - [Installation](#installation)
 - [Architecture](#architecture)
 - [Extracted Features](#extracted-features)
-  * [Definitions](#definitions)
-  * [Statistical Information Calculation](#statistical-information-calculation)
+  - [Definitions](#definitions)
+  - [Statistical Information Calculation](#statistical-information-calculation)
 - [Output](#output)
 - [Copyright (c) 2023](#copyright-c-2023)
 - [Contributing](#contributing)
-- [Project Team Members](#project-team-members)
+- [Project Team members](#project-team-members)
 - [Acknowledgment](#acknowledgment)
 
 # Installation
@@ -30,7 +32,7 @@ You must install the requirements in your system before you can begin installing
 sudo pip3 install -r requirements.txt
 ```
 
-You are now ready to install NLFlowLyzer. In order to do so, you should run this command, which will install the NLFlowLyzer package in your system:
+You are now ready to install NTLFlowLyzer. In order to do so, you should run this command, which will install the NTLFlowLyzer package in your system:
 
 ```bash
 sudo python3 setup.py install
@@ -39,7 +41,7 @@ sudo python3 setup.py install
 Finally, to execute the program, run this command:
 
 ```bash
-sudo nlflowlyzer
+sudo ntlflowlyzer
 ```
 Also, you can use `-h` to see different options of the program.
 
@@ -197,7 +199,7 @@ We use differnet libraries to calculate various mathematical equations. Below yo
      The module is not intended to be a competitor to third-party libraries such as NumPy, SciPy, or proprietary full-featured statistics packages aimed at professional statisticians such as Minitab, SAS and Matlab. It is aimed at the level of graphing and scientific calculators.
 
 
-Nine mathematical functions are used to extract different features. You can see how those functions are calculated in the NLFlowLyzer below:
+Nine mathematical functions are used to extract different features. You can see how those functions are calculated in the NTLFlowLyzer below:
 
 1. Min
 
@@ -254,7 +256,7 @@ TODO: put more examples here
 
 # Copyright (c) 2023
 
-For citation in your works and also understanding NLFlowLyzer completely, you can find below published papers:
+For citation in your works and also understanding NTLFlowLyzer completely, you can find below published papers:
 
 ????????????????????????????????????????????????????????????
 
