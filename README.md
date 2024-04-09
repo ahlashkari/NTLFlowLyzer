@@ -180,7 +180,6 @@ We have currenlty 114 features that are as follows:
 1. SubflowBwdBytes
 
 
-TODO: complete the definitions
 ## Definitions
 
 + **IAT**
