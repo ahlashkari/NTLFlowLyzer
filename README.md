@@ -1,12 +1,8 @@
 # NTLFlowLyzer
-TODO: update these values:
-![](https://img.shields.io/github/stars/pandao/editor.md.svg) ![](https://img.shields.io/github/forks/pandao/editor.md.svg) ![](https://img.shields.io/github/tag/pandao/editor.md.svg) ![](https://img.shields.io/github/release/pandao/editor.md.svg) ![](https://img.shields.io/github/issues/pandao/editor.md.svg)
 
-As part of the Understanding Cybersecurity Series (UCS), NTLFlowLyzer is a Python open-source project to extract network layer features from a TCP-based network traffic for Anomaly Profiling (AP) which is the second component of the [**NetFlowLyzer**](https://github.com/ahlashkari/NetFlowLyzer).
+As part of the Understanding Cybersecurity Series (UCS), NTLFlowLyzer is a Python open-source project to extract network layer features from TCP-based network traffic for Anomaly Profiling (AP) which is the second component of the [**NetFlowLyzer**](https://github.com/ahlashkari/NetFlowLyzer).
 
-NTLFlowLyzer is generating bidirectional flows from the Network and Transportation Layers of network traffic, where the first packet determines the forward (source to destination) and backward (destination to source) directions, hence the statistical time-related features can be calculated separately in the forward and backward directions. Additional functionalities include, selecting features from the list of existing features, adding new features, and controlling the duration of flow timeout.
-
-NOTE: TCP flows are usually terminated upon connection teardown (by FIN or RST packet) while UDP flows are terminated by a flow timeout. The flow timeout value can be assigned arbitrarily by the individual scheme e.g., 600 seconds for both TCP and UDP.
+NTLFlowLyzer generates bidirectional flows from the Network and Transportation Layers of network traffic, where the first packet determines the forward (source to destination) and backward (destination to source) directions, hence the statistical time-related features can be calculated separately in the forward and backward directions. Additional functionalities include selecting features from the list of existing features, adding new features, and controlling the duration of flow timeout. Moreover, TCP flows are terminated upon connection teardown (by FIN or RST packet), reaching the flow's maximum duration, or being inactive for a certain amount of time (timeout).
 
 
 # Table of Contents
@@ -14,6 +10,7 @@ NOTE: TCP flows are usually terminated upon connection teardown (by FIN or RST p
 - [NTLFlowLyzer](#ntlflowlyzer)
 - [Table of Contents](#table-of-contents)
 - [Installation](#installation)
+- [Execution](#execution)
 - [Architecture](#architecture)
 - [Extracted Features](#extracted-features)
   - [Definitions](#definitions)
@@ -26,30 +23,36 @@ NOTE: TCP flows are usually terminated upon connection teardown (by FIN or RST p
 
 # Installation
 
-You must install the requirements in your system before you can begin installing or running anything. To do so, you can easily run this command:
+Before installing or running the NTLFlowLyzer package, it's essential to set up the necessary requirements on your system. Begin by ensuring you have both `Python` and `pip` installed and functioning properly (execute the `pip3 --version` command). Then, execute the following command:
 
 ```bash
-sudo pip3 install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
-You are now ready to install NTLFlowLyzer. In order to do so, you should run this command, which will install the NTLFlowLyzer package in your system:
+You are prepared to install NTLFlowLyzer. To proceed, execute the following command in the package's root directory (where the setup.py file is located), which will install the NTLFlowLyzer package on your system:
+
+### On Linux:
+```bash
+python3 setup.py install
+```
+
+### On Windows:
+```bash
+pip3 install .
+```
+
+After successfully installing the package, confirm the installation by running the following command:
 
 ```bash
-sudo python3 setup.py install
+ntlflowlyzer --version
 ```
 
-Finally, to execute the program, run this command:
 
-```bash
-sudo ntlflowlyzer
-```
-Also, you can use `-h` to see different options of the program.
+# Execution
+
+You can use `-h` to see different options of the program.
 
 Moreover, this project has been successfully tested on Ubuntu 20.04. It should work on other versions of Ubuntu OS (or even Debian OS) as long as your system has the necessary python3 packages (you can see the required packages in the `requirements.txt` file).
-
-TODO: explain different options of arg parser.
-
-TODO: explain how to use the config file.
 
 
 # Architecture
