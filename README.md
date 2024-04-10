@@ -57,15 +57,19 @@ The core aspect of running NTLFlowLyzer involves preparing the configuration fil
 The configuration file is in the format of `JSON`, and it contains some key values which help to customize the package. Some of them are mandatory and some of them are optional. Here are each key and its explanation and its corresponding value:
 
 * pcap_file_address [Required]
+  
   It specifies the input PCAP file address, and the format of the value is string.
 
 * output_file_address [Required]
+
   It specifies the output CSV file address, and the format of the value is string.
 
 * label [Optional]
+
   It specifies the value of `label` column in the output CSV file address, and the format of the value is string. The default value is `Unknowm`.
 
 * number_of_threads [Optional]
+
   It specifies the number of threads to be use for flow extraction, feature calculation, and output writing. The value must be at least 3, and the format of the value is integer. The default value is `4`.
 
 * feature_extractor_min_flows [Optional]
