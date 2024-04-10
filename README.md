@@ -50,6 +50,59 @@ ntlflowlyzer --version
 
 # Execution
 
+The core aspect of running NTLFlowLyzer involves preparing the configuration file. This file is designed to facilitate users in customizing the program's behavior with minimal complexity and cost, thus enhancing program scalability. Below, we outline how to prepare the configuration file and subsequently demonstrate how to execute NTLFlowLyzer using it.
+
+## Configuration File
+
+The configuration file is in the format of `JSON`, and it contains some key values which help to customize the package. Some of them are mandatory and some of them are optional. Here are each key and its explanation and its corresponding value:
+
+* pcap_file_address [Required]
+  It specifies the input PCAP file address, and the format of the value is string.
+
+* output_file_address [Required]
+  It specifies the output CSV file address, and the format of the value is string.
+
+* label [Optional]
+  It specifies the value of `label` column in the output CSV file address, and the format of the value is string. The default value is `Unknowm`.
+
+* number_of_threads [Optional]
+  It specifies the number of threads to be use for flow extraction, feature calculation, and output writing. The value must be at least 3, and the format of the value is integer. The default value is `4`.
+
+* feature_extractor_min_flows [Optional]
+* writer_min_rows [Optional]
+* read_packets_count_value_log_info [Optional]
+* check_flows_ending_min_flows [Optional]
+* capturer_updating_flows_min_value [Optional]
+* interface_name [Optional]
+* max_flow_duration [Optional]
+* activity_timeout [Optional]
+* floating_point_unit [Optional]
+* max_rows_number [Optional]
+* features_ignore_list [Optional]
+
+
+An example of a configuration file would be like this:
+
+```json
+{
+    "pcap_file_address": "/mnt/c/dataset/my_pcap_file.pcap",
+    "output_file_address": "./output-of-my_pcap_file.csv",
+    "label": "Benign",
+    "number_of_threads": 4,
+    "feature_extractor_min_flows": 2500,
+    "writer_min_rows": 1000,
+    "read_packets_count_value_log_info": 1000000,
+    "check_flows_ending_min_flows": 20000,
+    "capturer_updating_flows_min_value": 5000,
+    "interface_name": "eth0",
+    "max_flow_duration": 120000,
+    "activity_timeout": 300,
+    "floating_point_unit": ".4f",
+    "max_rows_number": 800000,
+    "features_ignore_list": []
+}
+```
+
 You can use `-h` to see different options of the program.
 
 Moreover, this project has been successfully tested on Ubuntu 20.04. It should work on other versions of Ubuntu OS (or even Debian OS) as long as your system has the necessary python3 packages (you can see the required packages in the `requirements.txt` file).
