@@ -54,35 +54,81 @@ The core aspect of running NTLFlowLyzer involves preparing the configuration fil
 
 ## Configuration File
 
-The configuration file is in the format of `JSON`, and it contains some key values which help to customize the package. Some of them are mandatory and some of them are optional. Here are each key and its explanation and its corresponding value:
+The configuration file is formatted in `JSON`, comprising key-value pairs that enable customization of the package. While some keys are mandatory, others are optional. Below, each key is explained along with its corresponding value:
 
-* pcap_file_address [Required]
+* **pcap_file_address** [Required]
   
-  It specifies the input PCAP file address, and the format of the value is string.
+  This key specifies the input PCAP file address. The format of the value should be a string.
 
-* output_file_address [Required]
+* **output_file_address** [Required]
 
-  It specifies the output CSV file address, and the format of the value is string.
+  This key specifies the output CSV file address. The format of the value should be a string.
 
-* label [Optional]
+* **label** [Optional]
 
-  It specifies the value of `label` column in the output CSV file address, and the format of the value is string. The default value is `Unknowm`.
+  This key specifies the value of the `label` column in the output CSV file address. The format of the value should be a string. The default value is `Unknown`.
 
-* number_of_threads [Optional]
 
-  It specifies the number of threads to be use for flow extraction, feature calculation, and output writing. The value must be at least 3, and the format of the value is integer. The default value is `4`.
+* **number_of_threads** [Optional]
 
-* feature_extractor_min_flows [Optional]
-* writer_min_rows [Optional]
-* read_packets_count_value_log_info [Optional]
-* check_flows_ending_min_flows [Optional]
-* capturer_updating_flows_min_value [Optional]
-* interface_name [Optional]
-* max_flow_duration [Optional]
-* activity_timeout [Optional]
-* floating_point_unit [Optional]
-* max_rows_number [Optional]
-* features_ignore_list [Optional]
+  This key specifies the number of threads to be used for all processes, including flow extraction, feature calculation, and output writing. The value must be an integer of at least `3`. The default value is `4`.
+
+  It's important to consider that the optimal value for this option varies based on the system configuration and the format of the input PCAP file. For instance, if the PCAP file contains a large number of packets (e.g., more than 5 million) and they are all TCP packets, increasing the number of threads might be beneficial. However, if the packets represent a small number of flows and all related packets are contiguous, adding more threads could potentially slow down the program since there are fewer distinct flows.
+
+  As a rule of thumb, the ideal value for this option typically falls between half the number of CPU cores (CPU count) and twice the CPU count. This helps balance computational resources without overwhelming the system. (`0.5 * cpu_count < best_option < 2 * cpu_count`)
+
+
+* **feature_extractor_min_flows** [Optional]
+
+  This key determines the minimum number of finished flows required for the feature extractor thread to initiate its work and extract features from these finished flows. The value must be an integer. The default value is `4000`.
+
+  Selecting a high value for this option will consume more RAM since more flows will be stored in memory, potentially slowing down the entire program. Conversely, choosing a low value for this option can slow down the execution process, as it involves locking the finished flows list and then copying those flows for feature extraction. These two processes, locking and copying, are slow and can impede other program components.
+
+
+* **writer_min_rows** [Optional]
+
+  This key specifies the minimum number of ready flows (i.e., finished flows from which features have been extracted) required for the writer thread to begin its work of writing the flows to the CSV file. The value must be an integer. The default value is `6000`.
+
+  Opting for a high value for this option will increase RAM usage since more flows will be stored in memory, potentially slowing down the overall program performance. Conversely, selecting a low value for this option can slow down the execution process, involving locking the finished flows list, copying those flows for the writing process, and performing I/O operations to write to the file. These three processes — locking, copying, and I/O — are slow and may impede other program components.
+  
+* **read_packets_count_value_log_info** [Optional]
+
+  This key determines the minimum number of processed packets (i.e., the number of packets read from the PCAP file and assigned to a flow) required for the logger to log. The value must be an integer. The default value is `10,000`. This means that after processing every `10,000` packets, the program will print a statement indicating the number of packets analyzed.
+
+
+* **check_flows_ending_min_flows** [Optional]
+
+  This key specifies the minimum number of ongoing flows (i.e., created flows that have not yet finished) required for checking if they have reached the timeout or maximum flow time value. The value must be an integer. The default value is `2000`. This indicates that if the number of ongoing flows exceeds `2000`, the program will proceed to check all flows for timeout or maximum flow time.
+
+
+* **capturer_updating_flows_min_value** [Optional]
+
+  This key determines the minimum number of finished flows required to be added to the queue for feature extraction. The value must be an integer. The default value is `2000`. This means that if the number of finished flows exceeds `2000`, the program will move them to a separate list for the feature extractor.
+  
+
+* **max_flow_duration** [Optional]
+
+  This key sets the maximum duration of a flow in seconds. The value must be an integer. The default value is `120,000`. It means if the flow duration exceeds `120,000` seconds, the program will terminate the flow and initiate a new one.
+
+
+* **activity_timeout** [Optional]
+
+  This key defines the flow activity timeout in seconds. The value must be an integer. The default value is `5000`. It means if `5000` seconds have elapsed since the last packet of the flow, the program will terminate the flow.
+
+
+* **floating_point_unit** [Optional]
+
+  This key specifies the floating point unit used for the feature extraction process. The value must be in the format: `.[UNIT]f`. The default value is `.4f`. This indicates that the feature values will be rounded to the fourth decimal place.
+
+
+* **max_rows_number** [Optional]
+
+  This key defines the maximum number of rows in the output CSV file. The value must be an integer. The default value is `900,000`. It means if there are more than `900,000` flows to be written in the CSV file, the program will close the current CSV file and create a new one for the remaining flows.
+
+
+* **features_ignore_list** [Optional]
+
+  This key specifies the features that you do not want to extract. The value must be a list of string values, where each string represents a feature name. The default value is an empty list. If you include a feature name in this list, the program will skip extracting that feature, and it will not appear in the output CSV file.
 
 
 An example of a configuration file would be like this:
@@ -98,18 +144,24 @@ An example of a configuration file would be like this:
     "read_packets_count_value_log_info": 1000000,
     "check_flows_ending_min_flows": 20000,
     "capturer_updating_flows_min_value": 5000,
-    "interface_name": "eth0",
     "max_flow_duration": 120000,
     "activity_timeout": 300,
     "floating_point_unit": ".4f",
     "max_rows_number": 800000,
-    "features_ignore_list": []
+    "features_ignore_list": ["duration", "src_ip"]
 }
 ```
 
+
+In general, we recommend adjusting the values of the following options: `number_of_threads`, `feature_extractor_min_flows`, `writer_min_rows`, `check_flows_ending_min_flows`, and `capturer_updating_flows_min_value`, based on your system configuration. This is particularly important if your PCAP file is large (usually more than 4 GB with over 1 million TCP packets), to optimize program efficiency.
+
+
+## Argument Parser
+
+
 You can use `-h` to see different options of the program.
 
-Moreover, this project has been successfully tested on Ubuntu 20.04. It should work on other versions of Ubuntu OS (or even Debian OS) as long as your system has the necessary python3 packages (you can see the required packages in the `requirements.txt` file).
+Moreover, this project has been successfully tested on Ubuntu 20.04, Ubuntu 22.04, Windows 10, and Windows 11. It should work on other versions of Ubuntu OS (or even Debian OS) as long as your system has the necessary Python3 packages (you can see the required packages in the `requirements.txt` file).
 
 
 # Architecture
