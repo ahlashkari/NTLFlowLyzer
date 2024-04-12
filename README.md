@@ -158,10 +158,18 @@ In general, we recommend adjusting the values of the following options: `number_
 
 ## Argument Parser
 
-
 You can use `-h` to see different options of the program.
 
-Moreover, this project has been successfully tested on Ubuntu 20.04, Ubuntu 22.04, Windows 10, and Windows 11. It should work on other versions of Ubuntu OS (or even Debian OS) as long as your system has the necessary Python3 packages (you can see the required packages in the `requirements.txt` file).
+To execute NTLFlowLyzer, simply run the following command:
+
+```bash
+ntlflowlyzer -c YOUR_CONFIG_FILE
+```
+
+Replace `YOUR_CONFIG_FILE` with the path to your configuration file.
+
+
+Moreover, this project has been successfully tested on Ubuntu 20.04, Ubuntu 22.04, Windows 10, and Windows 11. It should work on other versions of Ubuntu OS (or even Debian OS) as long as your system has the necessary Python3 packages (you can find the required packages listed in the `requirements.txt` file).
 
 
 # Architecture
@@ -325,8 +333,6 @@ Nine mathematical functions are used to extract different features. You can see 
       The ['mean'](https://docs.python.org/3/library/statistics.html#statistics.mean) function from 'statistics' library (Python built-in) calculates the mean value of a given list. According to the library documentation:
         
       The arithmetic mean is the sum of the data divided by the number of data points. It is commonly called “the average”, although it is only one of many different mathematical averages. It is a measure of the central location of the data.
-
-      TODO: use 'fmean' instead of mean (it is new in python 3.8). According to the library documentation:
         
       This runs faster than the mean() function and it always returns a float. The data may be a sequence or iterable. If the input dataset is empty, raises a StatisticsError.
 
@@ -341,9 +347,7 @@ Nine mathematical functions are used to extract different features. You can see 
 
 
 ----
-     
-     
-TODO: put more examples here
+
 
 # Output
 
