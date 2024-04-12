@@ -2,6 +2,6 @@
 
 from . import features
 from . import writers
-from .network_flow_analyzer import NLFlowLyzer
+from .network_flow_analyzer import NTLFlowLyzer
 from .feature_extractor import FeatureExtractor
 from .config_loader import ConfigLoader

@@ -7,7 +7,7 @@ from .strategy import Strategy
 class CSVWriter(Strategy):
     def write(self, file_address: str, data: list, writing_mode: str = 'w',
             only_headers: bool = False) -> None:
-        with open(file_address, writing_mode) as f:
+        with open(file_address, writing_mode, newline='') as f:
             writer = csv.writer(f)
             if len(data) == 0:
                 return

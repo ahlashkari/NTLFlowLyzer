@@ -2,10 +2,12 @@
 
 from datetime import datetime
 from .features import *
-
+import warnings
 
 class FeatureExtractor(object):
     def __init__(self, floating_point_unit: str):
+        warnings.filterwarnings("ignore")
+
         self.floating_point_unit = floating_point_unit
         self.__features = [
                 Duration(),
@@ -148,6 +150,47 @@ class FeatureExtractor(object):
                 BwdACKFlagCounts(),
                 BwdCWRFlagCounts(),
                 BwdRSTFlagCounts(),
+
+                FINFlagPercentageInTotal(),
+                PSHFlagPercentageInTotal(),
+                URGFlagPercentageInTotal(),
+                ECEFlagPercentageInTotal(),
+                SYNFlagPercentageInTotal(),
+                ACKFlagPercentageInTotal(),
+                CWRFlagPercentageInTotal(),
+                RSTFlagPercentageInTotal(),
+                FwdFINFlagPercentageInTotal(),
+                FwdPSHFlagPercentageInTotal(),
+                FwdURGFlagPercentageInTotal(),
+                FwdECEFlagPercentageInTotal(),
+                FwdSYNFlagPercentageInTotal(),
+                FwdACKFlagPercentageInTotal(),
+                FwdCWRFlagPercentageInTotal(),
+                FwdRSTFlagPercentageInTotal(),
+                BwdFINFlagPercentageInTotal(),
+                BwdPSHFlagPercentageInTotal(),
+                BwdURGFlagPercentageInTotal(),
+                BwdECEFlagPercentageInTotal(),
+                BwdSYNFlagPercentageInTotal(),
+                BwdACKFlagPercentageInTotal(),
+                BwdCWRFlagPercentageInTotal(),
+                BwdRSTFlagPercentageInTotal(),
+                FwdFINFlagPercentageInFwdPackets(),
+                FwdPSHFlagPercentageInFwdPackets(),
+                FwdURGFlagPercentageInFwdPackets(),
+                FwdECEFlagPercentageInFwdPackets(),
+                FwdSYNFlagPercentageInFwdPackets(),
+                FwdACKFlagPercentageInFwdPackets(),
+                FwdCWRFlagPercentageInFwdPackets(),
+                FwdRSTFlagPercentageInFwdPackets(),
+                BwdFINFlagPercentageInBwdPackets(),
+                BwdPSHFlagPercentageInBwdPackets(),
+                BwdURGFlagPercentageInBwdPackets(),
+                BwdECEFlagPercentageInBwdPackets(),
+                BwdSYNFlagPercentageInBwdPackets(),
+                BwdACKFlagPercentageInBwdPackets(),
+                BwdCWRFlagPercentageInBwdPackets(),
+                BwdRSTFlagPercentageInBwdPackets(),
 
                 PacketsIATMean(),
                 PacketsIATStd(),
@@ -304,31 +347,34 @@ class FeatureExtractor(object):
 
     def execute(self, data: list, data_lock, flows: List[Flow], features_ignore_list: list = [],
             label: str = "") -> list:
-        self.__extracted_data = []
-        for flow in flows:
-            features_of_flow = {}
-            features_of_flow["flow_id"] = str(flow)
-            features_of_flow["timestamp"] = datetime.fromtimestamp(float(flow.get_timestamp()))
-            features_of_flow["src_ip"] = flow.get_src_ip()
-            features_of_flow["src_port"] = flow.get_src_port()
-            features_of_flow["dst_ip"] = flow.get_dst_ip()
-            features_of_flow["dst_port"] = flow.get_dst_port()
-            features_of_flow["protocol"] = flow.get_protocol()
-            feature: Feature
-            for feature in self.__features:
-                if feature.name in features_ignore_list:
-                    continue
-                feature.set_floating_point_unit(self.floating_point_unit)
-                try:
-                    features_of_flow[feature.name] = feature.extract(flow)
-                except Exception as e:
-                    print(f">>> Error occured in extracting the '{feature.name}' for '{flow}' flow.")
-                    print(f">>> Error message: {e}")
-                    print(110*"=")
-                    features_of_flow[feature.name] = None
-                    continue
-            features_of_flow["label"] = label
-            self.__extracted_data.append(features_of_flow.copy())
-            # print(len(features_of_flow))
-        with data_lock:
-            data.extend(self.__extracted_data)
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+
+            self.__extracted_data = []
+            for flow in flows:
+                features_of_flow = {}
+                features_of_flow["flow_id"] = str(flow)
+                features_of_flow["timestamp"] = datetime.fromtimestamp(float(flow.get_timestamp()))
+                features_of_flow["src_ip"] = flow.get_src_ip()
+                features_of_flow["src_port"] = flow.get_src_port()
+                features_of_flow["dst_ip"] = flow.get_dst_ip()
+                features_of_flow["dst_port"] = flow.get_dst_port()
+                features_of_flow["protocol"] = flow.get_protocol()
+                feature: Feature
+                for feature in self.__features:
+                    if feature.name in features_ignore_list:
+                        continue
+                    feature.set_floating_point_unit(self.floating_point_unit)
+                    try:
+                        features_of_flow[feature.name] = feature.extract(flow)
+                    except Exception as e:
+                        print(f">>> Error occured in extracting the '{feature.name}' for '{flow}' flow.")
+                        print(f">>> Error message: {e}")
+                        print(110*"=")
+                        features_of_flow[feature.name] = None
+                        continue
+                features_of_flow["label"] = label
+                self.__extracted_data.append(features_of_flow.copy())
+                # print(len(features_of_flow))
+            with data_lock:
+                data.extend(self.__extracted_data)

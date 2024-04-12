@@ -22,6 +22,12 @@ class ConfigLoader:
         self.check_flows_ending_min_flows = 2000
         self.capturer_updating_flows_min_value = 2000
         self.max_rows_number = 900000
+        self.batch_address = ""
+        self.vxlan_ip = ""
+        self.continues_batch_address = ""
+        self.continues_pcap_prefix = ""
+        self.batch_address_output = ""
+        self.number_of_continues_files = 0
         self.read_config_file()
 
     def read_config_file(self):
@@ -29,8 +35,8 @@ class ConfigLoader:
             with open(self.config_file_address) as config_file:
                 for key, value in json.loads(config_file.read()).items():
                     setattr(self, key, value)
-                if self.pcap_file_address is None:
-                    raise Exception("Please specify the 'pcap_file_address' in the config file.")
+                if self.pcap_file_address is None and self.batch_address is None and self.continues_batch_address is None:
+                    raise Exception("Please specify the 'pcap_file_address' or 'batch_address' or 'continues_batch_address' in the config file.")
         except Exception as error:
             print(f">> Error was detected while reading {self.config_file_address}: {str(error)}. "\
                     "Default values will be applied.")
