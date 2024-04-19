@@ -59,6 +59,14 @@ The configuration file is formatted in `JSON`, comprising key-value pairs that e
 * **pcap_file_address** [Required]
   
   This key specifies the input PCAP file address. The format of the value should be a string.
+  
+  **Note**: At this version of NTLFlowLyzer, we only support the `PCAP` format. For other formats such as `PCAPNG`, you must convert them to `PCAP`. To convert `PCAPNG` to `PCAP`, you can use Wireshark. If you prefer command-line tools, you can use the following command:
+
+  ```bash
+  tshark -F pcap -r {pcapng_file} -w {pcap_file}
+  ```
+
+  Replace `{pcapng_file}` with the path to your PCAPNG file and `{pcap_file}` with the desired output PCAP file name.
 
 * **output_file_address** [Required]
 
