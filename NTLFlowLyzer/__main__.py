@@ -47,7 +47,7 @@ def main():
         output_file_name = file.split('/')[-1]
         config.pcap_file_address = file
         config.output_file_address = f"{batch_address_output}/{output_file_name}.csv"
-        network_flow_analyzer = NTLFlowLyzer(config, online_capturing)
+        network_flow_analyzer = NTLFlowLyzer(config, online_capturing, parsed_arguments.continues_batch_mode)
         network_flow_analyzer.run()
 
 
