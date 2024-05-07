@@ -17,11 +17,11 @@ class Packet():
         self.protocol = protocol
         self.__tcp_flags = flags
         self.timestamp = timestamp
-        # self.timestamp = datetime.strptime(float(timestamp))
         self.forward = forward
         self.length = length
         self.payloadbytes = payloadbytes
         self.header_size = header_size
+        self.__segment_size = self.header_size + self.payloadbytes
         self.window_size = window_size
         self.seq_number = seq_number
         self.ack_number = ack_number
@@ -95,3 +95,6 @@ class Packet():
 
     def get_window_size(self):
         return self.window_size
+
+    def get_segment_size(self):
+        return self.__segment_size
