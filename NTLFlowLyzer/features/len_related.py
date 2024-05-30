@@ -261,31 +261,247 @@ class BwdPayloadBytesMode(Feature):
         return 0
 
 
-class FwdAvgSegmentSize(Feature):
-    name = "fwd_avg_segment_size"
+class FwdSegmentSizeMean(Feature):
+    name = "fwd_segment_size_mean"
     def extract(self, flow: Flow) -> float:
-        try:
-            return utils.calculate_fwd_flow_payload_bytes(flow) / len(flow.get_forwardpackets())
-        except ZeroDivisionError:
-            return 0
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_forwardpackets()]
+        if packets_segment_size:
+            return format(statistics.mean(packets_segment_size), self.floating_point_unit)
+        return 0
 
 
-class BwdAvgSegmentSize(Feature):
-    name = "bwd_avg_segment_size"
+class FwdSegmentSizeMax(Feature):
+    name = "fwd_segment_size_max"
     def extract(self, flow: Flow) -> float:
-        try:
-            return utils.calculate_bwd_flow_payload_bytes(flow) / len(flow.get_backwardpackets())
-        except ZeroDivisionError:
-            return 0
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_forwardpackets()]
+        if packets_segment_size:
+            return max(packets_segment_size)
+        return 0
 
 
-class AvgSegmentSize(Feature):
-    name = "avg_segment_size"
+class FwdSegmentSizeMin(Feature):
+    name = "fwd_segment_size_min"
     def extract(self, flow: Flow) -> float:
-        try:
-            return utils.calculate_flow_payload_bytes(flow) / len(flow.get_packets())
-        except ZeroDivisionError:
-            return 0
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_forwardpackets()]
+        if packets_segment_size:
+            return min(packets_segment_size)
+        return 0
+
+
+class FwdSegmentSizeStd(Feature):
+    name = "fwd_segment_size_std"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_forwardpackets()]
+        if packets_segment_size:
+            return format(statistics.pstdev(packets_segment_size), self.floating_point_unit)
+        return 0
+
+
+class FwdSegmentSizeVariance(Feature):
+    name = "fwd_segment_size_variance"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_forwardpackets()]
+        if packets_segment_size:
+            return format(statistics.pvariance(packets_segment_size), self.floating_point_unit)
+        return 0
+
+
+class FwdSegmentSizeMedian(Feature):
+    name = "fwd_segment_size_median"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_forwardpackets()]
+        if packets_segment_size:
+            return format(statistics.median(packets_segment_size), self.floating_point_unit)
+        return 0
+
+
+class FwdSegmentSizeSkewness(Feature):
+    name = "fwd_segment_size_skewness"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_forwardpackets()]
+        if packets_segment_size:
+            return format(float(stats.skew(packets_segment_size)), self.floating_point_unit)
+        return 0
+
+
+class FwdSegmentSizeCov(Feature):
+    name = "fwd_segment_size_cov"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_forwardpackets()]
+        if packets_segment_size:
+            return format(stats.variation(packets_segment_size), self.floating_point_unit)
+        return 0
+
+
+class FwdSegmentSizeMode(Feature):
+    name = "fwd_segment_size_mode"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_forwardpackets()]
+        if packets_segment_size:
+            return format(float(stats.mode(packets_segment_size)[0]), self.floating_point_unit)
+        return 0
+
+
+class BwdSegmentSizeMean(Feature):
+    name = "bwd_segment_size_mean"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_backwardpackets()]
+        if packets_segment_size:
+            return format(statistics.mean(packets_segment_size), self.floating_point_unit)
+        return 0
+
+
+class BwdSegmentSizeMax(Feature):
+    name = "bwd_segment_size_max"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_backwardpackets()]
+        if packets_segment_size:
+            return max(packets_segment_size)
+        return 0
+
+
+class BwdSegmentSizeMin(Feature):
+    name = "bwd_segment_size_min"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_backwardpackets()]
+        if packets_segment_size:
+            return min(packets_segment_size)
+        return 0
+
+
+class BwdSegmentSizeStd(Feature):
+    name = "bwd_segment_size_std"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_backwardpackets()]
+        if packets_segment_size:
+            return format(statistics.pstdev(packets_segment_size), self.floating_point_unit)
+        return 0
+
+
+class BwdSegmentSizeVariance(Feature):
+    name = "bwd_segment_size_variance"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_backwardpackets()]
+        if packets_segment_size:
+            return format(statistics.pvariance(packets_segment_size), self.floating_point_unit)
+        return 0
+
+
+class BwdSegmentSizeMedian(Feature):
+    name = "bwd_segment_size_median"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_backwardpackets()]
+        if packets_segment_size:
+            return format(statistics.median(packets_segment_size), self.floating_point_unit)
+        return 0
+
+
+class BwdSegmentSizeSkewness(Feature):
+    name = "bwd_segment_size_skewness"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_backwardpackets()]
+        if packets_segment_size:
+            return format(float(stats.skew(packets_segment_size)), self.floating_point_unit)
+        return 0
+
+
+class BwdSegmentSizeCov(Feature):
+    name = "bwd_segment_size_cov"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_backwardpackets()]
+        if packets_segment_size:
+            return format(stats.variation(packets_segment_size), self.floating_point_unit)
+        return 0
+
+
+class BwdSegmentSizeMode(Feature):
+    name = "bwd_segment_size_mode"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_backwardpackets()]
+        if packets_segment_size:
+            return format(float(stats.mode(packets_segment_size)[0]), self.floating_point_unit)
+        return 0
+
+
+class SegmentSizeMean(Feature):
+    name = "segment_size_mean"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_packets()]
+        if packets_segment_size:
+            return format(statistics.mean(packets_segment_size), self.floating_point_unit)
+        return 0
+
+
+class SegmentSizeMax(Feature):
+    name = "segment_size_max"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_packets()]
+        if packets_segment_size:
+            return max(packets_segment_size)
+        return 0
+
+
+class SegmentSizeMin(Feature):
+    name = "segment_size_min"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_packets()]
+        if packets_segment_size:
+            return min(packets_segment_size)
+        return 0
+
+
+class SegmentSizeStd(Feature):
+    name = "segment_size_std"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_packets()]
+        if packets_segment_size:
+            return format(statistics.pstdev(packets_segment_size), self.floating_point_unit)
+        return 0
+
+
+class SegmentSizeVariance(Feature):
+    name = "segment_size_variance"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_packets()]
+        if packets_segment_size:
+            return format(statistics.pvariance(packets_segment_size), self.floating_point_unit)
+        return 0
+
+
+class SegmentSizeMedian(Feature):
+    name = "segment_size_median"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_packets()]
+        if packets_segment_size:
+            return format(statistics.median(packets_segment_size), self.floating_point_unit)
+        return 0
+
+
+class SegmentSizeSkewness(Feature):
+    name = "segment_size_skewness"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_packets()]
+        if packets_segment_size:
+            return format(float(stats.skew(packets_segment_size)), self.floating_point_unit)
+        return 0
+
+
+class SegmentSizeCov(Feature):
+    name = "segment_size_cov"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_packets()]
+        if packets_segment_size:
+            return format(stats.variation(packets_segment_size), self.floating_point_unit)
+        return 0
+
+
+class SegmentSizeMode(Feature):
+    name = "segment_size_mode"
+    def extract(self, flow: Flow) -> float:
+        packets_segment_size = [packet.get_segment_size() for packet in flow.get_packets()]
+        if packets_segment_size:
+            return format(float(stats.mode(packets_segment_size)[0]), self.floating_point_unit)
+        return 0
 
 
 class TotalHeaderBytes(Feature):

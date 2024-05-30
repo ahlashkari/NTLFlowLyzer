@@ -2,6 +2,7 @@
 
 import datetime
 from datetime import datetime
+from typing import List
 from .packet import Packet
 
 
@@ -64,7 +65,7 @@ class Flow(object):
     def get_protocol(self):
         return self.protocol
 
-    def get_packets(self):
+    def get_packets(self) -> List[Packet]:
         return self.packets
 
     def get_flow_start_time(self):
@@ -73,13 +74,13 @@ class Flow(object):
     def get_flow_last_seen(self):
         return self.packets[-1].get_timestamp()
 
-    def get_forwardpackets(self):
+    def get_forwardpackets(self) -> List[Packet]:
         return [packet for packet in self.packets if packet.is_forward()]
 
-    def get_backwardpackets(self):
+    def get_backwardpackets(self) -> List[Packet]:
         return [packet for packet in self.packets if not packet.is_forward()]
 
-    def get_timestamp(self) :
+    def get_timestamp(self):
         return self.flow_start_time
 
     def total_packets_payloadbytes(self):
