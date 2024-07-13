@@ -9,7 +9,7 @@ from datetime import datetime
 class Packet():
     def __init__(self, src_ip="", src_port=0, dst_ip="", dst_port=0, protocol=None, flags=0,
             timestamp=0, forward=True, length=0, payloadbytes=0, header_size=0,
-            window_size=0, seq_number=0, ack_number=0):
+            window_size=0, seq_number=0, ack_number=0, payload_data=None):
         self.src_ip = src_ip
         self.src_port = src_port
         self.dst_ip = dst_ip
@@ -25,6 +25,7 @@ class Packet():
         self.window_size = window_size
         self.seq_number = seq_number
         self.ack_number = ack_number
+        self.payload_data = payload_data
 
     def __len__(self):
         return self.get_length
@@ -98,3 +99,6 @@ class Packet():
 
     def get_segment_size(self):
         return self.__segment_size
+    
+    def get_payload_data(self):
+        return self.payload_data

@@ -40,64 +40,73 @@ class NetworkFlowCapturer:
     def pcap_summary(self, address):
         ip_count, tcp_count, udp_count = 0, 0, 0
         app_protocol_count = defaultdict(int)
-        f = open(address, 'rb')
-
-        pcap = dpkt.pcap.Reader(f)
         total_packets = 0
+        has_eth_encapsulation = False
 
-        for ts, buf in pcap:
-            total_packets += 1
-            try:
-                eth = dpkt.ethernet.Ethernet(buf)
-                decapsulation = True
-                while decapsulation:
-                    if not isinstance(eth.data, dpkt.ip.IP):
-                        decapsulation = False
-                        break
-                    ip = eth.data
-                    if (socket.inet_ntoa(ip.src) == self.__vxlan_ip) or (socket.inet_ntoa(ip.dst) == self.__vxlan_ip):
+        with open(address, 'rb') as f:
+            pcap = dpkt.pcap.Reader(f)
 
-                        if not ((socket.inet_ntoa(ip.src) == self.__vxlan_ip and socket.inet_ntoa(ip.dst)[0:5] == "10.0.") or \
-                            (socket.inet_ntoa(ip.dst) == self.__vxlan_ip and socket.inet_ntoa(ip.src)[0:5] == "10.0.")):
-                            decapsulation = False
-                            break
+            for ts, buf in pcap:
+                total_packets += 1
 
-                        if len(eth.data.data.data) == 0:
-                            decapsulation = False
-                            break
+                try:
+                    eth = dpkt.ethernet.Ethernet(buf)
+                    if eth.type == dpkt.ethernet.ETH_TYPE_IP:
+                        has_eth_encapsulation = True
 
-                        # To understand what is happening here, I recommend you to check the packets in wireshark
-                        new_buf = eth.data.data.data
-                        if isinstance(eth.data.data, dpkt.icmp.ICMP):
-                            new_buf = eth.data.data.data.data.data.data
-                        new_buf = new_buf[8:] # Passing the vxlan
-                        eth = ethernet.Ethernet(new_buf)
+                    if not has_eth_encapsulation:
+                        ip = dpkt.ip.IP(buf)
                     else:
-                        decapsulation = False
-                        break
+                        decapsulation = True
+                        while decapsulation:
+                            if not isinstance(eth.data, dpkt.ip.IP):
+                                decapsulation = False
+                                break
 
-                if not isinstance(eth.data, dpkt.ip.IP):
-                    continue
+                            ip = eth.data
 
-                if (socket.inet_ntoa(ip.src) == self.__vxlan_ip) or (socket.inet_ntoa(ip.dst) == self.__vxlan_ip):
-                    if len(eth.data.data.data) == 0:
+                            if (socket.inet_ntoa(ip.src) == self.__vxlan_ip) or (socket.inet_ntoa(ip.dst) == self.__vxlan_ip):
+                                if not ((socket.inet_ntoa(ip.src) == self.__vxlan_ip and socket.inet_ntoa(ip.dst)[0:5] == "10.0.") or \
+                                        (socket.inet_ntoa(ip.dst) == self.__vxlan_ip and socket.inet_ntoa(ip.src)[0:5] == "10.0.")):
+                                    decapsulation = False
+                                    break
+
+                                if len(eth.data.data.data) == 0:
+                                    decapsulation = False
+                                    break
+
+                                # To understand what is happening here, I recommend you to check the packets in wireshark
+                                new_buf = eth.data.data.data
+                                if isinstance(eth.data.data, dpkt.icmp.ICMP):
+                                    new_buf = eth.data.data.data.data.data.data
+                                new_buf = new_buf[8:] # Passing the vxlan
+                                eth = dpkt.ethernet.Ethernet(new_buf)
+                            else:
+                                decapsulation = False
+                                break
+
+                    if not isinstance(ip, dpkt.ip.IP):
                         continue
-                ip_count += 1
 
-                if isinstance(ip.data, dpkt.udp.UDP):
-                    udp_count += 1
-                    app_protocol_count[eth.data.data.dport] += 1
+                    if (socket.inet_ntoa(ip.src) == self.__vxlan_ip) or (socket.inet_ntoa(ip.dst) == self.__vxlan_ip):
+                        if len(ip.data.data) == 0:
+                            continue
+
+                    ip_count += 1
+
+                    if isinstance(ip.data, dpkt.udp.UDP):
+                        udp_count += 1
+                        app_protocol_count[ip.data.dport] += 1
+                        continue
+
+                    if isinstance(ip.data, dpkt.tcp.TCP):
+                        tcp_count += 1
+                        app_protocol_count[ip.data.dport] += 1
+
+                except (dpkt.dpkt.NeedData, dpkt.dpkt.UnpackError, Exception) as e:
+                    print(f"ERROR in packet number {total_packets}")
+                    print(e)
                     continue
-
-                if isinstance(ip.data, dpkt.tcp.TCP):
-                    tcp_count += 1
-                    app_protocol_count[eth.data.data.dport] += 1
-
-
-            except (dpkt.dpkt.NeedData, dpkt.dpkt.UnpackError, Exception) as e:
-                print(f"ERROR in packet number {total_packets}")
-                print(e)
-                continue
 
         print(50 * "=")
         print("Number and percentage of IP packets:")
@@ -119,6 +128,7 @@ class NetworkFlowCapturer:
             print(f"  Port {port} ({protocol_name}): {count} packets, {(count / total_packets) * 100:.2f}%")
 
         print(50 * "=")
+
         self.ip_packets += ip_count
         self.tcp_packets += tcp_count
         self.udp_packets += udp_count
@@ -140,90 +150,98 @@ class NetworkFlowCapturer:
         }
         return protocol_names.get(port, "Unknown")
 
-
+    
+        
     def pcap_parser(self, pcap_file: str, flows: list, flows_lock):
+        has_eth_encapsulation = False
         print(f">> Analyzing {pcap_file}")
         self.packet_counter = 0
         self.pcap_summary(pcap_file)
-        f = open(pcap_file, 'rb')
-        pcap = dpkt.pcap.Reader(f)
-        for ts, buf in pcap:
-            self.packet_counter +=1
-            try:
-                new_buf = buf
-                eth = dpkt.ethernet.Ethernet(buf)
 
-                decapsulation = True
-                while decapsulation:
-                    if not isinstance(eth.data, dpkt.ip.IP):
-                        decapsulation = False
-                        break
-                    ip = eth.data
-                    if (socket.inet_ntoa(ip.src) == self.__vxlan_ip) or (socket.inet_ntoa(ip.dst) == self.__vxlan_ip):
-                        if not ((socket.inet_ntoa(ip.src) == self.__vxlan_ip and socket.inet_ntoa(ip.dst)[0:5] == "10.0.") or \
-                            (socket.inet_ntoa(ip.dst) == self.__vxlan_ip and socket.inet_ntoa(ip.src)[0:5] == "10.0.")):
-                            decapsulation = False
-                            break
+        with open(pcap_file, 'rb') as f:
+            pcap = dpkt.pcap.Reader(f)
+            for ts, buf in pcap:
+                self.packet_counter += 1
+                try:
+                    if not has_eth_encapsulation:
+                        try:
+                            eth = dpkt.ethernet.Ethernet(buf)
+                            if eth.type == dpkt.ethernet.ETH_TYPE_IP:
+                                has_eth_encapsulation = True
+                        except dpkt.dpkt.UnpackError:
+                            pass
 
-                        # To understand what is happening here, I recommend you to check the packets in wireshark
-                        new_buf = eth.data.data.data
-                        if isinstance(eth.data.data, dpkt.icmp.ICMP):
-                            new_buf = eth.data.data.data.data.data.data
-
-                        new_buf = new_buf[8:] # Passing the vxlan
-                        eth = dpkt.ethernet.Ethernet(new_buf)
+                    if not has_eth_encapsulation:
+                        ip = dpkt.ip.IP(buf)
                     else:
-                        decapsulation = False
-                        break
-                if not isinstance(eth.data, dpkt.ip.IP):
-                    continue
-                ip = eth.data
+                        eth = dpkt.ethernet.Ethernet(buf)
+                        decapsulation = True
+                        while decapsulation:
+                            if not isinstance(eth.data, dpkt.ip.IP):
+                                decapsulation = False
+                                break
+                            ip = eth.data
+                            if (socket.inet_ntoa(ip.src) == self.__vxlan_ip) or (socket.inet_ntoa(ip.dst) == self.__vxlan_ip):
+                                if not ((socket.inet_ntoa(ip.src) == self.__vxlan_ip and socket.inet_ntoa(ip.dst)[0:5] == "10.0.") or
+                                        (socket.inet_ntoa(ip.dst) == self.__vxlan_ip and socket.inet_ntoa(ip.src)[0:5] == "10.0.")):
+                                    decapsulation = False
+                                    break
 
-                if not isinstance(ip.data, dpkt.tcp.TCP):
-                    continue
+                                new_buf = eth.data.data.data
+                                if isinstance(eth.data.data, dpkt.icmp.ICMP):
+                                    new_buf = eth.data.data.data.data.data.data
 
-                if (socket.inet_ntoa(ip.src) == self.__vxlan_ip) or (socket.inet_ntoa(ip.dst) == self.__vxlan_ip):
+                                new_buf = new_buf[8:]  # Passing the vxlan
+                                eth = dpkt.ethernet.Ethernet(new_buf)
+                            else:
+                                decapsulation = False
+                                break
+                        if not isinstance(eth.data, dpkt.ip.IP):
+                            continue
+                        ip = eth.data
 
-                    if not ((socket.inet_ntoa(ip.src) == self.__vxlan_ip and socket.inet_ntoa(ip.dst)[0:5] == "10.0.") or \
-                        (socket.inet_ntoa(ip.dst) == self.__vxlan_ip and socket.inet_ntoa(ip.src)[0:5] == "10.0.")):
+                    if not isinstance(ip.data, dpkt.tcp.TCP):
                         continue
 
-                if not isinstance(ip.data, dpkt.tcp.TCP):
+                    if (socket.inet_ntoa(ip.src) == self.__vxlan_ip) or (socket.inet_ntoa(ip.dst) == self.__vxlan_ip):
+                        if not ((socket.inet_ntoa(ip.src) == self.__vxlan_ip and socket.inet_ntoa(ip.dst)[0:5] == "10.0.") or
+                                (socket.inet_ntoa(ip.dst) == self.__vxlan_ip and socket.inet_ntoa(ip.src)[0:5] == "10.0.")):
+                            continue
+
+                    tcp_layer = ip.data
+                    network_protocol = 'TCP'
+                    window_size = tcp_layer.win
+                    tcp_flags = tcp_layer.flags
+                    seq_number = tcp_layer.seq
+                    ack_number = tcp_layer.ack
+
+                    nlflyzer_packet = Packet(
+                        src_ip=socket.inet_ntoa(ip.src),
+                        src_port=tcp_layer.sport,
+                        dst_ip=socket.inet_ntoa(ip.dst),
+                        dst_port=tcp_layer.dport,
+                        protocol=network_protocol,
+                        flags=tcp_flags,
+                        timestamp=ts,
+                        length=len(buf),
+                        payloadbytes=len(tcp_layer.data),
+                        header_size=len(ip.data) - len(tcp_layer.data),
+                        window_size=window_size,
+                        seq_number=seq_number,
+                        ack_number=ack_number,
+                        payload_data=tcp_layer.data)
+
+                    self.__add_packet_to_flow(nlflyzer_packet, flows, flows_lock)
+
+                    if self.packet_counter % self.__read_packets_count_value_log_info == 0:
+                        print(f">> {self.packet_counter} number of packets has been processed...")
+
+                except (dpkt.dpkt.NeedData, dpkt.dpkt.UnpackError, Exception) as e:
+                    print(f"!! Exception happened!")
+                    print(f"packet number: {self.packet_counter}")
+                    print(e)
+                    print(30 * "*")
                     continue
-
-                tcp_layer = ip.data
-                network_protocol = 'TCP'
-                window_size = tcp_layer.win
-                tcp_flags = tcp_layer.flags
-                seq_number = tcp_layer.seq
-                ack_number = tcp_layer.ack
-
-                nlflyzer_packet = Packet(
-                    src_ip=socket.inet_ntoa(ip.src), 
-                    src_port=tcp_layer.sport,
-                    dst_ip=socket.inet_ntoa(ip.dst), 
-                    dst_port=tcp_layer.dport,
-                    protocol=network_protocol, 
-                    flags=tcp_flags,
-                    timestamp=ts, 
-                    length=len(new_buf),
-                    payloadbytes=len(tcp_layer.data), 
-                    header_size=len(ip.data) - len(tcp_layer.data),
-                    window_size=window_size,
-                    seq_number=seq_number,
-                    ack_number=ack_number)
-                
-                self.__add_packet_to_flow(nlflyzer_packet, flows, flows_lock)
-
-                if self.packet_counter % self.__read_packets_count_value_log_info == 0:
-                    print(f">> {self.packet_counter} number of packets has been processed...")
-
-            except (dpkt.dpkt.NeedData, dpkt.dpkt.UnpackError, Exception) as e:
-                print(f"!! Exception happened!")
-                print(f"packet number: {self.packet_counter}")
-                print(e)
-                print(30*"*")
-                continue
         f.close()
 
 

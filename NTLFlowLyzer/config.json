@@ -1,21 +1,21 @@
 {
-    "pcap_file_address": "/home/bccc/input_pcaps/test.pcap",
-    "output_file_address": "/home/bccc/outputs/output-of-test.csv",
-    "batch_address": "/home/bccc/input_pcaps/",
-    "batch_address_output": "/home/bccc/outputs/",
-    "continues_batch_address": "/home/bccc/input_pcaps/",
-    "continues_pcap_prefix": "2023_12_19.pcap",
-    "number_of_continues_files": 10,
-    "label": "Benign",
-    "number_of_threads": 3,
+    
+    "batch_address": "C:\\Users\\mofahdel\\Desktop\\Entropy\\Baby_steps\\PCAPS\\Other_Encrypted",
+    "batch_address_output":"C:\\Users\\mofahdel\\Desktop\\Entropy\\Baby_steps",
+    "label": "VPN",
+    "number_of_threads": 4,
     "feature_extractor_min_flows": 2500,
-    "writer_min_rows": 8000,
-    "read_packets_count_value_log_info": 200000,
-    "check_flows_ending_min_flows": 2500,
-    "capturer_updating_flows_min_value": 2500,
+    "writer_min_rows": 1000,
+    "read_packets_count_value_log_info": 1000000,
+    "check_flows_ending_min_flows": 20000,
+    "capturer_updating_flows_min_value": 5000,
     "max_flow_duration": 120000,
     "activity_timeout": 300,
     "floating_point_unit": ".4f",
     "max_rows_number": 800000,
-    "features_ignore_list": []
+    "features_ignore_list": ["utf-8_per4bytes_max_entropy", "utf-8_per8bytes_max_entropy","utf-8_per16bytes_max_entropy","utf-8_per32bytes_max_entropy","utf-8_per64bytes_max_entropy","hex_per4bytes_max_entropy","hex_per8bytes_max_entropy","hex_per16bytes_max_entropy","hex_per64bytes_max_entropy","bin_per4bytes_max_entropy","bin_per8bytes_max_entropy","bin_per16bytes_max_entropy","bin_per32bytes_max_entropy","bin_per64bytes_max_entropy","bin_per4bytes_collision_entropy","bin_per8bytes_collision_entropy","bin_per16bytes_collision_entropy","bin_per32bytes_collision_entropy","bin_per64bytes_collision_entropy","hex_per4bytes_collision_entropy","hex_per8bytes_collision_entropy","hex_per16bytes_collision_entropy","hex_per32bytes_collision_entropy","hex_per64bytes_collision_entropy","utf8_per4bytes_collision_entropy","utf8_per8bytes_collision_entropy","utf8_per16bytes_collision_entropy","utf8_per32bytes_collision_entropy","utf8_per64bytes_collision_entropy"]
+
+
 }
+
+ 
