@@ -1,4 +1,4 @@
-![](https://github.com/ahlashkari/NTLFlowLyzer/blob/main/bccc.jpg)
+![](https://github.com/ahlashkari/NTLFlowLyzer/blob/master/bccc.jpg)
 
 # NTLFlowLyzer
 
