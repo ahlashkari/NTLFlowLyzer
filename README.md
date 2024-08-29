@@ -1,3 +1,5 @@
+![](https://github.com/ahlashkari/NTLFlowLyzer/blob/main/bccc.jpg)
+
 # NTLFlowLyzer
 
 As part of the Understanding Cybersecurity Series (UCS), NTLFlowLyzer is a Python open-source project to extract network layer features from TCP-based network traffic for Anomaly Profiling (AP) which is the second component of the [**NetFlowLyzer**](https://github.com/ahlashkari/NetFlowLyzer).
