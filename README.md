@@ -545,10 +545,118 @@ We currently have 348 features that are as follows (features' explanation will b
 
 ## Definitions
 
-+ **IAT**
-+ **Bulk**
-+ **Subflow**
-+ **Idle**
+In this section, we provide clear definitions for several category of features essential for understanding network traffic analysis within the context of the NTLFlowLyzer.
+
+### 1.1. Flow Bulk Calculation
+
+Flow bulk is determined based on certain criteria such as the number of packets transferred within a short time interval
+or a specific pattern of packet transmission. In NLFlowLyzer, flow bulk is identified based on the following criteria:
+* A bulk transfer is initiated when a certain number of consecutive packets are observed within a short time frame (1
+second in this case).
+* The bulk transfer is considered terminated if the gap between subsequent packets exceeds the defined threshold (1
+second).
+* During a bulk transfer, packet count, total size of transferred data, and duration are accumulated.
+* The flow maintains separate attributes (fbulkDuration, fbulkPacketCount, fbulkSizeTotal, fbulkStateCount) to track
+these bulk transfer characteristics.
+
+*Example*: For a flow, the bulk transfer is initiated when 5 consecutive packets are transferred within 1 second. During the bulk transfer, the flow's `fbulkPacketCount` is incremented, and the total size of the data transferred is accumulated in `fbulkSizeTotal`. If the gap between packets exceeds 1 second, the bulk transfer is terminated, and `fbulkDuration` records the total duration.
+
+
+### 1.2. Subflow Calculation
+Subflows are identified based on changes in packet transmission patterns within the flow. In NLFlowLyzer, subflows are
+calculated as follows:
+
+* Subflow count (sfcount) is incremented whenever there’s a gap of more than 1 second between consecutive packets.
+
+* This indicates a potential change in the transmission pattern, suggesting the beginning of a new subflow.
+
+* The subflow count provides insights into how many distinct patterns of packet transmission occurred within the flow.
+
+*Example*: A flow's subflow count (`sfcount`) is incremented each time there's a gap of more than 1 second between packets. This indicates a change in the transmission pattern and the start of a new subflow. If a flow contains several subflows, `sfcount` tracks how many distinct subflows exist.
+
+
+### 1.3 Time 
+
+#### 1.3.1 Idle Time
+Idle time refers to the duration during which there is no activity observed within the network flow. It represents periods of
+inactivity or low activity between packet transmissions. Idle time is calculated based on the timestamps of consecutive packets
+within the flow. Whenever there is a gap between the arrival times of successive packets exceeding a predefined threshold
+(in this case, 100 seconds), it is considered as an idle period. The start and end times of each idle period are recorded to
+determine the duration of idle time. The cumulative idle time for the flow is computed by summing up the durations of all
+idle periods observed.
+
+*Example*: Idle time is calculated as the total duration where no packets are transferred in a flow. For example, if there’s a 120-second gap between packets, the idle time is 120 seconds, and this value is added to the cumulative `idleTime` for the flow.
+
+
+
+#### 1.3.2 Active Time
+
+Active time represents the duration during which packet transmissions occur within the network flow. It indicates periods
+of activity or high activity characterized by the exchange of packets. Active time is calculated based on the timestamps of
+packets within the flow. Whenever packet transmissions occur, the start and end times of the active period are recorded. The
+duration of active time is computed as the difference between the start and end times of each active period. The cumulative
+active time for the flow is calculated by summing up the durations of all active periods observed.
+
+*Example*: Active time represents the period when packet transmissions occur. For instance, if there’s consistent packet exchange over a span of 300 seconds, this is recorded as an active period. The cumulative `activeTime` for the flow sums the durations of all such active periods.
+
+
+
+### 1.4. Packet Delta Time (DT)
+
+Packet delta time (DT) is the time difference between consecutive packets in a flow, measured for both forward and backward directions.
+
+*Example*: Packet delta time (DT) measures the time between consecutive packets. If packet A is received at time 100ms and packet B is received at 150ms, the `packetDeltaTime` between them would be 50ms.
+
+
+### 1.5. Payload
+The size of the TCP payload, which is the data portion of the packet, excluding the header.
+
+*Example*: The TCP payload size for each packet in a flow is recorded. For example, a packet may have a payload size of 512 bytes, which is stored in the `payloadSize` feature.
+
+
+### 1.6. Header
+The size of the TCP header, which contains control information like source and destination addresses, sequence numbers, and flags.
+
+*Example*: The TCP header size for a packet might be 40 bytes, representing control information such as sequence numbers and flags. This value is stored as `headerSize`.
+
+
+### 1.7. Payload Delta Length (DL)
+Payload delta length (DL) is the difference in the TCP payload size between consecutive packets in a flow.
+
+*Example*: The payload delta length (DL) between two consecutive packets is the difference in their payload sizes. For instance, if packet A has a payload of 500 bytes and packet B has 700 bytes, the `payloadDeltaLength` would be 200 bytes.
+
+
+### 1.8. Header Delta Length (DL)
+Header delta length (DL) is the difference in the TCP header size between consecutive packets in a flow.
+
+*Example*: The header delta length (DL) represents the difference in header sizes between consecutive packets. For example, if packet A has a header size of 40 bytes and packet B has a header size of 60 bytes, the `headerDeltaLength` would be 20 bytes.
+
+
+### 1.9. Packet Delta Length (DL)
+Packet delta length (DL) is the difference in the total packet size, including the whole packet, between consecutive packets in a flow.
+
+*Example*: Packet delta length (DL) is the difference in total packet size, including payload and header, between consecutive packets. If packet A has a total size of 800 bytes and packet B has 1000 bytes, the `packetDeltaLength` is 200 bytes.
+
+
+### 1.10. Flag Count
+The number of occurrences of each TCP flag (e.g., SYN, ACK, FIN) in a flow.
+
+*Example*: The number of TCP flags (such as SYN, ACK, FIN) is tracked. For instance, a flow may have 10 SYN flags and 15 ACK flags, recorded as `flagCount`.
+
+
+### 1.11. Flag Count Percentage in Total
+The percentage of each TCP flag type relative to the total number of flags in all packets in a flow.
+
+*Example*: The percentage of SYN flags relative to all flags in the flow is calculated. If a flow contains 100 flags and 10 of them are SYN, the `flagCountPercentageTotal` for SYN is 10%.
+
+
+
+### 1.12. Flag Count Percentage in Direction
+The percentage of each TCP flag type in either the forward or backward direction in a flow. 
+
+*Example*: The percentage of SYN flags in the forward direction is tracked separately. If a flow has 50 SYN flags in the forward direction out of 200 total forward packets, the `flagCountPercentageDirection` for SYN is 25%.
+
+
 
 ## Statistical Information Calculation
 
