@@ -657,6 +657,26 @@ The percentage of each TCP flag type in either the forward or backward direction
 *Example*: The percentage of SYN flags in the forward direction is tracked separately. If a flow has 50 SYN flags in the forward direction out of 200 total forward packets, the `flagCountPercentageDirection` for SYN is 25%.
 
 
+### 1.13. Rate
+The rate of packet transmission in a flow is calculated as the total number of packets or the size of packets/headers/payloads divided by the total duration of the flow. This metric indicates how many packets/bytes are being transmitted over a specific time frame.
+
+*Example*: If a flow contains 120 packets transmitted over a duration of 60 seconds, the `packetRate` would be 2.
+
+
+### 1.14. Inter-Arrival Time (IAT)
+Inter-Arrival Time (IAT) measures the time intervals between consecutive packet arrivals in a flow. 
+
+*Example*: Given a series of packets with the following timestamps:
+- Arrival time of Packet 1 at the destination: 0ms
+- Arrival time of Packet 2 at the destination: at 50ms
+- Arrival time of Packet 3 at the destination: at 120ms
+
+The IAT values calculated would be:
+- IAT between Packet 1 and Packet 2: \(50ms - 0ms = 50ms\)
+- IAT between Packet 2 and Packet 3: \(120ms - 50ms = 70ms\)
+
+Thus, the `packets_IAT_mean` would be the mean of these IAT values which equal to 60ms in this case.
+
 
 ## Statistical Information Calculation
 
