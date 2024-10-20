@@ -744,7 +744,7 @@ Nine mathematical functions are used to extract different features. You can see 
 
 For citation in your works and also understanding NTLFlowLyzer completely, you can find below published papers:
 
-- “Toward Generating a New Cloud-based Distributed Denial of Service (DDoS) Dataset and Intrusion Traffic Characterization”, MohammadMoein Shafi, Arash Habibi Lashkari, Vicente Rodriguez, and Ron Nevo, Information, Vol 15(3), 131, (2024)
+- "NLFlowLyzer: Toward generating an intrusion detection dataset and intruders behavior profiling through network layer traffic analysis and pattern extraction," MohammadMoein Shafi, Arash Habibi Lashkari, Arousha Haghighian Roudsari, Computers & Security, 2024, 104160, ISSN 0167-4048, https://doi.org/10.1016/j.cose.2024.104160.
 
 
 # Contributing
