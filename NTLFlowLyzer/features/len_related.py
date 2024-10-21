@@ -102,7 +102,7 @@ class PayloadBytesMode(Feature):
 class FwdPayloadBytesMax(Feature):
     name = "fwd_payload_bytes_max"
     def extract(self, flow: Flow) -> int:
-        packets_len = [packet.get_payloadbytes() for packet in flow.get_packets()]
+        packets_len = [packet.get_payloadbytes() for packet in flow.get_forwardpackets()]
         if packets_len:
             return max(packets_len)
         return 0
@@ -111,7 +111,7 @@ class FwdPayloadBytesMax(Feature):
 class FwdPayloadBytesMin(Feature):
     name = "fwd_payload_bytes_min"
     def extract(self, flow: Flow) -> int:
-        packets_len = [packet.get_payloadbytes() for packet in flow.get_packets()]
+        packets_len = [packet.get_payloadbytes() for packet in flow.get_forwardpackets()]
         if packets_len:
             return min(packets_len)
         return 0
@@ -120,7 +120,7 @@ class FwdPayloadBytesMin(Feature):
 class FwdPayloadBytesMean(Feature):
     name = "fwd_payload_bytes_mean"
     def extract(self, flow: Flow) -> float:
-        packets_len = [packet.get_payloadbytes() for packet in flow.get_packets()]
+        packets_len = [packet.get_payloadbytes() for packet in flow.get_forwardpackets()]
         if packets_len:
             return format(statistics.mean(packets_len), self.floating_point_unit)
         return 0
@@ -129,7 +129,7 @@ class FwdPayloadBytesMean(Feature):
 class FwdPayloadBytesStd(Feature):
     name = "fwd_payload_bytes_std"
     def extract(self, flow: Flow) -> float:
-        packets_len = [packet.get_payloadbytes() for packet in flow.get_packets()]
+        packets_len = [packet.get_payloadbytes() for packet in flow.get_forwardpackets()]
         if packets_len:
             return format(statistics.pstdev(packets_len), self.floating_point_unit)
         return 0
@@ -183,7 +183,7 @@ class FwdPayloadBytesMode(Feature):
 class BwdPayloadBytesMax(Feature):
     name = "bwd_payload_bytes_max"
     def extract(self, flow: Flow) -> int:
-        packets_len = [packet.get_payloadbytes() for packet in flow.get_packets()]
+        packets_len = [packet.get_payloadbytes() for packet in flow.get_backwardpackets()]
         if packets_len:
             return max(packets_len)
         return 0
@@ -192,7 +192,7 @@ class BwdPayloadBytesMax(Feature):
 class BwdPayloadBytesMin(Feature):
     name = "bwd_payload_bytes_min"
     def extract(self, flow: Flow) -> int:
-        packets_len = [packet.get_payloadbytes() for packet in flow.get_packets()]
+        packets_len = [packet.get_payloadbytes() for packet in flow.get_backwardpackets()]
         if packets_len:
             return min(packets_len)
         return 0
@@ -201,7 +201,7 @@ class BwdPayloadBytesMin(Feature):
 class BwdPayloadBytesMean(Feature):
     name = "bwd_payload_bytes_mean"
     def extract(self, flow: Flow) -> float:
-        packets_len = [packet.get_payloadbytes() for packet in flow.get_packets()]
+        packets_len = [packet.get_payloadbytes() for packet in flow.get_backwardpackets()]
         if packets_len:
             return format(statistics.mean(packets_len), self.floating_point_unit)
         return 0
@@ -210,7 +210,7 @@ class BwdPayloadBytesMean(Feature):
 class BwdPayloadBytesStd(Feature):
     name = "bwd_payload_bytes_std"
     def extract(self, flow: Flow) -> float:
-        packets_len = [packet.get_payloadbytes() for packet in flow.get_packets()]
+        packets_len = [packet.get_payloadbytes() for packet in flow.get_backwardpackets()]
         if packets_len:
             return format(statistics.pstdev(packets_len), self.floating_point_unit)
         return 0
