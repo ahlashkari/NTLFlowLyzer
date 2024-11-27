@@ -550,7 +550,7 @@ In this section, we provide clear definitions for several category of features e
 ### 1.1. Flow Bulk Calculation
 
 Flow bulk is determined based on certain criteria such as the number of packets transferred within a short time interval
-or a specific pattern of packet transmission. In NLFlowLyzer, flow bulk is identified based on the following criteria:
+or a specific pattern of packet transmission. In NTLFlowLyzer, flow bulk is identified based on the following criteria:
 * A bulk transfer is initiated when a certain number of consecutive packets are observed within a short time frame (1
 second in this case).
 * The bulk transfer is considered terminated if the gap between subsequent packets exceeds the defined threshold (1
@@ -563,7 +563,7 @@ these bulk transfer characteristics.
 
 
 ### 1.2. Subflow Calculation
-Subflows are identified based on changes in packet transmission patterns within the flow. In NLFlowLyzer, subflows are
+Subflows are identified based on changes in packet transmission patterns within the flow. In NTLFlowLyzer, subflows are
 calculated as follows:
 
 * Subflow count (sfcount) is incremented whenever there’s a gap of more than 1 second between consecutive packets.
@@ -744,8 +744,7 @@ Nine mathematical functions are used to extract different features. You can see 
 
 For citation in your works and also understanding NTLFlowLyzer completely, you can find below published papers:
 
-- "NLFlowLyzer: Toward generating an intrusion detection dataset and intruders behavior profiling through network layer traffic analysis and pattern extraction," MohammadMoein Shafi, Arash Habibi Lashkari, Arousha Haghighian Roudsari, Computers & Security, 2024, 104160, ISSN 0167-4048, https://doi.org/10.1016/j.cose.2024.104160.
-
+- "NTLFlowLyzer: Towards generating an intrusion detection dataset and intruders behavior profiling through network and transport layers traffic analysis and pattern extraction", MohammadMoein Shafi, Arash Habibi Lashkari, Arousha Haghighian Roudsari, Computers & Security, 2024, 104160, ISSN 0167-4048, https://doi.org/10.1016/j.cose.2024.104160.
 
 # Contributing
 
