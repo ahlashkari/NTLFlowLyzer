@@ -757,6 +757,8 @@ Any contribution is welcome in form of pull requests.
 
 * [**Moein Shafi:**](https://github.com/moein-shafi) Graduate student, Researcher and developer - York University ( 2 years, 2022 - 2024)
 
+* [**Mohamed Aziz El Fadhel:**]() Mitacs Global Research Intern, Researcher and developer - York University (4 months, 2024-2024)
+
 * [**Sepideh Niktabe:**](https://github.com/sepideh2020) Graduate students, Researcher and developer - York University (6 months, 2022-2023)
 
 * [**Mehrsa Khoshpasand:**](https://github.com/Khoshpasand-mehrsa) Researcher Assistant (RA) - York University (3 months, 2022)
