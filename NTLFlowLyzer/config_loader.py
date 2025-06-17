@@ -28,6 +28,7 @@ class ConfigLoader:
         self.continues_pcap_prefix = ""
         self.batch_address_output = ""
         self.number_of_continues_files = 0
+        self.base_number_continues_files = 1
         self.read_config_file()
 
     def read_config_file(self):

@@ -66,7 +66,8 @@ class NTLFlowLyzer(object):
                         continues_batch_address=self.__config.continues_batch_address,
                         continues_pcap_prefix=self.__config.continues_pcap_prefix,
                         number_of_continues_files=self.__config.number_of_continues_files,
-                        continues_batch_mode=self.__continues_batch_mode)
+                        continues_batch_mode=self.__continues_batch_mode,
+                        base_number_continues_files=self.__config.base_number_continues_files)
                 writer_thread = Process(target=self.writer)
                 writer_thread.start()
                 with Pool(processes=number_of_extractor_threads) as pool:

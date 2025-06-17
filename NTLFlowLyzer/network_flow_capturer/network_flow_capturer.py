@@ -17,7 +17,8 @@ class NetworkFlowCapturer:
                 check_flows_ending_min_flows: int, capturer_updating_flows_min_value: int,
                 read_packets_count_value_log_info: int, vxlan_ip: str,
                 continues_batch_address: str, continues_pcap_prefix: str,
-                number_of_continues_files: int, continues_batch_mode: bool):
+                number_of_continues_files: int, continues_batch_mode: bool,
+                base_number_continues_files:int):
         self.__finished_flows = []
         self.__ongoing_flows = {}
         self.__max_flow_duration = max_flow_duration
@@ -30,6 +31,7 @@ class NetworkFlowCapturer:
         self.__continues_pcap_prefix = continues_pcap_prefix
         self.__number_of_continues_files = number_of_continues_files
         self.__continues_batch_mode = continues_batch_mode
+        self.__base_number_continues_files = base_number_continues_files
         self.flows_counter = 0
         self.tcp_packets = 0
         self.udp_packets = 0
@@ -40,10 +42,13 @@ class NetworkFlowCapturer:
     def pcap_summary(self, address):
         ip_count, tcp_count, udp_count = 0, 0, 0
         app_protocol_count = defaultdict(int)
-        f = open(address, 'rb')
-
-        pcap = dpkt.pcap.Reader(f)
-        total_packets = 0
+        try:
+            f = open(address, 'rb')
+            pcap = dpkt.pcap.Reader(f)
+            total_packets = 0
+        except Exception as e:
+            print(f">>> There was an error in reading the pcap file at ==> '{address}'.\n",
+                  f">>> Here is the error message: '{e}'")
 
         for ts, buf in pcap:
             total_packets += 1
@@ -165,7 +170,8 @@ class NetworkFlowCapturer:
                             decapsulation = False
                             break
 
-                        # To understand what is happening here, I recommend you to check the packets in wireshark
+                        # This part is for the decapsulation of VXLAN tag that is used in AWS traffic mirroring service.
+                        # To understand what is happening here, I recommend you to check the packets in wireshark.
                         new_buf = eth.data.data.data
                         if isinstance(eth.data.data, dpkt.icmp.ICMP):
                             new_buf = eth.data.data.data.data.data.data
@@ -231,7 +237,7 @@ class NetworkFlowCapturer:
         print(">> Parser has started...")
         if self.__continues_batch_mode is True:
             print(">> Continues Batch mode is on!")
-            for i in self.__number_of_continues_files:
+            for i in range(self.__base_number_continues_files, self.__base_number_continues_files + self.__number_of_continues_files):
                 filename = self.__continues_pcap_prefix + str(i)
                 continues_pcap_file = os.path.join(self.__continues_batch_address, filename)
                 self.pcap_parser(pcap_file=continues_pcap_file, flows=flows, flows_lock=flows_lock)

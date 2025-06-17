@@ -44,9 +44,9 @@ def main():
     print(f">> {len(pcap_files)} number of files detected. Lets go for analyze them!")
     for file in pcap_files:
         print(100*"#")
-        output_file_name = file.split('/')[-1]
+        output_file_name = file.split('\\')[-1]
         config.pcap_file_address = file
-        config.output_file_address = f"{batch_address_output}/{output_file_name}.csv"
+        config.output_file_address = f"{batch_address_output}\\{output_file_name}.csv"
         network_flow_analyzer = NTLFlowLyzer(config, online_capturing, parsed_arguments.continues_batch_mode)
         network_flow_analyzer.run()
 
