@@ -740,7 +740,7 @@ Nine mathematical functions are used to extract different features. You can see 
 ----
 
 
-# Copyright (c) 2023
+# Citation & Copyright (c) 2023
 
 For citation in your works and also understanding NTLFlowLyzer completely, you can find below published papers:
 
