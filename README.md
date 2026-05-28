@@ -763,7 +763,7 @@ Any contribution is welcome in form of pull requests.
 
 * [**Mehrsa Khoshpasand:**](https://github.com/Khoshpasand-mehrsa) Researcher Assistant (RA) - York University (3 months, 2022)
 
-* [**Parisa Ghanad:**](https://github.com/parishisit) Volunteer Researcher and developer - Amirkabir University (4 months, 2022)
+* [**Parisa Ghanad:**](https://github.com/parishisit) Volunteer Researcher and developer (4 months, 2022)
 
 
 # Acknowledgment
