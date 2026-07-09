@@ -125,7 +125,7 @@ class IdleStd(Feature):
 class IdleMedian(Feature):
     name = "idle_median"
     def extract(self, flow: Flow) -> float:
-        if not flow.get_flow_active():
+        if not flow.get_flow_idle():
             return 0
         return format(statistics.median(flow.get_flow_idle()), self.floating_point_unit)
 
@@ -133,7 +133,7 @@ class IdleMedian(Feature):
 class IdleSkewness(Feature):
     name = "idle_skewness"
     def extract(self, flow: Flow) -> float:
-        if not flow.get_flow_active():
+        if not flow.get_flow_idle():
             return 0
         return format(float(stats.skew(flow.get_flow_idle())), self.floating_point_unit)
 
@@ -141,7 +141,7 @@ class IdleSkewness(Feature):
 class IdleCoV(Feature):
     name = "idle_cov"
     def extract(self, flow: Flow) -> float:
-        if not flow.get_flow_active():
+        if not flow.get_flow_idle():
             return 0
         return format(stats.variation(flow.get_flow_idle()), self.floating_point_unit)
 
@@ -149,7 +149,7 @@ class IdleCoV(Feature):
 class IdleMode(Feature):
     name = "idle_mode"
     def extract(self, flow: Flow) -> float:
-        if not flow.get_flow_active():
+        if not flow.get_flow_idle():
             return 0
         return format(float(stats.mode(flow.get_flow_idle())[0]), self.floating_point_unit)
 
@@ -157,7 +157,7 @@ class IdleMode(Feature):
 class IdleVariance(Feature):
     name = "idle_variance"
     def extract(self, flow: Flow) -> float:
-        if not flow.get_flow_active():
+        if not flow.get_flow_idle():
             return 0
         return format(statistics.pvariance(flow.get_flow_idle()), self.floating_point_unit)
 
