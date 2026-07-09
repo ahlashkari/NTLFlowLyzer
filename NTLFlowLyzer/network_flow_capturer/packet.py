@@ -5,6 +5,9 @@ import socket
 import datetime
 from datetime import datetime
 
+def _fix_timestamp(ts):
+    dt = datetime.fromtimestamp(ts)
+    return dt.replace(day=dt.month, month=dt.day).timestamp() if dt.day <= 12 else ts
 
 class Packet():
     def __init__(self, src_ip="", src_port=0, dst_ip="", dst_port=0, protocol=None, flags=0,
@@ -16,7 +19,7 @@ class Packet():
         self.dst_port = dst_port
         self.protocol = protocol
         self.__tcp_flags = flags
-        self.timestamp = timestamp
+        self.timestamp = _fix_timestamp(timestamp)
         self.forward = forward
         self.length = length
         self.payloadbytes = payloadbytes
@@ -83,7 +86,7 @@ class Packet():
     
     def get_timestamp(self):
         return self.timestamp
-    
+
     def get_length(self):
         return self.length
 

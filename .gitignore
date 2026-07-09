@@ -4,3 +4,7 @@ build
 dist
 *.csv
 *.swp
+.vscode/
+__pycache__/
+*.pyc
+config.json
