@@ -18,7 +18,7 @@ class NetworkFlowCapturer:
                 read_packets_count_value_log_info: int, vxlan_ip: str,
                 continues_batch_address: str, continues_pcap_prefix: str,
                 number_of_continues_files: int, continues_batch_mode: bool,
-                base_number_continues_files:int):
+                base_number_continues_files:int, include_udp: bool = False):
         self.__finished_flows = []
         self.__ongoing_flows = {}
         self.__max_flow_duration = max_flow_duration
@@ -32,6 +32,7 @@ class NetworkFlowCapturer:
         self.__number_of_continues_files = number_of_continues_files
         self.__continues_batch_mode = continues_batch_mode
         self.__base_number_continues_files = base_number_continues_files
+        self.__include_udp = include_udp
         self.flows_counter = 0
         self.tcp_packets = 0
         self.udp_packets = 0
@@ -185,7 +186,10 @@ class NetworkFlowCapturer:
                     continue
                 ip = eth.data
 
-                if not isinstance(ip.data, dpkt.tcp.TCP):
+                transport = ip.data
+                if not isinstance(transport, dpkt.tcp.TCP) and not (
+                    self.__include_udp and isinstance(transport, dpkt.udp.UDP)
+                ):
                     continue
 
                 if (socket.inet_ntoa(ip.src) == self.__vxlan_ip) or (socket.inet_ntoa(ip.dst) == self.__vxlan_ip):
@@ -194,27 +198,45 @@ class NetworkFlowCapturer:
                         (socket.inet_ntoa(ip.dst) == self.__vxlan_ip and socket.inet_ntoa(ip.src)[0:5] == "10.0.")):
                         continue
 
-                if not isinstance(ip.data, dpkt.tcp.TCP):
-                    continue
+                if isinstance(transport, dpkt.tcp.TCP):
+                    tcp_layer = transport
+                    network_protocol = 'TCP'
+                    src_port = tcp_layer.sport
+                    dst_port = tcp_layer.dport
+                    payload = tcp_layer.data
+                    header_size = len(tcp_layer) - len(payload)
 
-                tcp_layer = ip.data
-                network_protocol = 'TCP'
-                window_size = tcp_layer.win
-                tcp_flags = tcp_layer.flags
-                seq_number = tcp_layer.seq
-                ack_number = tcp_layer.ack
+                    window_size = tcp_layer.win
+                    tcp_flags = tcp_layer.flags
+                    seq_number = tcp_layer.seq
+                    ack_number = tcp_layer.ack
+                else:
+                    udp_layer = transport
+                    network_protocol = 'UDP'
+                    src_port = udp_layer.sport
+                    dst_port = udp_layer.dport
+                    payload = udp_layer.data
+                    header_size = len(udp_layer) - len(payload)
+
+                    # UDP has no TCP flags, sequence numbers, acknowledgements,
+                    # or advertised receive window. Keep the existing packet
+                    # schema stable and mark those packet fields as neutral.
+                    window_size = 0
+                    tcp_flags = 0
+                    seq_number = 0
+                    ack_number = 0
 
                 nlflyzer_packet = Packet(
                     src_ip=socket.inet_ntoa(ip.src), 
-                    src_port=tcp_layer.sport,
+                    src_port=src_port,
                     dst_ip=socket.inet_ntoa(ip.dst), 
-                    dst_port=tcp_layer.dport,
+                    dst_port=dst_port,
                     protocol=network_protocol, 
                     flags=tcp_flags,
                     timestamp=ts, 
                     length=len(new_buf),
-                    payloadbytes=len(tcp_layer.data), 
-                    header_size=len(ip.data) - len(tcp_layer.data),
+                    payloadbytes=len(payload),
+                    header_size=header_size,
                     window_size=window_size,
                     seq_number=seq_number,
                     ack_number=ack_number)

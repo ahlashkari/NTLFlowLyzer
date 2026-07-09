@@ -3,6 +3,7 @@
 from datetime import datetime
 from .features import *
 import warnings
+import math
 
 class FeatureExtractor(object):
     def __init__(self, floating_point_unit: str):
@@ -391,6 +392,17 @@ class FeatureExtractor(object):
                         continue
                     feature.set_floating_point_unit(self.floating_point_unit)
                     try:
+                        if flow.get_protocol() != "TCP":
+                            tcp_only_names = {
+                                "delta_start",
+                                "handshake_duration",
+                                "handshake_state",
+                                "fwd_init_win_bytes",
+                                "bwd_init_win_bytes",
+                            }
+                            if feature.__class__.__module__.endswith("flag_related") or feature.name in tcp_only_names:
+                                features_of_flow[feature.name] = math.nan
+                                continue
                         features_of_flow[feature.name] = feature.extract(flow)
                     except Exception as e:
                         print(f">>> Error occured in extracting the '{feature.name}' for '{flow}' flow.")

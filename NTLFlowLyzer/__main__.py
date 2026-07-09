@@ -16,6 +16,8 @@ def args_parser() -> argparse.ArgumentParser:
     parser.add_argument('-cb', '--continues-batch-mode', action='store_true',
                         help='Continues batch mode. Analyze files in the given directory continuously.'
                             ' Default is False.')
+    parser.add_argument('--udp', action='store_true',
+                        help='Also create flows from UDP packets. By default only TCP flows are created.')
     return parser
 
 
@@ -30,9 +32,10 @@ def main():
     parsed_arguments = args_parser().parse_args()
     config_file_address = "./NTLFlowLyzer/config.json" if parsed_arguments.config_file is None else parsed_arguments.config_file
     online_capturing = parsed_arguments.online_capturing
+    include_udp = parsed_arguments.udp
     if not parsed_arguments.batch_mode:
         config = ConfigLoader(config_file_address)
-        network_flow_analyzer = NTLFlowLyzer(config, online_capturing, parsed_arguments.continues_batch_mode)
+        network_flow_analyzer = NTLFlowLyzer(config, online_capturing, parsed_arguments.continues_batch_mode, include_udp)
         network_flow_analyzer.run()
         return
 
@@ -47,7 +50,7 @@ def main():
         output_file_name = file.split('\\')[-1]
         config.pcap_file_address = file
         config.output_file_address = f"{batch_address_output}\\{output_file_name}.csv"
-        network_flow_analyzer = NTLFlowLyzer(config, online_capturing, parsed_arguments.continues_batch_mode)
+        network_flow_analyzer = NTLFlowLyzer(config, online_capturing, parsed_arguments.continues_batch_mode, include_udp)
         network_flow_analyzer.run()
 
 

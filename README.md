@@ -6,10 +6,31 @@ As part of the Understanding Cybersecurity Series (UCS), NTLFlowLyzer is a Pytho
 
 NTLFlowLyzer generates bidirectional flows from the Network and Transportation Layers of network traffic, where the first packet determines the forward (source to destination) and backward (destination to source) directions, hence the statistical time-related features can be calculated separately in the forward and backward directions. Additional functionalities include selecting features from the list of existing features, adding new features, and controlling the duration of flow timeout. Moreover, TCP flows are terminated upon connection teardown (by FIN or RST packet), reaching the flow's maximum duration, or being inactive for a certain amount of time (timeout).
 
+## Optional UDP Flow Support
+
+By default, NTLFlowLyzer keeps its original behavior and creates flows from TCP
+packets only. To include UDP flows as well, pass `--udp`:
+
+```bash
+ntlflowlyzer --udp -c YOUR_CONFIG_FILE
+```
+
+User story: as a security researcher processing malware sandbox PCAPs, I need one
+NetFlow-style export that includes both TCP and UDP activity, because malware
+samples often use UDP for DNS, discovery, C2 bootstrap, or short-lived payload
+traffic. Dropping UDP packets at the flow-generation step leaves downstream
+labeling and analysis with an incomplete view of the sample behavior.
+
+The UDP support keeps the existing output schema. TCP-only packet fields and
+TCP-only derived features remain present; for UDP rows they are emitted as
+neutral packet values or `NaN` feature values. The behavior is documented in
+detail in [docs/udp-support.md](docs/udp-support.md).
+
 
 # Table of Contents
 
 - [NTLFlowLyzer](#ntlflowlyzer)
+- [Optional UDP Flow Support](#optional-udp-flow-support)
 - [Table of Contents](#table-of-contents)
 - [Installation](#installation)
 - [Execution](#execution)
@@ -177,6 +198,12 @@ ntlflowlyzer -c YOUR_CONFIG_FILE
 ```
 
 Replace `YOUR_CONFIG_FILE` with the path to your configuration file.
+
+To include UDP flows in addition to TCP flows, pass `--udp`:
+
+```bash
+ntlflowlyzer --udp -c YOUR_CONFIG_FILE
+```
 
 
 Moreover, this project has been successfully tested on Ubuntu 20.04, Ubuntu 22.04, Windows 10, and Windows 11. It should work on other versions of Ubuntu OS (or even Debian OS) as long as your system has the necessary Python3 packages (you can find the required packages listed in the `requirements.txt` file).
