@@ -141,6 +141,49 @@ The configuration file is formatted in `JSON`, comprising key-value pairs that e
   This key specifies the features that you do not want to extract. The value must be a list of string values, where each string represents a feature name. The default value is an empty list. If you include a feature name in this list, the program will skip extracting that feature, and it will not appear in the output CSV file.
 
 
+## Batch Mode
+
+Instead of a single `pcap_file_address`, batch mode converts every PCAP file found in a directory into its own output CSV. Run it with the `-b` / `--batch-mode` flag:
+
+```bash
+ntlflowlyzer -b -c YOUR_CONFIG_FILE
+```
+
+* **batch_address** [Required for batch mode]
+
+  The directory containing the PCAP files to convert. The value must be a string.
+
+* **batch_address_output** [Required for batch mode]
+
+  The directory where the resulting CSV files will be written. The value must be a string.
+
+* **batch_recursive** [Optional]
+
+  This key controls whether batch mode also looks inside subdirectories of `batch_address` for PCAP files (matched by the `.pcap` extension), instead of only the top-level directory. The value must be a boolean. The default value is `false`. When enabled, each output CSV mirrors the relative folder structure of its source PCAP file under `batch_address_output`, so files with the same name in different subfolders don't collide.
+
+* **batch_parallel_files** [Optional]
+
+  This key specifies how many PCAP files to convert at the same time in batch mode. The value must be an integer. The default value is `1`, which preserves the original sequential, one-file-at-a-time behavior. Values greater than `1` convert multiple files concurrently, each as an independent process, which can significantly speed up converting a large dataset of many small-to-medium PCAP files on multi-core machines. A reasonable starting point is `cpu_count // number_of_threads`.
+
+* **batch_ram_limit_percent** [Optional]
+
+  This key caps system RAM usage while running `batch_parallel_files` conversions concurrently: once memory usage reaches this percentage, no new file is started until one of the running conversions finishes and frees memory up. The value must be a number between `0` and `100`. The default value is `100` (no throttling). Requires the `psutil` package; if it isn't installed, this setting is ignored with a warning and only `batch_parallel_files` limits concurrency.
+
+An example batch mode configuration, converting an entire nested dataset directory using up to 6 files at once while keeping RAM usage under 80%:
+
+```json
+{
+    "batch_address": "/mnt/c/dataset/captures",
+    "batch_address_output": "/mnt/c/dataset/converted",
+    "label": "Benign",
+    "number_of_threads": 4,
+    "batch_recursive": true,
+    "batch_parallel_files": 6,
+    "batch_ram_limit_percent": 80
+}
+```
+
+
 An example of a configuration file would be like this:
 
 ```json

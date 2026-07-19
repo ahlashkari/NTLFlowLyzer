@@ -29,6 +29,9 @@ class ConfigLoader:
         self.batch_address_output = ""
         self.number_of_continues_files = 0
         self.base_number_continues_files = 1
+        self.batch_recursive: bool = False
+        self.batch_parallel_files: int = 1
+        self.batch_ram_limit_percent: float = 100.0
         self.read_config_file()
 
     def read_config_file(self):
