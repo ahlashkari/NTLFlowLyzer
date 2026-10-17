@@ -2,15 +2,15 @@
 
 # NTLFlowLyzer
 
+**Network & Transport Layer Flow Analyzer**
+
 As part of the Understanding Cybersecurity Series (UCS), NTLFlowLyzer is a Python open-source project to extract network layer features from TCP-based network traffic for Anomaly Profiling (AP) which is the second component of the [**NetFlowLyzer**](https://github.com/ahlashkari/NetFlowLyzer).
 
 NTLFlowLyzer generates bidirectional flows from the Network and Transportation Layers of network traffic, where the first packet determines the forward (source to destination) and backward (destination to source) directions, hence the statistical time-related features can be calculated separately in the forward and backward directions. Additional functionalities include selecting features from the list of existing features, adding new features, and controlling the duration of flow timeout. Moreover, TCP flows are terminated upon connection teardown (by FIN or RST packet), reaching the flow's maximum duration, or being inactive for a certain amount of time (timeout).
 
 
-# Table of Contents
+## Table of Contents
 
-- [NTLFlowLyzer](#ntlflowlyzer)
-- [Table of Contents](#table-of-contents)
 - [Installation](#installation)
 - [Execution](#execution)
 - [Architecture](#architecture)
@@ -18,12 +18,12 @@ NTLFlowLyzer generates bidirectional flows from the Network and Transportation L
   - [Definitions](#definitions)
   - [Statistical Information Calculation](#statistical-information-calculation)
 - [Output](#output)
-- [Copyright (c) 2023](#copyright-c-2023)
 - [Contributing](#contributing)
-- [Project Team members](#project-team-members)
+- [Copyright (c) 2023 & Citation](#copyright-c-2023--citation)
+- [Team Members](#team-members)
 - [Acknowledgment](#acknowledgment)
 
-# Installation
+## Installation
 
 Before installing or running the NTLFlowLyzer package, it's essential to set up the necessary requirements on your system. Begin by ensuring you have both `Python` and `pip` installed and functioning properly (execute the `pip3 --version` command). Then, execute the following command:
 
@@ -50,11 +50,11 @@ ntlflowlyzer --version
 ```
 
 
-# Execution
+## Execution
 
 The core aspect of running NTLFlowLyzer involves preparing the configuration file. This file is designed to facilitate users in customizing the program's behavior with minimal complexity and cost, thus enhancing program scalability. Below, we outline how to prepare the configuration file and subsequently demonstrate how to execute NTLFlowLyzer using it.
 
-## Configuration File
+### Configuration File
 
 The configuration file is formatted in `JSON`, comprising key-value pairs that enable customization of the package. While some keys are mandatory, others are optional. Below, each key is explained along with its corresponding value:
 
@@ -166,7 +166,7 @@ An example of a configuration file would be like this:
 In general, we recommend adjusting the values of the following options: `number_of_threads`, `feature_extractor_min_flows`, `writer_min_rows`, `check_flows_ending_min_flows`, and `capturer_updating_flows_min_value`, based on your system configuration. This is particularly important if your PCAP file is large (usually more than 4 GB with over 1 million TCP packets), to optimize program efficiency.
 
 
-## Argument Parser
+### Argument Parser
 
 You can use `-h` to see different options of the program.
 
@@ -182,7 +182,7 @@ Replace `YOUR_CONFIG_FILE` with the path to your configuration file.
 Moreover, this project has been successfully tested on Ubuntu 20.04, Ubuntu 22.04, Windows 10, and Windows 11. It should work on other versions of Ubuntu OS (or even Debian OS) as long as your system has the necessary Python3 packages (you can find the required packages listed in the `requirements.txt` file).
 
 
-# Architecture
+## Architecture
 
 
 ![](./Architecture.svg)
@@ -190,7 +190,7 @@ Moreover, this project has been successfully tested on Ubuntu 20.04, Ubuntu 22.0
                 
 ----
 
-# Extracted Features
+## Extracted Features
 
 We currently have 348 features that are as follows (features' explanation will be added):
 
@@ -543,11 +543,11 @@ We currently have 348 features that are as follows (features' explanation will b
 1. FwdPayloadBytesDeltaLenSkewness
 1. FwdPayloadBytesDeltaLenCoV
 
-## Definitions
+### Definitions
 
-In this section, we provide clear definitions for several category of features essential for understanding network traffic analysis within the context of the NTLFlowLyzer.
+In this section, we provide clear definitions for several categories of features essential for understanding network traffic analysis within the context of the NTLFlowLyzer.
 
-### 1.1. Flow Bulk Calculation
+#### 1. Flow Bulk Calculation
 
 Flow bulk is determined based on certain criteria such as the number of packets transferred within a short time interval
 or a specific pattern of packet transmission. In NTLFlowLyzer, flow bulk is identified based on the following criteria:
@@ -562,7 +562,7 @@ these bulk transfer characteristics.
 *Example*: For a flow, the bulk transfer is initiated when 5 consecutive packets are transferred within 1 second. During the bulk transfer, the flow's `fbulkPacketCount` is incremented, and the total size of the data transferred is accumulated in `fbulkSizeTotal`. If the gap between packets exceeds 1 second, the bulk transfer is terminated, and `fbulkDuration` records the total duration.
 
 
-### 1.2. Subflow Calculation
+#### 2. Subflow Calculation
 Subflows are identified based on changes in packet transmission patterns within the flow. In NTLFlowLyzer, subflows are
 calculated as follows:
 
@@ -575,9 +575,9 @@ calculated as follows:
 *Example*: A flow's subflow count (`sfcount`) is incremented each time there's a gap of more than 1 second between packets. This indicates a change in the transmission pattern and the start of a new subflow. If a flow contains several subflows, `sfcount` tracks how many distinct subflows exist.
 
 
-### 1.3 Time 
+#### 3. Time 
 
-#### 1.3.1 Idle Time
+##### 3.1. Idle Time
 Idle time refers to the duration during which there is no activity observed within the network flow. It represents periods of
 inactivity or low activity between packet transmissions. Idle time is calculated based on the timestamps of consecutive packets
 within the flow. Whenever there is a gap between the arrival times of successive packets exceeding a predefined threshold
@@ -589,7 +589,7 @@ idle periods observed.
 
 
 
-#### 1.3.2 Active Time
+##### 3.2. Active Time
 
 Active time represents the duration during which packet transmissions occur within the network flow. It indicates periods
 of activity or high activity characterized by the exchange of packets. Active time is calculated based on the timestamps of
@@ -601,69 +601,69 @@ active time for the flow is calculated by summing up the durations of all active
 
 
 
-### 1.4. Packet Delta Time (DT)
+#### 4. Packet Delta Time (DT)
 
 Packet delta time (DT) is the time difference between consecutive packets in a flow, measured for both forward and backward directions.
 
 *Example*: Packet delta time (DT) measures the time between consecutive packets. If packet A is received at time 100ms and packet B is received at 150ms, the `packetDeltaTime` between them would be 50ms.
 
 
-### 1.5. Payload
+#### 5. Payload
 The size of the TCP payload, which is the data portion of the packet, excluding the header.
 
 *Example*: The TCP payload size for each packet in a flow is recorded. For example, a packet may have a payload size of 512 bytes, which is stored in the `payloadSize` feature.
 
 
-### 1.6. Header
+#### 6. Header
 The size of the TCP header, which contains control information like source and destination addresses, sequence numbers, and flags.
 
 *Example*: The TCP header size for a packet might be 40 bytes, representing control information such as sequence numbers and flags. This value is stored as `headerSize`.
 
 
-### 1.7. Payload Delta Length (DL)
+#### 7. Payload Delta Length (DL)
 Payload delta length (DL) is the difference in the TCP payload size between consecutive packets in a flow.
 
 *Example*: The payload delta length (DL) between two consecutive packets is the difference in their payload sizes. For instance, if packet A has a payload of 500 bytes and packet B has 700 bytes, the `payloadDeltaLength` would be 200 bytes.
 
 
-### 1.8. Header Delta Length (DL)
+#### 8. Header Delta Length (DL)
 Header delta length (DL) is the difference in the TCP header size between consecutive packets in a flow.
 
 *Example*: The header delta length (DL) represents the difference in header sizes between consecutive packets. For example, if packet A has a header size of 40 bytes and packet B has a header size of 60 bytes, the `headerDeltaLength` would be 20 bytes.
 
 
-### 1.9. Packet Delta Length (DL)
+#### 9. Packet Delta Length (DL)
 Packet delta length (DL) is the difference in the total packet size, including the whole packet, between consecutive packets in a flow.
 
 *Example*: Packet delta length (DL) is the difference in total packet size, including payload and header, between consecutive packets. If packet A has a total size of 800 bytes and packet B has 1000 bytes, the `packetDeltaLength` is 200 bytes.
 
 
-### 1.10. Flag Count
+#### 10. Flag Count
 The number of occurrences of each TCP flag (e.g., SYN, ACK, FIN) in a flow.
 
 *Example*: The number of TCP flags (such as SYN, ACK, FIN) is tracked. For instance, a flow may have 10 SYN flags and 15 ACK flags, recorded as `flagCount`.
 
 
-### 1.11. Flag Count Percentage in Total
+#### 11. Flag Count Percentage in Total
 The percentage of each TCP flag type relative to the total number of flags in all packets in a flow.
 
 *Example*: The percentage of SYN flags relative to all flags in the flow is calculated. If a flow contains 100 flags and 10 of them are SYN, the `flagCountPercentageTotal` for SYN is 10%.
 
 
 
-### 1.12. Flag Count Percentage in Direction
+#### 12. Flag Count Percentage in Direction
 The percentage of each TCP flag type in either the forward or backward direction in a flow. 
 
 *Example*: The percentage of SYN flags in the forward direction is tracked separately. If a flow has 50 SYN flags in the forward direction out of 200 total forward packets, the `flagCountPercentageDirection` for SYN is 25%.
 
 
-### 1.13. Rate
+#### 13. Rate
 The rate of packet transmission in a flow is calculated as the total number of packets or the size of packets/headers/payloads divided by the total duration of the flow. This metric indicates how many packets/bytes are being transmitted over a specific time frame.
 
 *Example*: If a flow contains 120 packets transmitted over a duration of 60 seconds, the `packetRate` would be 2.
 
 
-### 1.14. Inter-Arrival Time (IAT)
+#### 14. Inter-Arrival Time (IAT)
 Inter-Arrival Time (IAT) measures the time intervals between consecutive packet arrivals in a flow. 
 
 *Example*: Given a series of packets with the following timestamps:
@@ -678,7 +678,7 @@ The IAT values calculated would be:
 Thus, the `packets_IAT_mean` would be the mean of these IAT values which equal to 60ms in this case.
 
 
-## Statistical Information Calculation
+### Statistical Information Calculation
 
 We use differnet libraries to calculate various mathematical equations. Below you can see the libraries and their brief definition based on their documentations:
 
@@ -713,14 +713,10 @@ Nine mathematical functions are used to extract different features. You can see 
       The ['pstdev'](https://docs.python.org/3/library/statistics.html#statistics.pstdev) function from 'statistics' library (Python built-in) calculates the mean value of a given list. According to the library documentation:
 
       Return the population standard deviation (the square root of the population variance). See pvariance() for arguments and other details.
+   
 
 
-
-
-----
-
-
-# Output
+## Output
 
 
 | flow_id | timestamp | src_ip | src_port | dst_ip | dst_port | protocol | duration | packets_count | fwd_packets_count | bwd_packets_count | total_payload_bytes | fwd_total_payload_bytes | bwd_total_payload_bytes | payload_bytes_max | payload_bytes_min | payload_bytes_mean | payload_bytes_std | payload_bytes_variance | fwd_payload_bytes_max | fwd_payload_bytes_min | fwd_payload_bytes_mean | fwd_payload_bytes_std | fwd_payload_bytes_variance | bwd_payload_bytes_max | bwd_payload_bytes_min | bwd_payload_bytes_mean | bwd_payload_bytes_std | bwd_payload_bytes_variance | total_header_bytes | max_header_bytes | min_header_bytes | mean_header_bytes | std_header_bytes | fwd_total_header_bytes | fwd_max_header_bytes | fwd_min_header_bytes | fwd_mean_header_bytes | fwd_std_header_bytes | bwd_total_header_bytes | bwd_max_header_bytes | bwd_min_header_bytes | bwd_mean_header_bytes | bwd_std_header_bytes | fwd_avg_segment_size | bwd_avg_segment_size | avg_segment_size | fwd_init_win_bytes | bwd_init_win_bytes | active_min | active_max | active_mean | active_std | idle_min | idle_max | idle_mean | idle_std | bytes_rate | fwd_bytes_rate | bwd_bytes_rate | packets_rate | bwd_packets_rate | fwd_packets_rate | down_up_rate | avg_fwd_bytes_per_bulk | avg_fwd_packets_per_bulk | avg_fwd_bulk_rate | avg_bwd_bytes_per_bulk | avg_bwd_packets_bulk_rate | avg_bwd_bulk_rate | fwd_bulk_state_count | fwd_bulk_total_size | fwd_bulk_per_packet | fwd_bulk_duration | bwd_bulk_state_count | bwd_bulk_total_size | bwd_bulk_per_packet | bwd_bulk_duration | fin_flag_counts | psh_flag_counts | urg_flag_counts | ece_flag_counts | syn_flag_counts | ack_flag_counts | cwr_flag_counts | rst_flag_counts | fwd_fin_flag_counts | fwd_psh_flag_counts | fwd_urg_flag_counts | fwd_ece_flag_counts | fwd_syn_flag_counts | fwd_ack_flag_counts | fwd_cwr_flag_counts | fwd_rst_flag_counts | bwd_fin_flag_counts | bwd_psh_flag_counts | bwd_urg_flag_counts | bwd_ece_flag_counts | bwd_syn_flag_counts | bwd_ack_flag_counts | bwd_cwr_flag_counts | bwd_rst_flag_counts | packets_IAT_mean | packet_IAT_std | packet_IAT_max | packet_IAT_min | packet_IAT_total | fwd_packets_IAT_mean | fwd_packets_IAT_std | fwd_packets_IAT_max | fwd_packets_IAT_min | fwd_packets_IAT_total | bwd_packets_IAT_mean | bwd_packets_IAT_std | bwd_packets_IAT_max | bwd_packets_IAT_min | bwd_packets_IAT_total | subflow_fwd_packets | subflow_bwd_packets | subflow_fwd_bytes | subflow_bwd_bytes |
@@ -737,35 +733,42 @@ Nine mathematical functions are used to extract different features. You can see 
 | 192.168.43.116_52786_172.67.75.39_443_TCP_2022-07-27 18:15:40.490110 | 2022-07-27 14:15:40.490110 | 192.168.43.116 | 52786 | 172.67.75.39 | 443 | TCP | 0.108553 | 3 | 1 | 2 | 0 | 0 | 0 | 0 | 0 | 0.0000000000000000000000000000000000000000000000000000000000000000 | 0.0000000000000000000000000000000000000000000000000000000000000000 | 0.0000000000000000000000000000000000000000000000000000000000000000 | 0 | 0 | 0.0000000000000000000000000000000000000000000000000000000000000000 | 0.0000000000000000000000000000000000000000000000000000000000000000 | 0.0000000000000000000000000000000000000000000000000000000000000000 | 0 | 0 | 0.0000000000000000000000000000000000000000000000000000000000000000 | 0.0000000000000000000000000000000000000000000000000000000000000000 | 0.0000000000000000000000000000000000000000000000000000000000000000 | 60 | 20 | 20 | 20.0000000000000000000000000000000000000000000000000000000000000000 | 0.0000000000000000000000000000000000000000000000000000000000000000 | 20 | 20 | 20 | 20.0000000000000000000000000000000000000000000000000000000000000000 | 0.0000000000000000000000000000000000000000000000000000000000000000 | 40 | 20 | 20 | 20.0000000000000000000000000000000000000000000000000000000000000000 | 0.0000000000000000000000000000000000000000000000000000000000000000 | 0.0 | 0.0 | 0.0 | 1020 | 95 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0.0 | 0.0 | 0.0 | 27.636269840538723 | 18.424179893692482 | 9.212089946846241 | 2.0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0.0542764999999999983582021911843185080215334892272949218750000000 | 0.0051684999999999994835242489443771773949265480041503906250000000 | 0.059445 | 0.049108 | 0.108553 | 1658945740.4901099205017089843750000000000000000000000000000000000000000000 | 0.0000000000000000000000000000000000000000000000000000000000000000 | 1658945740.49011 | 1658945740.49011 | 1658945740.49011 | 0.0491079999999999988746779422399413306266069412231445312500000000 | 0.0000000000000000000000000000000000000000000000000000000000000000 | 0.049108 | 0.049108 | 0.049108 | 0 | 0 | 0 | 0 |
 
 
-----
+## Contributing
+
+Contributions are welcome in the form of pull requests.
 
 
-# Citation & Copyright (c) 2023
+## Copyright (c) 2023 & Citation
 
-For citation in your works and also understanding NTLFlowLyzer completely, you can find below published papers:
+To cite NTLFLowLyzer in your work and understand it completely, find the following published paper:
+```
+@article{shafi_2025,
+    author = {Shafi, MohammadMoein and Lashkari, Arash Habibi and Roudsari, Arousha Haghighian},
+    title = {NTLFlowLyzer: Towards generating an intrusion detection dataset and intruders behavior profiling through network and transport layers traffic analysis and pattern extraction},
+    journal = {Computers & Security},
+    year = {2025},
+    volume = {148},
+    pages = {104160},
+    issn = {0167-4048},
+    doi = {10.1016/j.cose.2024.104160}
+}
+```
 
-- "NTLFlowLyzer: Towards generating an intrusion detection dataset and intruders behavior profiling through network and transport layers traffic analysis and pattern extraction", MohammadMoein Shafi, Arash Habibi Lashkari, Arousha Haghighian Roudsari, Computers & Security, 2024, 104160, ISSN 0167-4048, https://doi.org/10.1016/j.cose.2024.104160.
+## Team Members
 
-# Contributing
+* [**Arash Habibi Lashkari:**](http://ahlashkari.com/index.asp) Founder and Supervisor
 
-Any contribution is welcome in form of pull requests.
+* [**Moein Shafi:**](https://github.com/moein-shafi) Graduate Student, Researcher and Developer - York University (2 years, 2022–2024)
 
+* [**Mohamed Aziz El Fadhel:**](https://github.com/MohamedAzizFadhel) Mitacs Globalink Research Intern, Researcher and Developer - York University (4 months, 2024–2024)
 
-# Project Team members 
+* [**Sepideh Niktabe:**](https://github.com/sepideh2020) Graduate Student, Researcher and Developer - York University (6 months, 2022–2023)
 
-* [**Arash Habibi Lashkari:**](http://ahlashkari.com/index.asp) Founder and supervisor
+* [**Mehrsa Khoshpasand:**](https://github.com/Khoshpasand-mehrsa) Research Assistant (RA) - York University (3 months, 2022)
 
-* [**Moein Shafi:**](https://github.com/moein-shafi) Graduate student, Researcher and developer - York University ( 2 years, 2022 - 2024)
-
-* [**Mohamed Aziz El Fadhel:**](https://github.com/MohamedAzizFadhel) Mitacs Global Research Intern, Researcher and developer - York University (4 months, 2024-2024)
-
-* [**Sepideh Niktabe:**](https://github.com/sepideh2020) Graduate students, Researcher and developer - York University (6 months, 2022-2023)
-
-* [**Mehrsa Khoshpasand:**](https://github.com/Khoshpasand-mehrsa) Researcher Assistant (RA) - York University (3 months, 2022)
-
-* [**Parisa Ghanad:**](https://github.com/parishisit) Volunteer Researcher and developer (4 months, 2022)
+* [**Parisa Ghanad:**](https://github.com/parishisit) Volunteer Researcher and Developer (4 months, 2022)
 
 
-# Acknowledgment
+## Acknowledgment
 
-This project has been made possible through funding from the Natural Sciences and Engineering Research Council of Canada — NSERC (#RGPIN-2020-04701) and Canada Research Chair (Tier II) - (#CRC-2021-00340) to Arash Habibi Lashkari.
+This project has been made possible through funding from the Natural Sciences and Engineering Research Council of Canada — NSERC (#RGPIN-2020-04701) and Canada Research Chair (Tier II) - (#CRC-2021-00340) to Arash Habibi Lashkari. 
