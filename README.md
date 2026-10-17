@@ -763,7 +763,7 @@ To cite NTLFLowLyzer in your work and understand it completely, find the followi
 
 * [**Sepideh Niktabe:**](https://github.com/sepideh2020) Graduate Student, Researcher and Developer - York University (6 months, 2022–2023)
 
-* [**Mehrsa Khoshpasand:**](https://github.com/Khoshpasand-mehrsa) Research Assistant (RA) - York University (3 months, 2022)
+* [**Mehrsa Khoshpasand:**](https://github.com/Khoshpasand-mehrsa) Research Assistant - York University (3 months, 2022)
 
 * [**Parisa Ghanad:**](https://github.com/parishisit) Volunteer Researcher and Developer (4 months, 2022)
 
