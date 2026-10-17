@@ -737,7 +737,7 @@ Nine mathematical functions are used to extract different features. You can see 
 Contributions are welcome in the form of pull requests.
 
 
-## Copyright (c) 2023 & Citation
+## Copyright (c) 2025 & Citation
 
 To cite NTLFLowLyzer in your work and understand it completely, find the following published paper:
 ```
@@ -757,15 +757,15 @@ To cite NTLFLowLyzer in your work and understand it completely, find the followi
 
 * [**Arash Habibi Lashkari:**](http://ahlashkari.com/index.asp) Founder and Supervisor
 
-* [**Moein Shafi:**](https://github.com/moein-shafi) Graduate Student, Researcher and Developer - York University (2 years, 2022–2024)
+* [**Moein Shafi:**](https://github.com/moein-shafi) Graduate Student - York University (2022–2024)
 
-* [**Mohamed Aziz El Fadhel:**](https://github.com/MohamedAzizFadhel) Mitacs Globalink Research Intern, Researcher and Developer - York University (4 months, 2024–2024)
+* [**Mohamed Aziz El Fadhel:**](https://github.com/MohamedAzizFadhel) Mitacs Globalink Research Intern - York University (2024–2024)
 
-* [**Sepideh Niktabe:**](https://github.com/sepideh2020) Graduate Student, Researcher and Developer - York University (6 months, 2022–2023)
+* [**Sepideh Niktabe:**](https://github.com/sepideh2020) Graduate Student - York University (2022–2023)
 
-* [**Mehrsa Khoshpasand:**](https://github.com/Khoshpasand-mehrsa) Research Assistant - York University (3 months, 2022)
+* [**Mehrsa Khoshpasand:**](https://github.com/Khoshpasand-mehrsa) Research Assistant - York University (2022)
 
-* [**Parisa Ghanad:**](https://github.com/parishisit) Volunteer Researcher and Developer (4 months, 2022)
+* [**Parisa Ghanad:**](https://github.com/parishisit) Volunteer Researcher and Developer (2022)
 
 
 ## Acknowledgment
